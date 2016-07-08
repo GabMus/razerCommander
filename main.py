@@ -10,6 +10,7 @@ builder = Gtk.Builder()
 builder.add_from_file("ui.glade")
 HOME=os.environ.get('HOME')
 
+keyboardUID="0003:1532:0214.0005"
 
 settings = Gtk.Settings.get_default()
 settings.set_property("gtk-application-prefer-dark-theme", True)
@@ -47,7 +48,7 @@ class App(Gtk.Application):
 	def on_quit_activate(self, *args):
 		self.quit()
 
-myrazerkb=device.Device("0003:1532:0214.0005")
+myrazerkb=device.Device(keyboardUID)
 
 
 gameModeIcon=builder.get_object("gameModeIcon")
