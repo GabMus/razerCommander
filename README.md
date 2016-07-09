@@ -42,8 +42,6 @@ Also it's important to notice that you need to have administrator access on your
 
 ##Running
 
-*Note: as now razerCommander connects only to the first razer peripheral it can find. It's a temporary behavior, it will be fixed in future releases.*
-
 - Clone this repo (`git clone https://github.com/gabmus/razercommander`)
 - `cd` into the newly cloned folder
 - Either run `chmod +x main.py` and `main.py`; or `python3 main.py`

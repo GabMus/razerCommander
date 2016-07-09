@@ -13,8 +13,7 @@ HOME=os.environ.get('HOME')
 devicesUIDs=[]
 devicesList=[]
 
-#comboChooseDevice=builder.get_object("comboChooseDevice")
-#liststoreCombo=builder.get_object("liststoreCombo")
+comboChooseDevice=builder.get_object("comboChooseDevice")
 
 def initDevices():
 	devicesUIDs=[]
@@ -25,12 +24,15 @@ def initDevices():
 	for i in devicesUIDs:
 		devicesList.append(device.Device(i))
 
-#def fillComboBox():
-#	for i in devicesList:
-#		liststoreCombo.append([i.name])
+def fillComboBox():
+	for i in devicesList:
+		comboChooseDevice.append_text(i.name)
+	comboChooseDevice.set_active(0)
 
 initDevices()
-#fillComboBox()
+fillComboBox()
+
+#liststoreCombo=builder.get_object("liststoreCombo")
 
 settings = Gtk.Settings.get_default()
 settings.set_property("gtk-application-prefer-dark-theme", True)
@@ -52,9 +54,9 @@ class App(Gtk.Application):
 		appMenu.append("About", "app.about")
 		appMenu.append("Quit", "app.quit")
 		about_action = Gio.SimpleAction.new("about", None)
-		#about_action.connect("activate", self.on_about_activate)
-		#builder.get_object("aboutdialog").connect("delete-event", lambda *_: builder.get_object("aboutdialog").hide() or True)
-		#app.add_action(about_action)
+		about_action.connect("activate", self.on_about_activate)
+		builder.get_object("aboutdialog").connect("delete-event", lambda *_: builder.get_object("aboutdialog").hide() or True)
+		app.add_action(about_action)
 		quit_action = Gio.SimpleAction.new("quit", None)
 		quit_action.connect("activate", self.on_quit_activate)
 		app.add_action(quit_action)
@@ -62,8 +64,8 @@ class App(Gtk.Application):
 		window.show_all()
 
 
-	#def on_about_activate(self, *agrs):
-	#	builder.get_object("aboutdialog").show()
+	def on_about_activate(self, *agrs):
+		builder.get_object("aboutdialog").show()
 
 	def on_quit_activate(self, *args):
 		self.quit()
@@ -183,6 +185,13 @@ class Handler:
 			pane.hide()
 		if row.value in settingsPanes.keys():
 			settingsPanes[row.value].show()
+
+	def on_comboChooseDevice_changed(self, combo):
+		kb=combo.get_active_text()
+		for i in devicesList:
+			if i.name==kb:
+				myrazerkb=i
+				break
 
 builder.connect_signals(Handler())
 
