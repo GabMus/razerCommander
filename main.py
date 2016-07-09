@@ -10,7 +10,27 @@ builder = Gtk.Builder()
 builder.add_from_file("ui.glade")
 HOME=os.environ.get('HOME')
 
-keyboardUID="0003:1532:0214.0005"
+devicesUIDs=[]
+devicesList=[]
+
+#comboChooseDevice=builder.get_object("comboChooseDevice")
+#liststoreCombo=builder.get_object("liststoreCombo")
+
+def initDevices():
+	devicesUIDs=[]
+	cont=os.listdir(device.Device.DRIVER_PATH)
+	for i in cont:
+		if i[0]=="0":
+			devicesUIDs.append(i)
+	for i in devicesUIDs:
+		devicesList.append(device.Device(i))
+
+#def fillComboBox():
+#	for i in devicesList:
+#		liststoreCombo.append([i.name])
+
+initDevices()
+#fillComboBox()
 
 settings = Gtk.Settings.get_default()
 settings.set_property("gtk-application-prefer-dark-theme", True)
@@ -48,7 +68,7 @@ class App(Gtk.Application):
 	def on_quit_activate(self, *args):
 		self.quit()
 
-myrazerkb=device.Device(keyboardUID)
+myrazerkb=devicesList[0]
 
 
 gameModeIcon=builder.get_object("gameModeIcon")
@@ -57,18 +77,23 @@ gameModeSwitch=builder.get_object("gameModeSwitch")
 brightnessScale=builder.get_object("brightnessScale")
 
 fxListBox=builder.get_object("fxListBox")
-for i in myrazerkb.lightFXList:
-	box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-	labelName= Gtk.Label()
-	labelName.set_text(i)
-	fxIcon=Gtk.Image()
-	fxIcon.set_from_file("img/"+i+".svg")
-	box.pack_end(labelName, True, True, 0)
-	box.pack_end(fxIcon, False, False, 0)
-	row=Gtk.ListBoxRow()
-	row.add(box)
-	row.value=i
-	fxListBox.add(row)
+
+def refreshFxList():
+	for i in myrazerkb.lightFXList:
+		if myrazerkb.KNOWN_MODE_BUFFERS[i.upper()] in myrazerkb.mode_buffers:
+			box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+			labelName= Gtk.Label()
+			labelName.set_text(i)
+			fxIcon=Gtk.Image()
+			fxIcon.set_from_file("img/"+i+".svg")
+			box.pack_end(labelName, True, True, 0)
+			box.pack_end(fxIcon, False, False, 0)
+			row=Gtk.ListBoxRow()
+			row.add(box)
+			row.value=i
+			fxListBox.add(row)
+
+refreshFxList()
 
 breathSettingsBox=builder.get_object('breathSettingsBox')
 breathRandomRadio=builder.get_object('breathRandomRadio')

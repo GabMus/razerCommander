@@ -42,9 +42,10 @@ Also it's important to notice that you need to have administrator access on your
 
 ##Running
 
+*Note: as now razerCommander connects only to the first razer peripheral it can find. It's a temporary behavior, it will be fixed in future releases.*
+
 - Clone this repo (`git clone https://github.com/gabmus/razercommander`)
 - `cd` into the newly cloned folder
-- Open the main.py file with your favorite text editor and edit the line 13, entering your own device UID. (This is temporary, I'll be implementing a selection menu ASAP)
 - Either run `chmod +x main.py` and `main.py`; or `python3 main.py`
 
 To avoid getting asked your root password every time you have to make a change in razerCommander, just run the program as `sudo python3 main.py` or `sudo ./main.py`.
