@@ -19,7 +19,7 @@ A simple GTK control center for managing razer peripherals on Linux.
 
 #WARNING!
 
-As staded in the License header up there:
+As stated in the License header up there:
 
 > This program is distributed in the hope that it will be useful, but **WITHOUT ANY WARRANTY**
 
