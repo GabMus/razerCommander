@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import gi
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, Gio
+from gi.repository import Gtk, Gio, Gdk
 import os
 import sys
 import device
@@ -11,10 +11,18 @@ builder = Gtk.Builder()
 builder.add_from_file(EXEC_FOLDER+"ui.glade")
 HOME=os.environ.get('HOME')
 
+popoverChooseDevice=builder.get_object('popoverChooseDevice')
+popoverDevicesListBox=builder.get_object('popoverDevicesListBox')
+currentDeviceLabel=builder.get_object('currentDeviceLabel')
+
+universalApplyButton=builder.get_object('universalApplyButton')
+
+universalApplyButton.modify_bg(Gtk.StateFlags.NORMAL, Gdk.Color.parse('#4884cb').color)
+universalApplyButton.modify_bg(Gtk.StateFlags.PRELIGHT, Gdk.Color.parse('#5294E2').color)
+universalApplyButton.modify_bg(Gtk.StateFlags.ACTIVE, Gdk.Color.parse('#454A57').color)
+
 devicesUIDs=[]
 devicesList=[]
-
-comboChooseDevice=builder.get_object("comboChooseDevice")
 
 def initDevices():
 	devicesUIDs=[]
@@ -25,15 +33,28 @@ def initDevices():
 	for i in devicesUIDs:
 		devicesList.append(device.Device(i))
 
-def fillComboBox():
+def fillDevicesList():
 	for i in devicesList:
-		comboChooseDevice.append_text(i.name)
-	comboChooseDevice.set_active(0)
+		box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+		labelName=Gtk.Label()
+		labelName.set_text(i.name)
+		box.pack_start(labelName, True, True, 0)
+		box.set_margin_top(12)
+		box.set_margin_bottom(12)
+		row=Gtk.ListBoxRow()
+		row.add(box)
+		row.value=i
+		popoverDevicesListBox.add(row)
+	popoverDevicesListBox.select_row(
+		popoverDevicesListBox.get_row_at_index(0)
+	)
+	currentDeviceLabel.set_text(
+		popoverDevicesListBox.get_row_at_index(0).value.name
+	)
+
 
 initDevices()
-fillComboBox()
-
-#liststoreCombo=builder.get_object("liststoreCombo")
+fillDevicesList()
 
 settings = Gtk.Settings.get_default()
 settings.set_property("gtk-application-prefer-dark-theme", True)
@@ -118,6 +139,8 @@ breathRGB1=builder.get_object('breathRGB1chooser')
 breathRGB2=builder.get_object('breathRGB2chooser')
 
 waveSettingsBox=builder.get_object('waveSettingsBox')
+waveToggleLeft=builder.get_object('waveToggleBtnLeft')
+waveToggleRight=builder.get_object('waveToggleBtnRight')
 
 staticSettingsBox=builder.get_object('staticSettingsBox')
 staticRGB=builder.get_object('staticRGBchooser')
@@ -133,29 +156,9 @@ settingsPanes= {
 	'Reactive':reactiveSettingsBox,
 }
 
-def double2hex(n):
-	return format(int(n)*255, '#04x')[2:]
-
-class Handler:
-
-	def onDeleteWindow(self, *args):
-		Gtk.main_quit(*args)
-
-	def on_gameModeSwitch_state_set(self, *args):
-		value=gameModeSwitch.get_state()
-		# the state is inverted
-		if not value:
-			myrazerkb.setGameMode(1)
-			gameModeIcon.set_from_file(EXEC_FOLDER+"img/gameModeOn.svg")
-		else:
-			myrazerkb.setGameMode(0)
-			gameModeIcon.set_from_file(EXEC_FOLDER+"img/gameModeOff.svg")
-
-	def on_brightnessScale_value_set(self, *args):
-		newVal=brightnessScale.get_value()
-		myrazerkb.setBrightness(int(newVal))
-
-	def on_breathApplyButton_clicked(self, *args):
+# Any better way than specifying every case?
+def enableFXwSettings(fx):
+	if fx=='Breath':
 		if breathRandomRadio.get_active():
 			myrazerkb.enableRandomBreath()
 		else:
@@ -171,6 +174,64 @@ class Handler:
 				myrazerkb.enableDoubleBreath(r1,g1,b1,r2,g2,b2)
 			else:
 				myrazerkb.enableSingleBreath(r1,g1,b1)
+	elif fx=='Wave':
+		if waveToggleLeft.get_active():
+			myrazerkb.enableWave(2)
+		else:
+			myrazerkb.enableWave(1)
+	elif fx=='Static':
+		rgb=staticRGB.get_rgba()
+		r=double2hex(rgb.red)
+		g=double2hex(rgb.green)
+		b=double2hex(rgb.blue)
+		myrazerkb.enableStatic(r,g,b)
+	elif fx=='Reactive':
+		time=spinReactiveTime.get_value_as_int()
+		rgb=reactiveRGBchooser.get_rgba()
+		r=double2hex(rgb.red)
+		g=double2hex(rgb.green)
+		b=double2hex(rgb.blue)
+		myrazerkb.enableReactive(time, r, g, b)
+	else:
+		myrazerkb.enableFX(fx)
+
+def double2hex(n):
+	return format(int(n)*255, '#04x')[2:]
+
+class Handler:
+
+	def onDeleteWindow(self, *args):
+		Gtk.main_quit(*args)
+
+	def on_deviceChooserButton_clicked(self, button):
+		if popoverChooseDevice.get_visible():
+			popoverChooseDevice.hide()
+		else:
+			popoverChooseDevice.show_all()
+
+	def on_popoverDevicesListBox_row_selected(self, list, row):
+		myrazerkb=row.value
+		currentDeviceLabel.set_text(row.value.name)
+		popoverChooseDevice.hide()
+
+	def on_universalApplyButton_clicked(self, button):
+		newVal=brightnessScale.get_value()
+		myrazerkb.setBrightness(int(newVal))
+		currentFX=fxListBox.get_selected_row().value
+		if currentFX in settingsPanes.keys():
+			enableFXwSettings(currentFX)
+		else:
+			myrazerkb.enableFX(currentFX)
+
+	def on_gameModeSwitch_state_set(self, *args):
+		value=gameModeSwitch.get_state()
+		# the state is inverted
+		if not value:
+			myrazerkb.setGameMode(1)
+			gameModeIcon.set_from_file(EXEC_FOLDER+"img/gameModeOn.svg")
+		else:
+			myrazerkb.setGameMode(0)
+			gameModeIcon.set_from_file(EXEC_FOLDER+"img/gameModeOff.svg")
 
 	def on_breathRadio_toggled(self, radio):
 		if radio.get_state():
@@ -185,40 +246,19 @@ class Handler:
 				breathRGB1.set_sensitive(True)
 				breathRGB2.set_sensitive(True)
 
-	def on_waveButtonRight_clicked(self, *args):
-		myrazerkb.enableWave(1)
+	def on_waveToggleBtn_left(self, button):
+		if waveToggleLeft.get_active():
+			waveToggleRight.set_active(False)
 
-	def on_waveButtonLeft_clicked(self, *args):
-		myrazerkb.enableWave(2)
-
-	def on_staticApplyButton_clicked(self, *args):
-		rgb=staticRGB.get_rgba()
-		r=double2hex(rgb.red)
-		g=double2hex(rgb.green)
-		b=double2hex(rgb.blue)
-		myrazerkb.enableStatic(r,g,b)
+	def on_waveToggleBtn_right(self, button):
+		if waveToggleRight.get_active():
+			waveToggleLeft.set_active(False)
 
 	def on_fxListBox_row_selected(self, list, row):
-		myrazerkb.enableFX(row.value)
 		for pane in settingsPanes.values():
 			pane.hide()
 		if row.value in settingsPanes.keys():
 			settingsPanes[row.value].show()
-
-	def on_comboChooseDevice_changed(self, combo):
-		kb=combo.get_active_text()
-		for i in devicesList:
-			if i.name==kb:
-				myrazerkb=i
-				break
-
-	def on_reactiveApplyButton_clicked(self, button):
-		time=spinReactiveTime.get_value_as_int()
-		rgb=reactiveRGBchooser.get_rgba()
-		r=double2hex(rgb.red)
-		g=double2hex(rgb.green)
-		b=double2hex(rgb.blue)
-		myrazerkb.enableReactive(time, r, g, b)
 
 builder.connect_signals(Handler())
 
