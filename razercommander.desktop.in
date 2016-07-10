@@ -3,6 +3,6 @@ Encoding=UTF-8
 Type=Application
 Categories=Utility
 Terminal=false
-Exec=/usr/share/razercommander/main.py
+Exec=gksu /usr/share/razercommander/main.py
 Name=razerCommander
 Icon=/usr/share/razercommander/icon.svg
