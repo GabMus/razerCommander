@@ -81,15 +81,27 @@ brightnessScale=builder.get_object("brightnessScale")
 fxListBox=builder.get_object("fxListBox")
 
 def refreshFxList():
+	# empty list before (re)filling it
+	while True:
+		row=fxListBox.get_row_at_index(0)
+		if row:
+			fxListBox.remove(row)
+		else:
+			break
+	#fill list with supported effects
 	for i in myrazerkb.lightFXList:
+		# checks if the mode buffer is supported
 		if myrazerkb.KNOWN_MODE_BUFFERS[i.upper()] in myrazerkb.mode_buffers:
 			box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 			labelName= Gtk.Label()
 			labelName.set_text(i)
-			fxIcon=Gtk.Image()
-			fxIcon.set_from_file("img/"+i+".svg")
-			box.pack_end(labelName, True, True, 0)
-			box.pack_end(fxIcon, False, False, 0)
+			iconPath="img/"+i+".svg"
+			# check if icon file exists before creating the icon
+			if os.path.isfile(iconPath):
+				fxIcon=Gtk.Image()
+				fxIcon.set_from_file(iconPath)
+				box.pack_start(fxIcon, False, False, 0)
+			box.pack_start(labelName, True, True, 0)
 			row=Gtk.ListBoxRow()
 			row.add(box)
 			row.value=i
@@ -109,11 +121,19 @@ waveSettingsBox=builder.get_object('waveSettingsBox')
 staticSettingsBox=builder.get_object('staticSettingsBox')
 staticRGB=builder.get_object('staticRGBchooser')
 
+reactiveSettingsBox=builder.get_object('reactiveSettingsBox')
+spinReactiveTime=builder.get_object('spinReactiveTime')
+reactiveRGBchooser=builder.get_object('reactiveRGBchooser')
+
 settingsPanes= {
 	'Breath':breathSettingsBox,
 	'Wave':waveSettingsBox,
-	'Static':staticSettingsBox
+	'Static':staticSettingsBox,
+	'Reactive':reactiveSettingsBox,
 }
+
+def double2hex(n):
+	return format(int(n)*255, '#04x')[2:]
 
 class Handler:
 
@@ -137,21 +157,19 @@ class Handler:
 	def on_breathApplyButton_clicked(self, *args):
 		if breathRandomRadio.get_active():
 			myrazerkb.enableRandomBreath()
-		else: #TODO: vals to Hex
+		else:
 			rgb1=breathRGB1.get_rgba()
-			r1=format(int(rgb1.red)*255, '#04x')[2:]
-			g1=format(int(rgb1.green)*255, '#04x')[2:]
-			b1=format(int(rgb1.blue)*255, '#04x')[2:]
+			r1=double2hex(rgb1.red)
+			g1=double2hex(rgb1.green)
+			b1=double2hex(rgb1.blue)
 			if breathDoubleRadio.get_active:
 				rgb2=breathRGB2.get_rgba()
-				r2=format(int(rgb2.red)*255, '#04x')[2:]
-				g2=format(int(rgb2.green)*255, '#04x')[2:]
-				b2=format(int(rgb2.blue)*255, '#04x')[2:]
+				r2=double2hex(rgb2.red)
+				g2=double2hex(rgb2.green)
+				b2=double2hex(rgb2.blue)
 				myrazerkb.enableDoubleBreath(r1,g1,b1,r2,g2,b2)
 			else:
 				myrazerkb.enableSingleBreath(r1,g1,b1)
-
-			#myrazerkb.enableSingleBreath()
 
 	def on_breathRadio_toggled(self, radio):
 		if radio.get_state():
@@ -174,9 +192,9 @@ class Handler:
 
 	def on_staticApplyButton_clicked(self, *args):
 		rgb=staticRGB.get_rgba()
-		r=format(int(rgb.red)*255, '#04x')[2:]
-		g=format(int(rgb.green)*255, '#04x')[2:]
-		b=format(int(rgb.blue)*255, '#04x')[2:]
+		r=double2hex(rgb.red)
+		g=double2hex(rgb.green)
+		b=double2hex(rgb.blue)
 		myrazerkb.enableStatic(r,g,b)
 
 	def on_fxListBox_row_selected(self, list, row):
@@ -192,6 +210,14 @@ class Handler:
 			if i.name==kb:
 				myrazerkb=i
 				break
+
+	def on_reactiveApplyButton_clicked(self, button):
+		time=spinReactiveTime.get_value_as_int()
+		rgb=reactiveRGBchooser.get_rgba()
+		r=double2hex(rgb.red)
+		g=double2hex(rgb.green)
+		b=double2hex(rgb.blue)
+		myrazerkb.enableReactive(time, r, g, b)
 
 builder.connect_signals(Handler())
 

@@ -21,11 +21,14 @@ class Device:
     escaped_uid='' # scripts need to read ":" as "\:"
     name=''
     mode_buffers=[]
+
+    # the seemingly duplicate list is needed to distinguish
+    # light effects from other mode buffers
     lightFXList = [
         'Breath',
         'Reactive',
-        #'SPECTRUM',
-        #'PULSATE',
+        'Spectrum',
+        'Pulsate',
         'Wave',
         'Starlight',
         'Static',
