@@ -33,6 +33,12 @@ Using this software you're risking to mess up your OS, and for what I know you c
 
 To install this software the first thing you need is to install `razer-chroma-drivers`: an unofficial driver for razer peripherals for Linux. Go to the [project page](https://github.com/pez2001/razer_chroma_drivers/) to find out more about it and how to install it.
 
+###Arch Linux
+
+You can find razerCommander on AUR, as `razercommander-git` ([AUR page](https://aur.archlinux.org/packages/razercommander-git))
+
+###Other distros
+
 Once you're done, you'll need the following libraries to make razerCommander work:
 - GTK+ >3.16 (could work with previous versions, but I'm not sure)
 - python3
