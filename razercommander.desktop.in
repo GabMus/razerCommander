@@ -3,6 +3,6 @@ Encoding=UTF-8
 Type=Application
 Categories=Utility
 Terminal=false
-Exec=gksu /usr/bin/razercommander
+Exec=gksu -S /usr/bin/razercommander
 Name=razerCommander
 Icon=/usr/share/razercommander/icon.svg
