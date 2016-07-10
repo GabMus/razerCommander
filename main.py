@@ -6,8 +6,9 @@ import os
 import sys
 import device
 
+EXEC_FOLDER=os.path.realpath(os.path.dirname(__file__))+"/"
 builder = Gtk.Builder()
-builder.add_from_file("ui.glade")
+builder.add_from_file(EXEC_FOLDER+"ui.glade")
 HOME=os.environ.get('HOME')
 
 devicesUIDs=[]
@@ -95,7 +96,7 @@ def refreshFxList():
 			box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 			labelName= Gtk.Label()
 			labelName.set_text(i)
-			iconPath="img/"+i+".svg"
+			iconPath=EXEC_FOLDER+"img/"+i+".svg"
 			# check if icon file exists before creating the icon
 			if os.path.isfile(iconPath):
 				fxIcon=Gtk.Image()
@@ -145,10 +146,10 @@ class Handler:
 		# the state is inverted
 		if not value:
 			myrazerkb.setGameMode(1)
-			gameModeIcon.set_from_file("img/gameModeOn.svg")
+			gameModeIcon.set_from_file(EXEC_FOLDER+"img/gameModeOn.svg")
 		else:
 			myrazerkb.setGameMode(0)
-			gameModeIcon.set_from_file("img/gameModeOff.svg")
+			gameModeIcon.set_from_file(EXEC_FOLDER+"img/gameModeOff.svg")
 
 	def on_brightnessScale_value_set(self, *args):
 		newVal=brightnessScale.get_value()
