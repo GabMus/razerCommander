@@ -316,6 +316,10 @@ class Device:
                 self.enableStatic()
             elif fx == "None":
                 self.enableNone()
+            elif fx == "Spectrum":
+                self.enableSpectrum()
+            elif fx == "Pulsate":
+                self.enablePulsate()
 
             return 0
         else:
