@@ -6,6 +6,10 @@ import os
 import sys
 import device
 
+if not os.path.isdir(device.Device.DRIVER_PATH):
+	print("Fatal error: looks like you don't have razer_chroma_drivers installed on your system. Please install it before using this application.")
+	exit(1)
+
 EXEC_FOLDER=os.path.realpath(os.path.dirname(__file__))+"/"
 builder = Gtk.Builder()
 builder.add_from_file(EXEC_FOLDER+"ui.glade")
