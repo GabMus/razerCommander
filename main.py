@@ -38,23 +38,27 @@ def initDevices():
 		devicesList.append(device.Device(i))
 
 def fillDevicesList():
-	for i in devicesList:
-		box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-		labelName=Gtk.Label()
-		labelName.set_text(i.name)
-		box.pack_start(labelName, True, True, 0)
-		box.set_margin_top(12)
-		box.set_margin_bottom(12)
-		row=Gtk.ListBoxRow()
-		row.add(box)
-		row.value=i
-		popoverDevicesListBox.add(row)
-	popoverDevicesListBox.select_row(
-		popoverDevicesListBox.get_row_at_index(0)
-	)
-	currentDeviceLabel.set_text(
-		popoverDevicesListBox.get_row_at_index(0).value.name
-	)
+	if devicesList[0] != None:
+		for i in devicesList:
+			box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+			labelName=Gtk.Label()
+			labelName.set_text(i.name)
+			box.pack_start(labelName, True, True, 0)
+			box.set_margin_top(12)
+			box.set_margin_bottom(12)
+			row=Gtk.ListBoxRow()
+			row.add(box)
+			row.value=i
+			popoverDevicesListBox.add(row)
+		popoverDevicesListBox.select_row(
+			popoverDevicesListBox.get_row_at_index(0)
+		)
+		currentDeviceLabel.set_text(
+			popoverDevicesListBox.get_row_at_index(0).value.name
+		)
+	else:
+		print("Fatal error: looks like you don't have a supported device. Sorry for the inconvenience, the app will crash.")
+		exit(1)
 
 
 initDevices()
