@@ -266,7 +266,7 @@ class Device:
     def enableSpectrum(self):
         # check if spectrum is available for the current device
         if self.KNOWN_MODE_BUFFERS['SPECTRUM'] in self.mode_buffers:
-            command='echo -n \'1\' > '+self.DRIVER_PATH+self.escaped_uid+'/'+self.KNOWN_OTHER_BUFFERS['SPECTRUM']
+            command='echo -n \'1\' > '+self.DRIVER_PATH+self.escaped_uid+'/'+self.KNOWN_MODE_BUFFERS['SPECTRUM']
             self.__gksu_run__(command)
             return 0
         else:
@@ -279,7 +279,7 @@ class Device:
     def enablePulsate(self):
         # check if pulsate is available for the current device
         if self.KNOWN_MODE_BUFFERS['PULSATE'] in self.mode_buffers:
-            command='echo -n \'1\' > '+self.DRIVER_PATH+self.escaped_uid+'/'+self.KNOWN_OTHER_BUFFERS['PULSATE']
+			command='echo -n \'1\' > '+self.DRIVER_PATH+self.escaped_uid+'/'+self.KNOWN_MODE_BUFFERS['PULSATE']
             self.__gksu_run__(command)
             return 0
         else:
