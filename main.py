@@ -170,7 +170,21 @@ keyboardBox=builder.get_object("keyboardBox")
 def VirtKbPressKey(eventbox, eventbutton):
 	key=eventbox.get_child().key
 	img=eventbox.get_child().get_child()
+	toSelect=[]
+	toSelect.append(img)
+	if key in doublekeys.keys():
+		toSelect.append(doublekeys[key])
+	for i in toSelect:
+		if i.selected:
+			i.path=i.path[:-13]+".svg"
+			i.selected=False
+		else:
+			i.path=i.path[:-4]+"-selected.svg"
+			i.selected=True
+		i.set_from_file(i.path)
 
+# three keys span across two rows, need a special dictionary
+doublekeys=dict()
 
 # test: drawing ISO keyboard layout (it_IT for the sake of the experiment)
 def drawISOkb():
@@ -193,40 +207,48 @@ def drawISOkb():
 			else:
 				icon=Gtk.Image()
 				if key=="backspace":
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/backspace.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/backspace.svg"
 				elif key=="capslk":
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/capslock.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/capslock.svg"
 				elif key in ["lctrl", "rctrl", "alt", "altgr", "tab"]:
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/ctrl.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/ctrl.svg"
 				elif key=="entertop":
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/entertop.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/entertop.svg"
+					doublekeys["enterbottom"]=icon
 					key="enter"
 				elif key=="enterbottom":
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/enterbottom.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/enterbottom.svg"
+					doublekeys["entertop"]=icon
 					key=""
 				elif key=="plustop":
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/plustop.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/plustop.svg"
+					doublekeys["plusbottom"]=icon
 					key="+"
 				elif key=="plusbottom":
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/plusbottom.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/plusbottom.svg"
+					doublekeys["plustop"]=icon
 					key=""
 				elif key=="numentertop":
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/plustop.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/plustop.svg"
+					doublekeys["numenterbottom"]=icon
 					key="enter"
 				elif key=="numenterbottom":
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/plusbottom.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/plusbottom.svg"
+					doublekeys["numentertop"]=icon
 					key=""
 				elif key=="lshift":
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/lshift.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/lshift.svg"
 				elif key=="rshift":
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/rshift.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/rshift.svg"
 				elif key=="num0":
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/numzero.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/numzero.svg"
 					key="0"
 				elif key=="spacebar":
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/spacebar.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/spacebar.svg"
 				else:
-					icon.set_from_file(EXEC_FOLDER+"img/keyboard/normal.svg")
+					icon.path=EXEC_FOLDER+"img/keyboard/normal.svg"
+				icon.set_from_file(icon.path)
+				icon.selected=False
 				label=Gtk.Label()
 				label.set_text(key)
 				box.connect("button-press-event", VirtKbPressKey)
@@ -235,9 +257,8 @@ def drawISOkb():
 			box.add(overlay)
 			superbox.pack_start(box, False, False, 0)
 		keyboardBox.pack_start(superbox, False, False, 0)
-	keyboardBox.show_all()
 
-#drawISOkb()
+drawISOkb()
 
 
 # Any better way than specifying every case?
