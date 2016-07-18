@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="75.891998"
-   height="71.607002"
-   viewBox="0 0 75.891999 71.607003"
+   width="52.992001"
+   height="50"
+   viewBox="0 0 52.992001 50.000001"
    id="svg5197"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8284271"
-     inkscape:cx="111.49284"
-     inkscape:cy="93.921376"
+     inkscape:zoom="1"
+     inkscape:cx="25.225812"
+     inkscape:cy="19.484327"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -56,10 +56,10 @@
      inkscape:label="Livello 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-980.75516)">
+     transform="translate(0,-1002.3622)">
     <g
        id="g4285"
-       transform="translate(-267.76817,739.4644)">
+       transform="matrix(0.69825176,0,0,0.69825176,-186.96953,833.88087)">
       <rect
          style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="rect4138"

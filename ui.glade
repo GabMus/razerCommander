@@ -610,7 +610,21 @@
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkBox" id="keyboardBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
             </child>
             <child>
               <placeholder/>

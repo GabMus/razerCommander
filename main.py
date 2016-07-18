@@ -5,6 +5,7 @@ from gi.repository import Gtk, Gio, Gdk
 import os
 import sys
 import device
+import kblayouts
 
 if not os.path.isdir(device.Device.DRIVER_PATH):
 	print("Fatal error: looks like you don't have razer_chroma_drivers installed on your system. Please install it before using this application.")
@@ -163,6 +164,81 @@ settingsPanes= {
 	'Static':staticSettingsBox,
 	'Reactive':reactiveSettingsBox,
 }
+
+keyboardBox=builder.get_object("keyboardBox")
+
+def VirtKbPressKey(eventbox, eventbutton):
+	key=eventbox.get_child().key
+	img=eventbox.get_child().get_child()
+
+
+# test: drawing ISO keyboard layout (it_IT for the sake of the experiment)
+def drawISOkb():
+	for row in kblayouts.isoIT:
+		# initialize row superbox
+		superbox=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+		for key in row:
+			# initialize the key image
+			overlay=Gtk.Overlay()
+			overlay.key=key
+			box=Gtk.EventBox()
+			if key[0:2]=="E0":
+				icon=Gtk.Label()
+				if key==kblayouts.FULL_EMPTY:
+					icon.set_size_request(52,52)
+				elif key==kblayouts.HALF_EMPTY:
+					icon.set_size_request(30,30)
+				elif key==kblayouts.SMALL_EMPTY:
+					icon.set_size_request(7,7)
+			else:
+				icon=Gtk.Image()
+				if key=="backspace":
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/backspace.svg")
+				elif key=="capslk":
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/capslock.svg")
+				elif key in ["lctrl", "rctrl", "alt", "altgr", "tab"]:
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/ctrl.svg")
+				elif key=="entertop":
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/entertop.svg")
+					key="enter"
+				elif key=="enterbottom":
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/enterbottom.svg")
+					key=""
+				elif key=="plustop":
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/plustop.svg")
+					key="+"
+				elif key=="plusbottom":
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/plusbottom.svg")
+					key=""
+				elif key=="numentertop":
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/plustop.svg")
+					key="enter"
+				elif key=="numenterbottom":
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/plusbottom.svg")
+					key=""
+				elif key=="lshift":
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/lshift.svg")
+				elif key=="rshift":
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/rshift.svg")
+				elif key=="num0":
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/numzero.svg")
+					key="0"
+				elif key=="spacebar":
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/spacebar.svg")
+				else:
+					icon.set_from_file(EXEC_FOLDER+"img/keyboard/normal.svg")
+				label=Gtk.Label()
+				label.set_text(key)
+				box.connect("button-press-event", VirtKbPressKey)
+				overlay.add_overlay(label)
+			overlay.add(icon)
+			box.add(overlay)
+			superbox.pack_start(box, False, False, 0)
+		keyboardBox.pack_start(superbox, False, False, 0)
+	keyboardBox.show_all()
+
+#drawISOkb()
+
 
 # Any better way than specifying every case?
 def enableFXwSettings(fx):

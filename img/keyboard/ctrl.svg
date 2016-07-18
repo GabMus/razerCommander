@@ -9,13 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="106.892"
-   height="71.607002"
-   viewBox="0 0 106.892 71.607003"
+   width="74.638"
+   height="50"
+   viewBox="0 0 74.638002 50.000001"
    id="svg5197"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="ctrlalttab.svg">
+   sodipodi:docname="ctrl.svg">
   <defs
      id="defs5199" />
   <sodipodi:namedview
@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8284271"
-     inkscape:cx="95.582941"
-     inkscape:cy="17.200291"
+     inkscape:cx="9.3159129"
+     inkscape:cy="15.432524"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -56,10 +56,10 @@
      inkscape:label="Livello 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-980.75517)">
+     transform="translate(0,-1002.3622)">
     <g
        id="g4429"
-       transform="translate(-386.37191,947.61428)">
+       transform="matrix(0.69825154,0,0,0.69825154,-269.78478,979.22179)">
       <path
          sodipodi:nodetypes="ccccc"
          inkscape:connector-curvature="0"
