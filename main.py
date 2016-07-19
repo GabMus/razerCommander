@@ -93,6 +93,8 @@ class App(Gtk.Application):
 		app.add_action(quit_action)
 		app.set_app_menu(appMenu)
 		window.show_all()
+		keyboardBox.hide()
+
 
 
 	def on_about_activate(self, *agrs):
@@ -158,14 +160,16 @@ reactiveSettingsBox=builder.get_object('reactiveSettingsBox')
 spinReactiveTime=builder.get_object('spinReactiveTime')
 reactiveRGBchooser=builder.get_object('reactiveRGBchooser')
 
+keyboardBox=builder.get_object("keyboardBox")
+
 settingsPanes= {
 	'Breath':breathSettingsBox,
 	'Wave':waveSettingsBox,
 	'Static':staticSettingsBox,
 	'Reactive':reactiveSettingsBox,
+	'Custom':keyboardBox,
 }
 
-keyboardBox=builder.get_object("keyboardBox")
 
 def VirtKbPressKey(eventbox, eventbutton):
 	key=eventbox.get_child().key
@@ -185,6 +189,10 @@ def VirtKbPressKey(eventbox, eventbutton):
 
 # three keys span across two rows, need a special dictionary
 doublekeys=dict()
+
+
+# Todo: add a list of 1 RGB per key, divided in rows
+# the driver takes 1 byte for the row number, 3 bytes (RGB) for each key
 
 # test: drawing ISO keyboard layout (it_IT for the sake of the experiment)
 def drawISOkb():
@@ -258,12 +266,86 @@ def drawISOkb():
 			superbox.pack_start(box, False, False, 0)
 		keyboardBox.pack_start(superbox, False, False, 0)
 
-drawISOkb()
+#drawISOkb()
+keylist=list()
 
+def drawANSIkb():
+	rowindex=0
+	for row in kblayouts.ansiUS:
+		keylist.append(list())
+		# initialize row superbox
+		superbox=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+		for key in row:
+			# initialize the key image
+			overlay=Gtk.Overlay()
+			overlay.key=key
+			box=Gtk.EventBox()
+			if key[0:2]=="E0":
+				icon=Gtk.Label()
+				if key==kblayouts.FULL_EMPTY:
+					icon.set_size_request(52,52)
+				elif key==kblayouts.HALF_EMPTY:
+					icon.set_size_request(30,30)
+				elif key==kblayouts.SMALL_EMPTY:
+					icon.set_size_request(7,7)
+			else:
+				icon=Gtk.Image()
+				if key=="backspace":
+					icon.path=EXEC_FOLDER+"img/keyboard/ansi/backspace.svg"
+				elif key=="enter":
+					icon.path=EXEC_FOLDER+"img/keyboard/ansi/enter.svg"
+				elif key=="capslk":
+					icon.path=EXEC_FOLDER+"img/keyboard/ansi/capslock.svg"
+				elif key in ["lctrl", "rctrl", "alt", "altgr", "tab"]:
+					icon.path=EXEC_FOLDER+"img/keyboard/ansi/ctrl.svg"
+				elif key=="plustop":
+					icon.path=EXEC_FOLDER+"img/keyboard/ansi/plustop.svg"
+					doublekeys["plusbottom"]=icon
+					key="+"
+				elif key=="plusbottom":
+					icon.path=EXEC_FOLDER+"img/keyboard/ansi/plusbottom.svg"
+					doublekeys["plustop"]=icon
+					key=""
+				elif key=="numentertop":
+					icon.path=EXEC_FOLDER+"img/keyboard/ansi/plustop.svg"
+					doublekeys["numenterbottom"]=icon
+					key="enter"
+				elif key=="numenterbottom":
+					icon.path=EXEC_FOLDER+"img/keyboard/ansi/plusbottom.svg"
+					doublekeys["numentertop"]=icon
+					key=""
+				elif key=="lshift":
+					icon.path=EXEC_FOLDER+"img/keyboard/ansi/lshift.svg"
+				elif key=="rshift":
+					icon.path=EXEC_FOLDER+"img/keyboard/ansi/rshift.svg"
+				elif key=="num0":
+					icon.path=EXEC_FOLDER+"img/keyboard/ansi/numzero.svg"
+					key="0"
+				elif key=="spacebar":
+					icon.path=EXEC_FOLDER+"img/keyboard/ansi/spacebar.svg"
+				else:
+					icon.path=EXEC_FOLDER+"img/keyboard/ansi/normal.svg"
+				icon.set_from_file(icon.path)
+				icon.selected=False
+				keylist[rowindex].append(icon)
+				label=Gtk.Label()
+				label.set_text(key)
+				box.connect("button-press-event", VirtKbPressKey)
+				overlay.add_overlay(label)
+			if not key==kblayouts.GHOST:
+				overlay.add(icon)
+			box.add(overlay)
+			superbox.pack_start(box, False, False, 0)
+		rowindex+=1
+		keyboardBox.pack_start(superbox, False, False, 0)
+
+drawANSIkb()
 
 # Any better way than specifying every case?
 def enableFXwSettings(fx):
 	if fx=='Breath':
+		print(breathSingleRadio.get_active())
+		print(breathDoubleRadio.get_active())
 		if breathRandomRadio.get_active():
 			myrazerkb.enableRandomBreath()
 		else:
@@ -271,7 +353,7 @@ def enableFXwSettings(fx):
 			r1=double2hex(rgb1.red)
 			g1=double2hex(rgb1.green)
 			b1=double2hex(rgb1.blue)
-			if breathDoubleRadio.get_active:
+			if breathDoubleRadio.get_active():
 				rgb2=breathRGB2.get_rgba()
 				r2=double2hex(rgb2.red)
 				g2=double2hex(rgb2.green)
@@ -297,11 +379,13 @@ def enableFXwSettings(fx):
 		g=double2hex(rgb.green)
 		b=double2hex(rgb.blue)
 		myrazerkb.enableReactive(time, r, g, b)
+	elif fx=='Custom':
+		myrazerkb.applyCustom(keylist)
 	else:
 		myrazerkb.enableFX(fx)
 
 def double2hex(n):
-	return format(int(n)*255, '#04x')[2:]
+	return format(int(n*255), '#04x')[2:]
 
 class Handler:
 

@@ -21,6 +21,8 @@ class Device:
     escaped_uid='' # scripts need to read ":" as "\:"
     name=''
     mode_buffers=[]
+    HEXPREFIX='\\x'
+
 
     # the seemingly duplicate list is needed to distinguish
     # light effects from other mode buffers
@@ -33,20 +35,23 @@ class Device:
         'Starlight',
         'Static',
         'None',
+        'Custom'
     ]
     KNOWN_MODE_BUFFERS={
         'BREATH' : 'mode_breath', # done
         'GAME' : 'mode_game', # done
         'NONE' : 'mode_none', # done
         'REACTIVE' : 'mode_reactive', # done
-        'SPECTRUM' : 'mode_spectrum', # WARNING! THIS IS UNTESTED!
+        'SPECTRUM' : 'mode_spectrum', # done
         'PULSATE' : 'mode_pulsate', # WARNING! THIS IS UNTESTED!
         'STATIC' : 'mode_static', # done
         'WAVE' : 'mode_wave', # done
-        'STARLIGHT' : 'mode_starlight',
+        'STARLIGHT' : 'mode_starlight', # done
+        'CUSTOM': 'mode_custom'
     }
     KNOWN_SET_BUFFERS={
         'BRIGHTNESS' : 'set_brightness', # done
+        'KEYROW' : 'set_key_row'
     }
     KNOWN_OTHER_BUFFERS={
         'RESET' : 'reset', # done
@@ -109,6 +114,7 @@ class Device:
             return 1
 
     def enableSingleBreath(self, R, G, B):
+        print('single breath going')
         # check if breathe is available for the current device
         if self.KNOWN_MODE_BUFFERS['BREATH'] in self.mode_buffers:
             if is_two_digit_hex(R) and is_two_digit_hex(G) and is_two_digit_hex(B):
@@ -325,3 +331,27 @@ class Device:
         else:
             self.__dbug_print__("FX not listed")
             return 1
+
+    def applyCustom(self, keylist, R='FF', G='FF', B='FF'):
+        # rows from \x00 to \x05
+        rowindex=0
+        rowlist=[] # list of strings, each is a separate string to send to set_key_row
+        for row in keylist:
+            keycount=0
+            rowstring=self.HEXPREFIX+'0'+str(rowindex)
+            for key in row:
+                if key.selected:
+                    rowstring+=self.HEXPREFIX.join(('', R, G, B))
+                else:
+                    rowstring+=self.HEXPREFIX.join(('', '00', '00', '00'))
+                keycount+=1
+            while keycount<22:
+                rowstring+=self.HEXPREFIX.join(('', '00', '00', '00'))
+                keycount+=1
+            rowlist.append(rowstring)
+            rowindex+=1
+        for row in rowlist:
+            command="echo -e -n \""+row+"\" > "+self.DRIVER_PATH+self.escaped_uid+"/"+self.KNOWN_SET_BUFFERS['KEYROW']
+            self.__gksu_run__(command)
+        command="echo -n \"1\" > "+self.DRIVER_PATH+self.escaped_uid+"/"+self.KNOWN_MODE_BUFFERS['CUSTOM']
+        self.__gksu_run__(command)

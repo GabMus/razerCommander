@@ -611,8 +611,8 @@
             </child>
             <child>
               <object class="GtkBox" id="keyboardBox">
+                <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="no_show_all">True</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="orientation">vertical</property>
@@ -771,7 +771,8 @@
     <property name="comments" translatable="yes">This project is not affiliated with Razer, Inc. (http://www.razerzone.com/)</property>
     <property name="website">https://github.com/gabmus/razercommander</property>
     <property name="authors">Gabriele Musco aka GabMus (frontend)
-Tim Theede aka pez2001 (razer-chroma-driver)</property>
+Tim Theede aka pez2001 (razer-chroma-driver)
+Terry Cain aka terrycain (razer_driver, original driver fork)</property>
     <property name="logo">icon.svg</property>
     <property name="license_type">gpl-3-0</property>
     <child internal-child="vbox">
