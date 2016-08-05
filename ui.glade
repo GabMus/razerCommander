@@ -611,11 +611,48 @@
             </child>
             <child>
               <object class="GtkBox" id="keyboardBox">
+                <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="no_show_all">True</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
                 <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Color: </property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkColorButton" id="customColorPicker">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="rgba">rgb(255,255,255)</property>
+                        <property name="show_editor">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
                 <child>
                   <placeholder/>
                 </child>
@@ -771,7 +808,8 @@
     <property name="comments" translatable="yes">This project is not affiliated with Razer, Inc. (http://www.razerzone.com/)</property>
     <property name="website">https://github.com/gabmus/razercommander</property>
     <property name="authors">Gabriele Musco aka GabMus (frontend)
-Tim Theede aka pez2001 (razer-chroma-driver)</property>
+Tim Theede aka pez2001 (razer-chroma-driver)
+Terry Cain aka terrycain (razer_driver, original driver fork)</property>
     <property name="logo">icon.svg</property>
     <property name="license_type">gpl-3-0</property>
     <child internal-child="vbox">

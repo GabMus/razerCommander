@@ -21,6 +21,8 @@ class Device:
     escaped_uid='' # scripts need to read ":" as "\:"
     name=''
     mode_buffers=[]
+    HEXPREFIX='\\x'
+
 
     # the seemingly duplicate list is needed to distinguish
     # light effects from other mode buffers
@@ -33,20 +35,23 @@ class Device:
         'Starlight',
         'Static',
         'None',
+        'Custom'
     ]
     KNOWN_MODE_BUFFERS={
         'BREATH' : 'mode_breath', # done
         'GAME' : 'mode_game', # done
         'NONE' : 'mode_none', # done
         'REACTIVE' : 'mode_reactive', # done
-        'SPECTRUM' : 'mode_spectrum', # WARNING! THIS IS UNTESTED!
+        'SPECTRUM' : 'mode_spectrum', # done
         'PULSATE' : 'mode_pulsate', # WARNING! THIS IS UNTESTED!
         'STATIC' : 'mode_static', # done
         'WAVE' : 'mode_wave', # done
-        'STARLIGHT' : 'mode_starlight',
+        'STARLIGHT' : 'mode_starlight', # done
+        'CUSTOM': 'mode_custom'
     }
     KNOWN_SET_BUFFERS={
         'BRIGHTNESS' : 'set_brightness', # done
+        'KEYROW' : 'set_key_row'
     }
     KNOWN_OTHER_BUFFERS={
         'RESET' : 'reset', # done
@@ -109,6 +114,7 @@ class Device:
             return 1
 
     def enableSingleBreath(self, R, G, B):
+        print('single breath going')
         # check if breathe is available for the current device
         if self.KNOWN_MODE_BUFFERS['BREATH'] in self.mode_buffers:
             if is_two_digit_hex(R) and is_two_digit_hex(G) and is_two_digit_hex(B):
@@ -325,3 +331,15 @@ class Device:
         else:
             self.__dbug_print__("FX not listed")
             return 1
+
+    def applyCustom(self, customKb):
+        rindex=0
+        for row in customKb.rows:
+            rowstring=self.HEXPREFIX+'0'+str(rindex)
+            for key in row.keylist:
+                rowstring+=self.HEXPREFIX+key.color[0:2]+self.HEXPREFIX+key.color[2:4]+self.HEXPREFIX+key.color[4:6]
+            command="echo -e -n \""+rowstring+"\" > "+self.DRIVER_PATH+self.escaped_uid+"/"+self.KNOWN_SET_BUFFERS['KEYROW']
+            self.__gksu_run__(command)
+            rindex+=1
+        command="echo -n \"1\" > "+self.DRIVER_PATH+self.escaped_uid+"/"+self.KNOWN_MODE_BUFFERS['CUSTOM']
+        self.__gksu_run__(command)
