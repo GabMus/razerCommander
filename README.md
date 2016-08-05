@@ -31,7 +31,7 @@ Using this software you're risking to mess up your OS, and for what I know you c
 
 ##Installing
 
-To install this software the first thing you need is to install `razer-chroma-drivers`: an unofficial driver for razer peripherals for Linux. Go to the [project page](https://github.com/pez2001/razer_chroma_drivers/) to find out more about it and how to install it.
+To install this software the first thing you need is to install `razer_drivers`: an unofficial driver for razer peripherals for Linux. Go to the [project page](https://github.com/terrycain/razer_drivers/tree/daemonV2) to find out more about it and how to install it. (There are different packages available, as well as PKGBUILDs if you're using Arch)
 
 ###Arch Linux
 
