@@ -332,26 +332,14 @@ class Device:
             self.__dbug_print__("FX not listed")
             return 1
 
-    def applyCustom(self, keylist, R='FF', G='FF', B='FF'):
-        # rows from \x00 to \x05
-        rowindex=0
-        rowlist=[] # list of strings, each is a separate string to send to set_key_row
-        for row in keylist:
-            keycount=0
-            rowstring=self.HEXPREFIX+'0'+str(rowindex)
-            for key in row:
-                if key.selected:
-                    rowstring+=self.HEXPREFIX.join(('', R, G, B))
-                else:
-                    rowstring+=self.HEXPREFIX.join(('', '00', '00', '00'))
-                keycount+=1
-            while keycount<22:
-                rowstring+=self.HEXPREFIX.join(('', '00', '00', '00'))
-                keycount+=1
-            rowlist.append(rowstring)
-            rowindex+=1
-        for row in rowlist:
-            command="echo -e -n \""+row+"\" > "+self.DRIVER_PATH+self.escaped_uid+"/"+self.KNOWN_SET_BUFFERS['KEYROW']
+    def applyCustom(self, customKb):
+        rindex=0
+        for row in customKb.rows:
+            rowstring=self.HEXPREFIX+'0'+str(rindex)
+            for key in row.keylist:
+                rowstring+=self.HEXPREFIX+key.color[0:2]+self.HEXPREFIX+key.color[2:4]+self.HEXPREFIX+key.color[4:6]
+            command="echo -e -n \""+rowstring+"\" > "+self.DRIVER_PATH+self.escaped_uid+"/"+self.KNOWN_SET_BUFFERS['KEYROW']
             self.__gksu_run__(command)
+            rindex+=1
         command="echo -n \"1\" > "+self.DRIVER_PATH+self.escaped_uid+"/"+self.KNOWN_MODE_BUFFERS['CUSTOM']
         self.__gksu_run__(command)

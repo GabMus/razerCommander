@@ -5,7 +5,7 @@ from gi.repository import Gtk, Gio, Gdk
 import os
 import sys
 import device
-import kblayouts
+import custom_keyboard as CustomKb
 
 if not os.path.isdir(device.Device.DRIVER_PATH):
 	print("Fatal error: looks like you don't have razer_chroma_drivers installed on your system. Please install it before using this application.")
@@ -161,6 +161,7 @@ spinReactiveTime=builder.get_object('spinReactiveTime')
 reactiveRGBchooser=builder.get_object('reactiveRGBchooser')
 
 keyboardBox=builder.get_object("keyboardBox")
+customColorPicker=builder.get_object('customColorPicker')
 
 settingsPanes= {
 	'Breath':breathSettingsBox,
@@ -170,176 +171,61 @@ settingsPanes= {
 	'Custom':keyboardBox,
 }
 
+rkb=CustomKb.RKeyboard('ansi_us')
 
-def VirtKbPressKey(eventbox, eventbutton):
-	key=eventbox.get_child().key
-	img=eventbox.get_child().get_child()
-	toSelect=[]
-	toSelect.append(img)
-	if key in doublekeys.keys():
-		toSelect.append(doublekeys[key])
-	for i in toSelect:
-		if i.selected:
-			i.path=i.path[:-13]+".svg"
-			i.selected=False
-		else:
-			i.path=i.path[:-4]+"-selected.svg"
-			i.selected=True
-		i.set_from_file(i.path)
+def rgba_to_hex(color):
+	return "{0:02x}{1:02x}{2:02x}".format(int(color.red  * 255),
+		int(color.green * 255),
+		int(color.blue * 255))
 
-# three keys span across two rows, need a special dictionary
-doublekeys=dict()
+def onVirtKeyClick(eventbox, eventbtn):
+	key=rkb.getKey(eventbox.keyx, eventbox.keyy)
+	key.color=rgba_to_hex(customColorPicker.get_rgba())
+	eventbox.override_background_color(Gtk.StateType.NORMAL, customColorPicker.get_rgba())
 
+KEYCAP_SIZE=50
 
-# Todo: add a list of 1 RGB per key, divided in rows
-# the driver takes 1 byte for the row number, 3 bytes (RGB) for each key
-
-# test: drawing ISO keyboard layout (it_IT for the sake of the experiment)
-def drawISOkb():
-	for row in kblayouts.isoIT:
-		# initialize row superbox
-		superbox=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-		for key in row:
-			# initialize the key image
-			overlay=Gtk.Overlay()
-			overlay.key=key
+def drawKB():
+	keyy=0
+	kbcont=Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+	for row in rkb.rows:
+		keyx=0
+		rowbox=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+		for key in row.keylist:
 			box=Gtk.EventBox()
-			if key[0:2]=="E0":
-				icon=Gtk.Label()
-				if key==kblayouts.FULL_EMPTY:
-					icon.set_size_request(52,52)
-				elif key==kblayouts.HALF_EMPTY:
-					icon.set_size_request(30,30)
-				elif key==kblayouts.SMALL_EMPTY:
-					icon.set_size_request(7,7)
-			else:
-				icon=Gtk.Image()
-				if key=="backspace":
-					icon.path=EXEC_FOLDER+"img/keyboard/backspace.svg"
-				elif key=="capslk":
-					icon.path=EXEC_FOLDER+"img/keyboard/capslock.svg"
-				elif key in ["lctrl", "rctrl", "alt", "altgr", "tab"]:
-					icon.path=EXEC_FOLDER+"img/keyboard/ctrl.svg"
-				elif key=="entertop":
-					icon.path=EXEC_FOLDER+"img/keyboard/entertop.svg"
-					doublekeys["enterbottom"]=icon
-					key="enter"
-				elif key=="enterbottom":
-					icon.path=EXEC_FOLDER+"img/keyboard/enterbottom.svg"
-					doublekeys["entertop"]=icon
-					key=""
-				elif key=="plustop":
-					icon.path=EXEC_FOLDER+"img/keyboard/plustop.svg"
-					doublekeys["plusbottom"]=icon
-					key="+"
-				elif key=="plusbottom":
-					icon.path=EXEC_FOLDER+"img/keyboard/plusbottom.svg"
-					doublekeys["plustop"]=icon
-					key=""
-				elif key=="numentertop":
-					icon.path=EXEC_FOLDER+"img/keyboard/plustop.svg"
-					doublekeys["numenterbottom"]=icon
-					key="enter"
-				elif key=="numenterbottom":
-					icon.path=EXEC_FOLDER+"img/keyboard/plusbottom.svg"
-					doublekeys["numentertop"]=icon
-					key=""
-				elif key=="lshift":
-					icon.path=EXEC_FOLDER+"img/keyboard/lshift.svg"
-				elif key=="rshift":
-					icon.path=EXEC_FOLDER+"img/keyboard/rshift.svg"
-				elif key=="num0":
-					icon.path=EXEC_FOLDER+"img/keyboard/numzero.svg"
-					key="0"
-				elif key=="spacebar":
-					icon.path=EXEC_FOLDER+"img/keyboard/spacebar.svg"
-				else:
-					icon.path=EXEC_FOLDER+"img/keyboard/normal.svg"
-				icon.set_from_file(icon.path)
-				icon.selected=False
+			if not key.isGhost:
+				box.get_style_context().add_class('keycap')
+				box.override_background_color(Gtk.StateType.NORMAL, Gdk.RGBA(0,0,0))
 				label=Gtk.Label()
-				label.set_text(key)
-				box.connect("button-press-event", VirtKbPressKey)
-				overlay.add_overlay(label)
-			overlay.add(icon)
-			box.add(overlay)
-			superbox.pack_start(box, False, False, 0)
-		keyboardBox.pack_start(superbox, False, False, 0)
+				label.set_text(key.label)
+				box.add(label)
+			box.keyx=keyx
+			box.keyy=keyy
 
-#drawISOkb()
-keylist=list()
-
-def drawANSIkb():
-	rowindex=0
-	for row in kblayouts.ansiUS:
-		keylist.append(list())
-		# initialize row superbox
-		superbox=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-		for key in row:
-			# initialize the key image
-			overlay=Gtk.Overlay()
-			overlay.key=key
-			box=Gtk.EventBox()
-			if key[0:2]=="E0":
-				icon=Gtk.Label()
-				if key==kblayouts.FULL_EMPTY:
-					icon.set_size_request(52,52)
-				elif key==kblayouts.HALF_EMPTY:
-					icon.set_size_request(30,30)
-				elif key==kblayouts.SMALL_EMPTY:
-					icon.set_size_request(7,7)
+			if key.label in ['tab', 'lctrl', 'lalt', 'ralt', 'rctrl', '\\']:
+				box.set_size_request(KEYCAP_SIZE*1.5,KEYCAP_SIZE)
+			elif key.label=='capslk':
+				box.set_size_request(KEYCAP_SIZE*1.75,KEYCAP_SIZE)
+			elif key.label in ['lshift', 'ret']:
+				box.set_size_request(KEYCAP_SIZE*2.25,KEYCAP_SIZE)
+			elif key.label=='rshift':
+				box.set_size_request(KEYCAP_SIZE*2.75,KEYCAP_SIZE)
+			elif key.label=='bckspc':
+				box.set_size_request(KEYCAP_SIZE*2,KEYCAP_SIZE)
+			elif key.label=='spacebar':
+				box.set_size_request(KEYCAP_SIZE*6,KEYCAP_SIZE)
+			elif key.label==CustomKb.kblayouts.INV_GHOST:
+				box.set_size_request(0,0)
 			else:
-				icon=Gtk.Image()
-				if key=="backspace":
-					icon.path=EXEC_FOLDER+"img/keyboard/ansi/backspace.svg"
-				elif key=="enter":
-					icon.path=EXEC_FOLDER+"img/keyboard/ansi/enter.svg"
-				elif key=="capslk":
-					icon.path=EXEC_FOLDER+"img/keyboard/ansi/capslock.svg"
-				elif key in ["lctrl", "rctrl", "alt", "altgr", "tab"]:
-					icon.path=EXEC_FOLDER+"img/keyboard/ansi/ctrl.svg"
-				elif key=="plustop":
-					icon.path=EXEC_FOLDER+"img/keyboard/ansi/plustop.svg"
-					doublekeys["plusbottom"]=icon
-					key="+"
-				elif key=="plusbottom":
-					icon.path=EXEC_FOLDER+"img/keyboard/ansi/plusbottom.svg"
-					doublekeys["plustop"]=icon
-					key=""
-				elif key=="numentertop":
-					icon.path=EXEC_FOLDER+"img/keyboard/ansi/plustop.svg"
-					doublekeys["numenterbottom"]=icon
-					key="enter"
-				elif key=="numenterbottom":
-					icon.path=EXEC_FOLDER+"img/keyboard/ansi/plusbottom.svg"
-					doublekeys["numentertop"]=icon
-					key=""
-				elif key=="lshift":
-					icon.path=EXEC_FOLDER+"img/keyboard/ansi/lshift.svg"
-				elif key=="rshift":
-					icon.path=EXEC_FOLDER+"img/keyboard/ansi/rshift.svg"
-				elif key=="num0":
-					icon.path=EXEC_FOLDER+"img/keyboard/ansi/numzero.svg"
-					key="0"
-				elif key=="spacebar":
-					icon.path=EXEC_FOLDER+"img/keyboard/ansi/spacebar.svg"
-				else:
-					icon.path=EXEC_FOLDER+"img/keyboard/ansi/normal.svg"
-				icon.set_from_file(icon.path)
-				icon.selected=False
-				keylist[rowindex].append(icon)
-				label=Gtk.Label()
-				label.set_text(key)
-				box.connect("button-press-event", VirtKbPressKey)
-				overlay.add_overlay(label)
-			if not key==kblayouts.GHOST:
-				overlay.add(icon)
-			box.add(overlay)
-			superbox.pack_start(box, False, False, 0)
-		rowindex+=1
-		keyboardBox.pack_start(superbox, False, False, 0)
+				box.set_size_request(KEYCAP_SIZE,KEYCAP_SIZE)
+			box.connect("button-press-event", onVirtKeyClick)
+			rowbox.pack_start(box, True, True, 0)
+			keyx+=1
+		kbcont.pack_start(rowbox, True, True, 0)
+		keyy+=1
+	keyboardBox.pack_end(kbcont, True, True, 0)
 
-drawANSIkb()
+drawKB()
 
 # Any better way than specifying every case?
 def enableFXwSettings(fx):
@@ -380,7 +266,7 @@ def enableFXwSettings(fx):
 		b=double2hex(rgb.blue)
 		myrazerkb.enableReactive(time, r, g, b)
 	elif fx=='Custom':
-		myrazerkb.applyCustom(keylist)
+		myrazerkb.applyCustom(rkb)
 	else:
 		myrazerkb.enableFX(fx)
 

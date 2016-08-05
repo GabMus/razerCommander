@@ -2,6 +2,7 @@ FULL_EMPTY="E0000" # 1 key blank space
 HALF_EMPTY="E00" # 1 half key blank space
 SMALL_EMPTY="E0" # very small blank space
 GHOST='GHOST'
+INV_GHOST='INVISIBLE GHOST'
 
 layouts= {
     'reference' : [
@@ -130,7 +131,7 @@ layouts= {
             "lctrl",
             "super",
             "lalt",
-            "JP3"
+            "JP3",
             GHOST,
             GHOST,
             "spacebar",
@@ -327,7 +328,7 @@ layouts= {
             "0",
             "-",
             "=",
-            "backspace",
+            "bckspc",
             "ins",
             "home",
             "pgup",
@@ -354,7 +355,7 @@ layouts= {
             "\\",
             "del",
             "end",
-            "pgdown",
+            "pgdwn",
             "7",
             "8",
             "9",
@@ -374,7 +375,7 @@ layouts= {
             "l",
             ";",
             "\'",
-            GHOST,
+            INV_GHOST,
             "ret",
             GHOST,
             GHOST,
@@ -387,7 +388,7 @@ layouts= {
         [
             'M4',
             "lshift",
-            GHOST,
+            INV_GHOST,
             "z",
             "x",
             "c",
@@ -411,15 +412,15 @@ layouts= {
         [
             'M5',
             "lctrl",
-            "super",
+            "◆",
             "lalt",
-            GHOST,
-            GHOST,
-            GHOST,
+            INV_GHOST,
+            INV_GHOST,
+            INV_GHOST,
             "spacebar",
-            GHOST,
-            GHOST,
-            GHOST,
+            INV_GHOST,
+            INV_GHOST,
+            INV_GHOST,
             "ralt",
             "fn",
             "menu",
