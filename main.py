@@ -162,6 +162,8 @@ reactiveRGBchooser=builder.get_object('reactiveRGBchooser')
 
 keyboardBox=builder.get_object("keyboardBox")
 customColorPicker=builder.get_object('customColorPicker')
+pipetteTBtn=builder.get_object('customPipetteToolBtn')
+clearTBtn=builder.get_object('customClearToolBtn')
 
 settingsPanes= {
 	'Breath':breathSettingsBox,
@@ -180,8 +182,20 @@ def rgba_to_hex(color):
 
 def onVirtKeyClick(eventbox, eventbtn):
 	key=rkb.getKey(eventbox.keyx, eventbox.keyy)
-	key.color=rgba_to_hex(customColorPicker.get_rgba())
-	eventbox.override_background_color(Gtk.StateType.NORMAL, customColorPicker.get_rgba())
+	if not key.isGhost:
+		if pipetteTBtn.get_active():
+			color=Gdk.RGBA()
+			color.parse('#'+key.color)
+			customColorPicker.set_rgba(color)
+			pipetteTBtn.set_active(False)
+		elif clearTBtn.get_active():
+			key.color='000000'
+			black_rgba=Gdk.RGBA()
+			black_rgba.parse('#000000')
+			eventbox.override_background_color(Gtk.StateType.NORMAL, black_rgba)
+		else:
+			key.color=rgba_to_hex(customColorPicker.get_rgba())
+			eventbox.override_background_color(Gtk.StateType.NORMAL, customColorPicker.get_rgba())
 
 KEYCAP_SIZE=50
 
@@ -328,6 +342,20 @@ class Handler:
 	def on_waveToggleBtn_right(self, button):
 		if waveToggleRight.get_active():
 			waveToggleLeft.set_active(False)
+
+	def on_customPipetteToolBtn_toggled(self, button):
+		if clearTBtn.get_active() and button.get_active():
+			clearTBtn.set_active(False)
+
+	def on_customClearToolBtn_toggled(self, button):
+		if pipetteTBtn.get_active() and button.get_active():
+			pipetteTBtn.set_active(False)
+
+	def on_customColorPicker_color_set(self, *args):
+		if pipetteTBtn.get_active():
+			pipetteTBtn.set_active(False)
+		if clearTBtn.get_active():
+			clearTBtn.set_active(False)
 
 	def on_fxListBox_row_selected(self, list, row):
 		for pane in settingsPanes.values():
