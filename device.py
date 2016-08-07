@@ -67,7 +67,8 @@ class Device:
         print(self.__DEBUG_PREIFX__+message)
 
     def __gksu_run__(self, command):
-        if self.user=='root':
+        #NOTE: 'or True' is a temp override for GKSU: as udev rules have been implemented in the driver, running the program as root is no longer needed.
+        if self.user=='root' or True:
             toRun=command
         else:
             toRun='gksu -m \"razerCommander needs an administrator password to write changes to your device\" \"'+command+'\"'
