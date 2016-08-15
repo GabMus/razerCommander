@@ -25,8 +25,6 @@ universalApplyButton.modify_bg(Gtk.StateFlags.ACTIVE, Gdk.Color.parse('#454A57')
 devicesList=[]
 
 def initDevices():
-	global devicesList
-	devicesList=[]
 	for dev in device.devlist:
 		newdev=device.Device(dev)
 		devicesList.append(newdev)
