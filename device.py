@@ -31,15 +31,18 @@ class Device:
         for fx in self.uFXList:
             if self.device.fx.has(fx):
                 self.availableFX.append(fx)
+        self.availableFX.append('custom')
         self.name=str(device.name)
         #the following vars are legacy for using the driver directly, the old way
+        self.uid=None
+        self.escaped_uid=None
         ddircont=os.listdir(self.DRIVER_PATH)
         for i in ddircont:
             if i[0]=='0':
+                s=''
                 with open(self.DRIVER_PATH+i+'/get_serial') as f:
                     s=f.read()
-                s.strip()
-                if s==str(self.device.serial):
+                if s[0:15]==str(self.device.serial)[0:15]:
                     self.uid=i
                     self.escaped_uid=self.uid.replace(":", "\\:")
                     break
@@ -71,7 +74,7 @@ class Device:
 
     # unfriendly fx list
     uFXList = [
-        'breath_single'
+        'breath_single',
         'breath_dual',
         'breath_random',
         'reactive',
@@ -88,23 +91,14 @@ class Device:
     def __dbug_print__(self, message):
         print("DEBUG -> ", message)
 
+    # legacy:
     def __gksu_run__(self, command):
-        #NOTE: 'or True' is a temp override for GKSU: as udev rules have been implemented in the driver, running the program as root is no longer needed.
-        if self.user=='root' or True:
-            toRun=command
-        else:
-            toRun='gksu -m \"razerCommander needs an administrator password to write changes to your device\" \"'+command+'\"'
+        toRun=command
         self.__dbug_print__("running "+toRun)
         os.system(toRun)
 
-    # below are methods for known buffers
-
-    # Mode buffers
 
     # Breathing effect mode
-    # (only "random mode" (as described here
-    # https://github.com/pez2001/razer_chroma_drivers/wiki/Using-the-keyboard-driver)
-    # for now)
     def enableRandomBreath(self):
         # check if breathe is available for the current device
         if 'breath_random' in self.availableFX:
@@ -125,7 +119,7 @@ class Device:
     def enableDoubleBreath(self, R1, G1, B1, R2, G2, B2):
         # check if breathe is available for the current device
         if 'breath_dual' in self.availableFX:
-            if not self.device.fx.breath_single(R1, G1, B1, R2, G2, B2):
+            if not self.device.fx.breath_dual(R1, G1, B1, R2, G2, B2):
                 self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'Breath Double')
         else:
             self.__dbug_print__('The Breath Double FX is not available')
@@ -222,6 +216,22 @@ class Device:
         else:
             self.__dbug_print__('The Spectrum FX is not available')
 
+    RIPPLE_REFRESHRATE=0.05
+
+    def enableRipple(self, R, G, B):
+        if 'ripple' in self.availableFX:
+            if not self.device.fx.ripple(R, G, B, self.RIPPLE_REFRESHRATE):
+                self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'Ripple')
+        else:
+            self.__dbug_print__('The Ripple FX is not available')
+
+    def enableRippleRandom(self):
+        if 'ripple' in self.availableFX:
+            if not self.device.fx.ripple_random(self.RIPPLE_REFRESHRATE):
+                self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'Ripple')
+        else:
+            self.__dbug_print__('The Ripple FX is not available')
+
     # Pulsate mode effect
     # This should only be supported in the Razer BlackWidow Ultimate 2013
     # and should be similar if not the same as breath effect
@@ -243,7 +253,7 @@ class Device:
             self.__dbug_print__('Brightness is not available')
 
     def enableFX(self, fx):
-        if fx in self.lightFXList:
+        if fx in self.friendlyFXList:
             if fx == "None":
                 self.enableNone()
             elif fx == "Spectrum":

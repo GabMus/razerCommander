@@ -115,8 +115,8 @@ def refreshFxList():
 			break
 	#fill list with supported effects
 	for i in myrazerkb.availableFX:
-		if i!='breath_random' and i!='breath_dual':
-			if i=='breath_single':
+		if i not in ['breath_single', 'breath_dual']:
+			if i=='breath_random':
 				i='breath'
 			i=i.capitalize()
 			box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
@@ -133,6 +133,11 @@ def refreshFxList():
 			row.add(box)
 			row.value=i
 			fxListBox.add(row)
+	gameModeSwitch.set_state(myrazerkb.device.game_mode_led)
+	if gameModeSwitch.get_state():
+		gameModeIcon.set_from_file(EXEC_FOLDER+"img/gameModeOn.svg")
+	else:
+		gameModeIcon.set_from_file(EXEC_FOLDER+"img/gameModeOff.svg")
 
 refreshFxList()
 
@@ -159,12 +164,18 @@ customColorPicker=builder.get_object('customColorPicker')
 pipetteTBtn=builder.get_object('customPipetteToolBtn')
 clearTBtn=builder.get_object('customClearToolBtn')
 
+rippleSettingsBox=builder.get_object('rippleSettingsBox')
+rippleRadioColor=builder.get_object('rippleRadioColor')
+rippleRadioRandom=builder.get_object('rippleRadioRandom')
+rippleColorPicker=builder.get_object('rippleColorPicker')
+
 settingsPanes= {
 	'Breath':breathSettingsBox,
 	'Wave':waveSettingsBox,
 	'Static':staticSettingsBox,
 	'Reactive':reactiveSettingsBox,
 	'Custom':keyboardBox,
+	'Ripple':rippleSettingsBox,
 }
 
 rkb=CustomKb.RKeyboard('ansi_us')
@@ -275,6 +286,15 @@ def enableFXwSettings(fx):
 		myrazerkb.enableReactive(time, r, g, b)
 	elif fx=='Custom':
 		myrazerkb.applyCustom(rkb)
+	elif fx=='Ripple':
+		if rippleRadioRandom.get_active():
+			myrazerkb.enableRippleRandom()
+		else:
+			rgb=rippleColorPicker.get_rgba()
+			r=getColorVal(rgb.red)
+			g=getColorVal(rgb.green)
+			b=getColorVal(rgb.blue)
+			myrazerkb.enableRipple(r, g, b)
 	else:
 		myrazerkb.enableFX(fx)
 
@@ -307,13 +327,12 @@ class Handler:
 			myrazerkb.enableFX(currentFX)
 
 	def on_gameModeSwitch_state_set(self, *args):
+		myrazerkb.toggleGameMode()
 		value=gameModeSwitch.get_state()
 		# the state is inverted
 		if not value:
-			myrazerkb.setGameMode(1)
 			gameModeIcon.set_from_file(EXEC_FOLDER+"img/gameModeOn.svg")
 		else:
-			myrazerkb.setGameMode(0)
 			gameModeIcon.set_from_file(EXEC_FOLDER+"img/gameModeOff.svg")
 
 	def on_breathRadio_toggled(self, radio):
@@ -328,6 +347,12 @@ class Handler:
 			elif rlabel=="Double color":
 				breathRGB1.set_sensitive(True)
 				breathRGB2.set_sensitive(True)
+
+	def on_rippleRadioColor_toggled(self, radio):
+		if radio.get_state():
+			rippleColorPicker.set_sensitive(True)
+		else:
+			rippleColorPicker.set_sensitive(False)
 
 	def on_waveToggleBtn_left(self, button):
 		if waveToggleLeft.get_active():
