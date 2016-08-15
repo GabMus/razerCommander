@@ -26,20 +26,13 @@ universalApplyButton.modify_bg(Gtk.StateFlags.NORMAL, Gdk.Color.parse('#4884cb')
 universalApplyButton.modify_bg(Gtk.StateFlags.PRELIGHT, Gdk.Color.parse('#5294E2').color)
 universalApplyButton.modify_bg(Gtk.StateFlags.ACTIVE, Gdk.Color.parse('#454A57').color)
 
-devicesUIDs=[]
-devicesList=[]
+devicesList=None
 
 def initDevices():
-	devicesUIDs=[]
-	cont=os.listdir(device.Device.DRIVER_PATH)
-	for i in cont:
-		if i[0]=="0":
-			devicesUIDs.append(i)
-	for i in devicesUIDs:
-		devicesList.append(device.Device(i))
+	devicesList=device.devlist
 
 def fillDevicesList():
-	if devicesList[0] != None:
+	if devicesList and devicesList[0] != None:
 		for i in devicesList:
 			box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 			labelName=Gtk.Label()
@@ -250,14 +243,14 @@ def enableFXwSettings(fx):
 			myrazerkb.enableRandomBreath()
 		else:
 			rgb1=breathRGB1.get_rgba()
-			r1=double2hex(rgb1.red)
-			g1=double2hex(rgb1.green)
-			b1=double2hex(rgb1.blue)
+			r1=getColorVal(rgb1.red)
+			g1=getColorVal(rgb1.green)
+			b1=getColorVal(rgb1.blue)
 			if breathDoubleRadio.get_active():
 				rgb2=breathRGB2.get_rgba()
-				r2=double2hex(rgb2.red)
-				g2=double2hex(rgb2.green)
-				b2=double2hex(rgb2.blue)
+				r2=getColorVal(rgb2.red)
+				g2=getColorVal(rgb2.green)
+				b2=getColorVal(rgb2.blue)
 				myrazerkb.enableDoubleBreath(r1,g1,b1,r2,g2,b2)
 			else:
 				myrazerkb.enableSingleBreath(r1,g1,b1)
@@ -268,24 +261,24 @@ def enableFXwSettings(fx):
 			myrazerkb.enableWave(1)
 	elif fx=='Static':
 		rgb=staticRGB.get_rgba()
-		r=double2hex(rgb.red)
-		g=double2hex(rgb.green)
-		b=double2hex(rgb.blue)
+		r=getColorVal(rgb.red)
+		g=getColorVal(rgb.green)
+		b=getColorVal(rgb.blue)
 		myrazerkb.enableStatic(r,g,b)
 	elif fx=='Reactive':
 		time=spinReactiveTime.get_value_as_int()
 		rgb=reactiveRGBchooser.get_rgba()
-		r=double2hex(rgb.red)
-		g=double2hex(rgb.green)
-		b=double2hex(rgb.blue)
+		r=getColorVal(rgb.red)
+		g=getColorVal(rgb.green)
+		b=getColorVal(rgb.blue)
 		myrazerkb.enableReactive(time, r, g, b)
 	elif fx=='Custom':
 		myrazerkb.applyCustom(rkb)
 	else:
 		myrazerkb.enableFX(fx)
 
-def double2hex(n):
-	return format(int(n*255), '#04x')[2:]
+def getColorVal(n):
+	return int(n*255)
 
 class Handler:
 
