@@ -1,6 +1,8 @@
 #probably not necessary vvvv
 import os
 import io
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 import razer.client as rclient
 #import razer.client.constants as razer_constants
@@ -88,13 +90,10 @@ class Device:
 
     MSG_PROBLEM_ENABLING='There was an error enabling the FX '
 
-    def __dbug_print__(self, message):
-        print("DEBUG -> ", message)
-
     # legacy:
     def __gksu_run__(self, command):
         toRun=command
-        self.__dbug_print__("running "+toRun)
+        logging.info("running "+toRun)
         os.system(toRun)
 
 
@@ -103,26 +102,25 @@ class Device:
         # check if breathe is available for the current device
         if 'breath_random' in self.availableFX:
             if not self.device.fx.breath_random():
-                self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'Breath Random')
+                logging.error(self.MSG_PROBLEM_ENABLING+'Breath Random')
         else:
-            self.__dbug_print__('The Breath Random FX is not available')
+            logging.warning'The Breath Random FX is not available')
 
     def enableSingleBreath(self, R, G, B):
         # check if breathe is available for the current device
         if 'breath_single' in self.availableFX:
             if not self.device.fx.breath_single(R, G, B):
-                self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'Breath Single')
+                logging.error(self.MSG_PROBLEM_ENABLING+'Breath Single')
         else:
-            self.__dbug_print__('The Breath Single FX is not available')
-            return 1
+            logging.warning'The Breath Single FX is not available')
 
     def enableDoubleBreath(self, R1, G1, B1, R2, G2, B2):
         # check if breathe is available for the current device
         if 'breath_dual' in self.availableFX:
             if not self.device.fx.breath_dual(R1, G1, B1, R2, G2, B2):
-                self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'Breath Double')
+                logging.error(self.MSG_PROBLEM_ENABLING+'Breath Double')
         else:
-            self.__dbug_print__('The Breath Double FX is not available')
+            logging.warning'The Breath Double FX is not available')
 
     # Reactive effect mode
     # this method takes 3 arguments, the values for red, green and blue
@@ -130,9 +128,9 @@ class Device:
         # check if reactive is available for the current device
         if 'reactive' in self.availableFX:
             if not self.device.fx.reactive(time, R, G, B):
-                self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'Reactive')
+                logging.error(self.MSG_PROBLEM_ENABLING+'Reactive')
         else:
-            self.__dbug_print__('The Reactive FX is not available')
+            logging.warning'The Reactive FX is not available')
 
 
     # Static effect mode
@@ -141,9 +139,9 @@ class Device:
         # check if static is available for the current device
         if 'static' in self.availableFX:
             if not self.device.fx.static(R, G, B):
-                self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'Static')
+                logging.error(self.MSG_PROBLEM_ENABLING+'Static')
         else:
-            self.__dbug_print__('The Static FX is not available')
+            logging.warning'The Static FX is not available')
 
     # Wave effect mode
     # direction is an int: 1 is right, 2 is left
@@ -151,11 +149,11 @@ class Device:
         # check if wave is available for the current device
         if 'wave' in self.availableFX:
             if direction not in [1, 2]:
-                self.__dbug_print__('Error when enabling Wave: value is not 1 or 2')
+                logging.warning('Error when enabling Wave: value is not 1 or 2')
             elif not self.device.fx.wave(direction):
-                self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'Wave')
+                logging.error(self.MSG_PROBLEM_ENABLING+'Wave')
         else:
-            self.__dbug_print__('The Wave FX is not available')
+            logging.warning'The Wave FX is not available')
 
     # NOTE: starlight mode FX temporarely disabled since it's not supported by the lib
     # Starlight mode effect
@@ -177,9 +175,9 @@ class Device:
         # check if none is available for the current device
         if 'none' in self.availableFX:
             if not self.device.fx.none():
-                self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'None')
+                logging.error(self.MSG_PROBLEM_ENABLING+'None')
         else:
-            self.__dbug_print__('The None FX is not available')
+            logging.warning'The None FX is not available')
 
     # Turns on or off game mode (it disables the <Super> key)
     # Value has to be 0 to disable or 1 to enable game mode
@@ -189,7 +187,7 @@ class Device:
             #toggles game mode
             self.device.game_mode_led=not self.device.game_mode_led
         else:
-            self.__dbug_print__('The Game Mode LED is not available')
+            logging.warning'The Game Mode LED is not available')
 
     #NOTE: removed for future use
     # Enables macro keys
@@ -212,25 +210,25 @@ class Device:
         # check if spectrum is available for the current device
         if 'spectrum' in self.availableFX:
             if not self.device.fx.spectrum():
-                self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'Spectrum')
+                logging.error(self.MSG_PROBLEM_ENABLING+'Spectrum')
         else:
-            self.__dbug_print__('The Spectrum FX is not available')
+            logging.warning'The Spectrum FX is not available')
 
     RIPPLE_REFRESHRATE=0.05
 
     def enableRipple(self, R, G, B):
         if 'ripple' in self.availableFX:
             if not self.device.fx.ripple(R, G, B, self.RIPPLE_REFRESHRATE):
-                self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'Ripple')
+                logging.error(self.MSG_PROBLEM_ENABLING+'Ripple')
         else:
-            self.__dbug_print__('The Ripple FX is not available')
+            logging.warning'The Ripple FX is not available')
 
     def enableRippleRandom(self):
         if 'ripple' in self.availableFX:
             if not self.device.fx.ripple_random(self.RIPPLE_REFRESHRATE):
-                self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'Ripple')
+                logging.error(self.MSG_PROBLEM_ENABLING+'Ripple')
         else:
-            self.__dbug_print__('The Ripple FX is not available')
+            logging.warning'The Ripple FX is not available')
 
     # Pulsate mode effect
     # This should only be supported in the Razer BlackWidow Ultimate 2013
@@ -239,9 +237,9 @@ class Device:
         # check if pulsate is available for the current device
         if 'pulsate' in self.availableFX:
             if not self.device.fx.pulsate():
-                self.__dbug_print__(self.MSG_PROBLEM_ENABLING+'Pulsate')
+                logging.error(self.MSG_PROBLEM_ENABLING+'Pulsate')
         else:
-            self.__dbug_print__('The Pulsate FX is not available')
+            logging.warning'The Pulsate FX is not available')
 
     # Set birghtness for backlight
     # gets values between 0 and 255
@@ -250,7 +248,7 @@ class Device:
         if self.device.has('brightness'):
             self.device.brightness=value
         else:
-            self.__dbug_print__('Brightness is not available')
+            logging.warning'Brightness is not available')
 
     def enableFX(self, fx):
         if fx in self.friendlyFXList:
@@ -262,7 +260,7 @@ class Device:
                 self.enablePulsate()
             return 0
         else:
-            self.__dbug_print__("FX not listed")
+            logging.error("FX not listed")
             return 1
 
     def applyCustom(self, customKb):
