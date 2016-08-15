@@ -7,14 +7,9 @@ import razer.client as rclient
 
 device_manager = rclient.DeviceManager()
 devlist=[]
-
-def populate_devlist():
-    devlist=[]
-    for device in device_manager.devices:
-        if device.type=='keyboard':
-            devlist.append(device)
-
-populate_devlist()
+for device in device_manager.devices:
+    if device.type=='keyboard':
+        devlist.append(device)
 
 def is_two_digit_hex(s):
     try:
@@ -45,9 +40,9 @@ class Device:
                     s=f.read()
                 s.strip()
                 if s==str(self.device.serial):
-                    self.uid=s
+                    self.uid=i
+                    self.escaped_uid=self.uid.replace(":", "\\:")
                     break
-        self.escaped_uid=uid.replace(":", "\\:")
 
     # legacy
     DRIVER_PATH='/sys/bus/hid/drivers/razerkbd/'
@@ -249,7 +244,7 @@ class Device:
 
     def enableFX(self, fx):
         if fx in self.lightFXList:
-            elif fx == "None":
+            if fx == "None":
                 self.enableNone()
             elif fx == "Spectrum":
                 self.enableSpectrum()

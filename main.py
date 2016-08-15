@@ -7,10 +7,6 @@ import sys
 import device
 import custom_keyboard as CustomKb
 
-if not os.path.isdir(device.Device.DRIVER_PATH):
-	print("Fatal error: looks like you don't have razer_chroma_drivers installed on your system. Please install it before using this application.")
-	exit(1)
-
 EXEC_FOLDER=os.path.realpath(os.path.dirname(__file__))+"/"
 builder = Gtk.Builder()
 builder.add_from_file(EXEC_FOLDER+"ui.glade")
@@ -26,13 +22,17 @@ universalApplyButton.modify_bg(Gtk.StateFlags.NORMAL, Gdk.Color.parse('#4884cb')
 universalApplyButton.modify_bg(Gtk.StateFlags.PRELIGHT, Gdk.Color.parse('#5294E2').color)
 universalApplyButton.modify_bg(Gtk.StateFlags.ACTIVE, Gdk.Color.parse('#454A57').color)
 
-devicesList=None
+devicesList=[]
 
 def initDevices():
-	devicesList=device.devlist
+	global devicesList
+	devicesList=[]
+	for dev in device.devlist:
+		newdev=device.Device(dev)
+		devicesList.append(newdev)
 
 def fillDevicesList():
-	if devicesList and devicesList[0] != None:
+	if len(devicesList)>0:
 		for i in devicesList:
 			box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 			labelName=Gtk.Label()
@@ -51,9 +51,8 @@ def fillDevicesList():
 			popoverDevicesListBox.get_row_at_index(0).value.name
 		)
 	else:
-		print("Fatal error: looks like you don't have a supported device. Sorry for the inconvenience, the app will crash.")
+		print("no devices")
 		exit(1)
-
 
 initDevices()
 fillDevicesList()
@@ -115,9 +114,11 @@ def refreshFxList():
 		else:
 			break
 	#fill list with supported effects
-	for i in myrazerkb.lightFXList:
-		# checks if the mode buffer is supported
-		if myrazerkb.KNOWN_MODE_BUFFERS[i.upper()] in myrazerkb.mode_buffers:
+	for i in myrazerkb.availableFX:
+		if i!='breath_random' and i!='breath_dual':
+			if i=='breath_single':
+				i='breath'
+			i=i.capitalize()
 			box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
 			labelName= Gtk.Label()
 			labelName.set_text(i)
