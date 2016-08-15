@@ -1,11 +1,11 @@
-FULL_EMPTY="E0000" # 1 key blank space
-HALF_EMPTY="E00" # 1 half key blank space
-SMALL_EMPTY="E0" # very small blank space
-GHOST='GHOST'
-INV_GHOST='INVISIBLE GHOST'
+FULL_EMPTY = "E0000"  # 1 key blank space
+HALF_EMPTY = "E00"  # 1 half key blank space
+SMALL_EMPTY = "E0"  # very small blank space
+GHOST = 'GHOST'
+INV_GHOST = 'INVISIBLE GHOST'
 
-layouts= {
-    'reference' : [
+layouts = {
+    'reference': [
         [
             GHOST,
             "esc",
@@ -151,7 +151,7 @@ layouts= {
             GHOST,
         ]
     ],
-    'iso_it' : [
+    'iso_it': [
         [
             "esc",
             "F1",
@@ -288,7 +288,7 @@ layouts= {
             "numenterbottom",
         ]
     ],
-    'ansi_us' : [
+    'ansi_us': [
         [
             GHOST,
             "esc",
