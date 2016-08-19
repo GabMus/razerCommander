@@ -36,33 +36,7 @@ class Device:
                 self.availableFX.append(fx)
         self.availableFX.append('custom')
         self.name = str(device.name)
-        # the following vars are legacy for using the driver directly, the old
-        # way
-        self.uid = None
-        self.escaped_uid = None
-        ddircont = os.listdir(self.DRIVER_PATH)
-        for i in ddircont:
-            if i[0] == '0':
-                s = ''
-                with open(self.DRIVER_PATH + i + '/get_serial') as f:
-                    s = f.read()
-                if s[0:15] == str(self.device.serial)[0:15]:
-                    self.uid = i
-                    self.escaped_uid = self.uid.replace(":", "\\:")
-                    break
 
-    # legacy
-    DRIVER_PATH = '/sys/bus/hid/drivers/razerkbd/'
-    HEXPREFIX = '\\x'
-    KNOWN_MODE_BUFFERS = {
-        'CUSTOM': 'mode_custom'
-    }
-    KNOWN_SET_BUFFERS = {
-        'KEYROW': 'set_key_row'
-    }
-
-    # the seemingly duplicate list is needed to distinguish
-    # light effects from other mode buffers
     friendlyFXList = [
         'Breath',
         'Reactive',
@@ -128,7 +102,7 @@ class Device:
     def enableReactive(self, time, R, G, B):  # time can be only 1, 2 or 3
         # check if reactive is available for the current device
         if 'reactive' in self.availableFX:
-            if not self.device.fx.reactive(time, R, G, B):
+            if not self.device.fx.reactive(R, G, B, time):
                 logging.error(self.MSG_PROBLEM_ENABLING + 'Reactive')
         else:
             logging.warning('The Reactive FX is not available')
@@ -264,17 +238,17 @@ class Device:
             logging.error("FX not listed")
             return 1
 
+    def _hex2rgb(self, mhex):
+        return tuple(int(mhex[i:i+2], 16) for i in (0, 2 ,4))
+
     def applyCustom(self, customKb):
         rindex = 0
         for row in customKb.rows:
-            rowstring = self.HEXPREFIX + '0' + str(rindex)
+            cindex=0
             for key in row.keylist:
-                rowstring += self.HEXPREFIX + \
-                    key.color[0:2] + self.HEXPREFIX + key.color[2:4] + self.HEXPREFIX + key.color[4:6]
-            command = "echo -e -n \"" + rowstring + "\" > " + self.DRIVER_PATH + \
-                self.escaped_uid + "/" + self.KNOWN_SET_BUFFERS['KEYROW']
-            self.__gksu_run__(command)
+                self.device.fx.advanced.matrix.set(
+                    rindex, cindex, self._hex2rgb(key.color)
+                )
+                cindex+=1
             rindex += 1
-        command = "echo -n \"1\" > " + self.DRIVER_PATH + \
-            self.escaped_uid + "/" + self.KNOWN_MODE_BUFFERS['CUSTOM']
-        self.__gksu_run__(command)
+        self.device.fx.advanced.draw()
