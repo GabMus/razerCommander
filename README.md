@@ -11,55 +11,47 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#razerCommander
+# razerCommander
 
 ![screenshot](screenshot.png)
 
 A simple GTK control center for managing razer peripherals on Linux.
 
-#WARNING!
+## Installing
 
-As stated in the License header up there:
+To install this software the first thing you need is to install `razer_drivers`: an unofficial driver for razer peripherals for Linux. Go to the [project page](https://github.com/terrycain/razer_drivers) to find out more about it and how to install it. (There are different packages available, as well as PKGBUILDs if you're using Arch)
 
-> This program is distributed in the hope that it will be useful, but **WITHOUT ANY WARRANTY**
+You need 3 packages provided in the `razer-drivers`:
+- `razer-drivers-dkms`: the actual driver, best if installed using DKMS
+- `razer-drivers-daemon`: a daemon that interfaces with the driver, providing a higher level interface with it
+- `razer-drivers-python`: a python library that interfaces with the daemon, it's used by razerCommander, thus it's needed to use it
 
-This software is experimental and requires root access. Moreover it's based off an unofficial driver for razer peripherals.
+### Installing on Arch Linux (or derivates: Antergos, Manjaro...)
 
-Using this software you're risking to mess up your OS, and for what I know you could also be burning your precious razer product, so be very careful.
+You can find razerCommander on AUR, as `razercommander-git` ([AUR page](https://aur.archlinux.org/packages/razercommander-git)).
+You still need to install `razer-drivers` manually, as it's still not available on AUR.
 
-***Let's get to the real business now***
+### Other distros
 
-##Installing
-
-To install this software the first thing you need is to install `razer_drivers`: an unofficial driver for razer peripherals for Linux. Go to the [project page](https://github.com/terrycain/razer_drivers/tree/daemonV2) to find out more about it and how to install it. (There are different packages available, as well as PKGBUILDs if you're using Arch)
-
-###Arch Linux
-
-You can find razerCommander on AUR, as `razercommander-git` ([AUR page](https://aur.archlinux.org/packages/razercommander-git))
-
-###Other distros
-
-Once you're done, you'll need the following libraries to make razerCommander work:
-- GTK+ >3.16 (could work with previous versions, but I'm not sure)
+Once you're done installing `razer-drivers`, you'll need the following libraries to make razerCommander work:
+- GTK+ >=3.20 (could work with previous versions, but I'm not sure)
 - python3
-- gksu
 
-Also it's important to notice that you need to have administrator access on your machine for this program to work.
-
-##Running
-
+To download razerCommander you have to follow these steps:
 - Clone this repo (`git clone https://github.com/gabmus/razercommander`)
-- `cd` into the newly cloned folder
-- Either run `chmod +x main.py` and `main.py`; or `python3 main.py`
+- `cd` into the newly cloned folder (`cd razercommander`)
+- Run `chmod +x main.py`
 
-To avoid getting asked your root password every time you have to make a change in razerCommander, just run the program as `sudo python3 main.py` or `sudo ./main.py`.
+## Running
 
-##Supported hardware
+Just run `./main.py` from the razerCommander directory. You can also make a .desktop file to launch it from your DE/WM (an easy way to do it is using [mlauncher](https://github.com/gabmus/mlauncher)).
 
-As far as support goes, theorically this software should support every device supported by the `razer-chroma-drivers` package.
+## Supported hardware
 
-In practice the only device I tested this on is on my razer Blackwidow Ultimate 2016.
+As far as support goes, in theory this software should support every device supported by the `razer-drivers` package.
 
-##How can you help?
+razerCommander has been created to work with keyboards, but may work with mice and firefly mousepads, too.
+
+## How can you help?
 
 Please, fill up issues and help me test this little piece of software with as much hardware as possible.
