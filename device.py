@@ -189,11 +189,10 @@ class Device:
         else:
             logging.warning('The Spectrum FX is not available')
 
-    RIPPLE_REFRESHRATE = 0.05
-
     def enableRipple(self, R, G, B):
         if 'ripple' in self.availableFX:
-            if not self.device.fx.ripple(R, G, B, self.RIPPLE_REFRESHRATE):
+            if not self.device.fx.ripple(
+                R, G, B, rclient.constants.RIPPLE_REFRESH_RATE):
                 logging.error(self.MSG_PROBLEM_ENABLING + 'Ripple')
         else:
             logging.warning('The Ripple FX is not available')
