@@ -3,8 +3,8 @@
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkAdjustment" id="brightnessAdjustment">
-    <property name="upper">255</property>
-    <property name="value">255</property>
+    <property name="upper">100</property>
+    <property name="value">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
@@ -586,7 +586,119 @@
                           </packing>
                         </child>
                         <child>
-                          <placeholder/>
+                          <object class="GtkBox" id="rippleSettingsBox">
+                            <property name="can_focus">False</property>
+                            <property name="no_show_all">True</property>
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">6</property>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <object class="GtkRadioButton" id="rippleRadioColor">
+                                        <property name="label" translatable="yes">Single color</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_rippleRadioColor_toggled" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkRadioButton" id="rippleRadioRandom">
+                                        <property name="label" translatable="yes">Random</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="active">True</property>
+                                        <property name="draw_indicator">True</property>
+                                        <property name="group">rippleRadioColor</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="halign">end</property>
+                                    <property name="valign">start</property>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label" translatable="yes">Color </property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkColorButton" id="rippleColorPicker">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="rgba">rgb(255,255,255)</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="pack_type">end</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">4</property>
+                          </packing>
                         </child>
                       </object>
                       <packing>
