@@ -199,7 +199,7 @@ class Device:
 
     def enableRippleRandom(self):
         if 'ripple' in self.availableFX:
-            if not self.device.fx.ripple_random(self.RIPPLE_REFRESHRATE):
+            if not self.device.fx.ripple_random(rclient.constants.RIPPLE_REFRESH_RATE):
                 logging.error(self.MSG_PROBLEM_ENABLING + 'Ripple')
         else:
             logging.warning('The Ripple FX is not available')
