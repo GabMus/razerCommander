@@ -19,22 +19,26 @@ A simple GTK control center for managing razer peripherals on Linux.
 
 ## Installing
 
-To install this software the first thing you need is to install `razer_drivers`: an unofficial driver for razer peripherals for Linux. Go to the [project page](https://github.com/terrycain/razer_drivers) to find out more about it and how to install it. (There are different packages available, as well as PKGBUILDs if you're using Arch)
+To install this software the first thing you need is to install `razer_drivers`: an unofficial driver for razer peripherals for Linux. Go to the [project page](https://github.com/terrycain/razer-drivers) to find out more about it and how to install it. (There are different packages available, as well as PKGBUILDs if you're using Arch)
 
 You need 3 packages provided in the `razer-drivers`:
-- `razer-drivers-dkms`: the actual driver, best if installed using DKMS
-- `razer-drivers-daemon`: a daemon that interfaces with the driver, providing a higher level interface with it
-- `razer-drivers-python`: a python library that interfaces with the daemon, it's used by razerCommander, thus it's needed to use it
+- `razer-driver-dkms`: the actual driver, best if installed using DKMS
+- `razer-daemon`: a daemon that interfaces with the driver, providing a higher level interface with it
+- `python3-razer`: a python library that interfaces with the daemon, it's used by razerCommander, thus it's needed to use it
 
 ### Installing on Arch Linux (or derivates: Antergos, Manjaro...)
 
 You can find razerCommander on AUR, as `razercommander-git` ([AUR page](https://aur.archlinux.org/packages/razercommander-git)).
 You still need to install `razer-drivers` manually, as it's still not available on AUR.
 
+### Installing on Ubuntu or Debian
+
+Go to the [releases page](https://github.com/GabMus/razerCommander/releases) and download the latest release available for your platform.
+
 ### Other distros
 
-Once you're done installing `razer-drivers`, you'll need the following libraries to make razerCommander work:
-- GTK+ >=3.20 (could work with previous versions, but I'm not sure)
+You'll need the following libraries to make razerCommander work:
+- GTK+ >=3.18 (could work with previous versions, but I'm not sure)
 - python3
 
 To download razerCommander you have to follow these steps:
