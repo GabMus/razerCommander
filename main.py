@@ -72,6 +72,10 @@ popoverProfiles=builder.get_object('popoverProfiles')
 buttonSaveProfile=builder.get_object('popoverProfilesSaveButton')
 profilesListBox=builder.get_object('popoverProfilesListBox')
 
+def onRmProfile(button, smth):
+    custom_profiles.removeProfile(button.preset)
+    refreshProfiles()
+
 def refreshProfiles():
     # empty list first
     for child in profilesListBox.get_children():
@@ -84,11 +88,20 @@ def refreshProfiles():
         box.pack_start(labelName, True, True, 0)
         box.set_margin_top(6)
         box.set_margin_bottom(6)
+        rmIcon=Gtk.Image()
+        rmIcon.set_from_icon_name('gtk-delete', Gtk.IconSize.BUTTON)
+        rmButton=Gtk.Button()
+        rmButton.add(rmIcon)
+        rmButton.preset=p['name']
+        rmButton.connect("button-press-event", onRmProfile)
+        box.pack_end(rmButton, False, False, 0)
         row = Gtk.ListBoxRow()
         row.add(box)
         row.value=p['name']
         profilesListBox.add(row)
     profilesListBox.unselect_all()
+    if popoverProfiles.get_visible():
+        popoverProfiles.show_all()
 
 refreshProfiles()
 

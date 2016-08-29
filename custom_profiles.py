@@ -191,7 +191,8 @@ def addProfile(p):
 def removeProfile(name):
     for i in profiles:
         if i['name']==name:
-            del i
+            profiles.remove(i)
+            saveProfiles()
             return True
     else:
         print('Profile '+name+' doesn\'t exist')
