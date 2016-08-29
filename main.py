@@ -407,7 +407,7 @@ class Handler:
             #presetExistsInfobar.show()
         else:
             #presetExistsInfobar.hide()
-            #saveProfileDialog.hide()
+            saveProfileDialog.hide()
             refreshProfiles()
 
     def on_presetExistsInfobar_close(self, *args):
