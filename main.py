@@ -6,6 +6,7 @@ import os
 import sys
 import device
 import custom_keyboard as CustomKb
+import custom_profiles
 
 EXEC_FOLDER = os.path.realpath(os.path.dirname(__file__)) + "/"
 builder = Gtk.Builder()
@@ -66,6 +67,30 @@ fillDevicesList()
 settings = Gtk.Settings.get_default()
 settings.set_property("gtk-application-prefer-dark-theme", True)
 
+# init profiles and fill list
+popoverProfiles=builder.get_object('popoverProfiles')
+buttonSaveProfile=builder.get_object('popoverProfilesSaveButton')
+profilesListBox=builder.get_object('popoverProfilesListBox')
+
+def refreshProfiles():
+    # empty list first
+    for child in profilesListBox.get_children():
+        profilesListBox.remove(child)
+
+    for p in custom_profiles.profiles:
+        box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        labelName=Gtk.Label()
+        labelName.set_text(p['name'])
+        box.pack_start(labelName, True, True, 0)
+        box.set_margin_top(6)
+        box.set_margin_bottom(6)
+        row = Gtk.ListBoxRow()
+        row.add(box)
+        row.value=p['name']
+        profilesListBox.add(row)
+    profilesListBox.unselect_all()
+
+refreshProfiles()
 
 class App(Gtk.Application):
 
@@ -218,8 +243,18 @@ def onVirtKeyClick(eventbox, eventbtn):
 
 KEYCAP_SIZE = 50
 
+# drawKB is now usable multiple times and profile read
+def drawKB(profile=None):
+    # Empty keyboardBox
+    if len(keyboardBox.get_children()) >= 2:
+        keyboardBox.remove(keyboardBox.get_children()[1])
 
-def drawKB():
+    # Load black fake profile if none provided
+    if not profile:
+        profile=custom_profiles.blackProfile
+
+    prof_index=0
+
     keyy = 0
     kbcont = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
     for row in rkb.rows:
@@ -229,8 +264,15 @@ def drawKB():
             box = Gtk.EventBox()
             if not key.isGhost:
                 box.get_style_context().add_class('keycap')
+                mcolor=Gdk.RGBA(
+                    profile['colors'][prof_index][0],
+                    profile['colors'][prof_index][1],
+                    profile['colors'][prof_index][2]
+                )
+                prof_index+=1
+                rkb.getKey(keyx, keyy).color=rgba_to_hex(mcolor)
                 box.override_background_color(
-                    Gtk.StateType.NORMAL, Gdk.RGBA(0, 0, 0))
+                    Gtk.StateType.NORMAL, mcolor)
                 label = Gtk.Label()
                 label.set_text(key.label)
                 box.add(label)
@@ -259,12 +301,12 @@ def drawKB():
         kbcont.pack_start(rowbox, True, True, 0)
         keyy += 1
     keyboardBox.pack_end(kbcont, True, True, 0)
+    keyboardBox.show_all()
 
 drawKB()
 
+
 # Any better way than specifying every case?
-
-
 def enableFXwSettings(fx):
     if fx == 'Breath':
         print(breathSingleRadio.get_active())
@@ -320,11 +362,38 @@ def enableFXwSettings(fx):
 def getColorVal(n):
     return int(n * 255)
 
+saveProfileDialog=builder.get_object('saveProfileDialog')
+profileNameEntry=builder.get_object('profileNameEntry')
 
 class Handler:
 
     def onDeleteWindow(self, *args):
         Gtk.main_quit(*args)
+
+    def on_customProfilesButton_clicked(self, button):
+        if not popoverProfiles.get_visible():
+            popoverProfiles.show_all()
+
+    def on_popoverProfilesListBox_row_selected(self, list, row):
+        profile=custom_profiles.getProfile(row.value)
+        drawKB(profile)
+        popoverProfiles.hide()
+
+    def on_popoverProfilesSaveProfile_clicked(self, button):
+        saveProfileDialog.show_all()
+        popoverProfiles.hide()
+
+    def on_saveProfileDialogOk_clicked(self, button):
+        name=profileNameEntry.get_text()
+        custom_profiles.addProfile(
+            custom_profiles.makeProfile(name, rkb)
+        )
+        saveProfileDialog.hide()
+        refreshProfiles()
+
+    def on_saveProfileDialogCancel_clicked(self, button):
+        saveProfileDialog.hide()
+        profileNameEntry.set_text('')
 
     def on_deviceChooserButton_clicked(self, button):
         if popoverChooseDevice.get_visible():
