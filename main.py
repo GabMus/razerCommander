@@ -88,13 +88,14 @@ def refreshProfiles():
         box.pack_start(labelName, True, True, 0)
         box.set_margin_top(6)
         box.set_margin_bottom(6)
-        rmIcon=Gtk.Image()
-        rmIcon.set_from_icon_name('gtk-delete', Gtk.IconSize.BUTTON)
-        rmButton=Gtk.Button()
-        rmButton.add(rmIcon)
-        rmButton.preset=p['name']
-        rmButton.connect("button-press-event", onRmProfile)
-        box.pack_end(rmButton, False, False, 0)
+        if not p['name']=='Empty':
+            rmIcon=Gtk.Image()
+            rmIcon.set_from_icon_name('gtk-delete', Gtk.IconSize.BUTTON)
+            rmButton=Gtk.Button()
+            rmButton.add(rmIcon)
+            rmButton.preset=p['name']
+            rmButton.connect("button-press-event", onRmProfile)
+            box.pack_end(rmButton, False, False, 0)
         row = Gtk.ListBoxRow()
         row.add(box)
         row.value=p['name']
@@ -377,6 +378,7 @@ def getColorVal(n):
 
 saveProfileDialog=builder.get_object('saveProfileDialog')
 profileNameEntry=builder.get_object('profileNameEntry')
+presetExistsInfobar=builder.get_object('presetExistsInfobar')
 
 class Handler:
 
@@ -398,11 +400,18 @@ class Handler:
 
     def on_saveProfileDialogOk_clicked(self, button):
         name=profileNameEntry.get_text()
-        custom_profiles.addProfile(
+        if not custom_profiles.addProfile(
             custom_profiles.makeProfile(name, rkb)
-        )
-        saveProfileDialog.hide()
-        refreshProfiles()
+        ):
+            print('error')
+            #presetExistsInfobar.show()
+        else:
+            #presetExistsInfobar.hide()
+            #saveProfileDialog.hide()
+            refreshProfiles()
+
+    def on_presetExistsInfobar_close(self, *args):
+        presetExistsInfobar.hide()
 
     def on_saveProfileDialogCancel_clicked(self, button):
         saveProfileDialog.hide()
