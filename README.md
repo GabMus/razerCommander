@@ -13,7 +13,7 @@
 
 # razerCommander
 
-![screenshot](screenshot.png)
+![screenshot](preview.gif)
 
 A simple GTK control center for managing razer peripherals on Linux.
 
