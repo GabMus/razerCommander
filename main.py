@@ -121,6 +121,7 @@ class App(Gtk.Application):
     def activateCb(self, app):
         window = builder.get_object("window")
         window.set_wmclass("razerCommander", "razerCommander")
+        window.set_title("razerCommander")
         app.add_window(window)
         appMenu = Gio.Menu()
         appMenu.append("About", "app.about")
