@@ -7,6 +7,7 @@ import sys
 import device
 import custom_keyboard as CustomKb
 import custom_profiles
+import tartarus
 
 EXEC_FOLDER = os.path.realpath(os.path.dirname(__file__)) + "/"
 builder = Gtk.Builder()
@@ -121,6 +122,7 @@ class App(Gtk.Application):
     def activateCb(self, app):
         window = builder.get_object("window")
         window.set_wmclass("razerCommander", "razerCommander")
+        window.set_title("razerCommander")
         app.add_window(window)
         appMenu = Gio.Menu()
         appMenu.append("About", "app.about")
@@ -153,6 +155,7 @@ brightnessScale = builder.get_object("brightnessScale")
 
 fxListBox = builder.get_object("fxListBox")
 
+mainStackSwitcherButtons=builder.get_object('mainStackSwitcherButtons')
 
 def refreshFxList():
     # empty list before (re)filling it
@@ -187,6 +190,11 @@ def refreshFxList():
         gameModeIcon.set_from_file(EXEC_FOLDER + "img/gameModeOn.svg")
     else:
         gameModeIcon.set_from_file(EXEC_FOLDER + "img/gameModeOff.svg")
+
+    if myrazerkb.device.type is not 'tartarus':
+        mainStackSwitcherButtons.hide()
+    else:
+        mainStackSwitcherButtons.show()
 
 refreshFxList()
 
@@ -380,10 +388,79 @@ saveProfileDialog=builder.get_object('saveProfileDialog')
 profileNameEntry=builder.get_object('profileNameEntry')
 presetExistsInfobar=builder.get_object('presetExistsInfobar')
 
+
+# tartarus stuff
+tartarusImage=builder.get_object('tartarusImage')
+tartarusImage.set_from_file(EXEC_FOLDER+'/img/tartarus.svg')
+tartarusShortcutDialog=builder.get_object('tartarusShortcutDialog')
+tartarusShortcutDialogKeyNumber=builder.get_object('tartarusShortcutDialogKeyNumber')
+tartarusShortcutEntry=builder.get_object('tartarusShortcutEntry')
+# populate key list
+tartarusKeyList=builder.get_object('tartarusKeyList')
+tartarusShortcutList=builder.get_object('tartarusShortcutList')
+
+def refreshTartarusLists(shortcuts_only=False):
+    # empty list first
+    for child in tartarusShortcutList.get_children():
+        tartarusShortcutList.remove(child)
+    if not shortcuts_only:
+        for child in tartarusKeyList.get_children():
+            tartarusKeyList.remove(child)
+    for keynum in tartarus.KEYS:
+        # keys
+        if not shortcuts_only:
+            box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+            label=Gtk.Label()
+            label.set_text(str(keynum))
+            box.pack_start(label, True, True, 0)
+            box.set_margin_top(3)
+            box.set_margin_bottom(3)
+            box.set_margin_left(24)
+            box.set_margin_right(24)
+            row=Gtk.ListBoxRow()
+            row.add(box)
+            row.value=keynum
+            tartarusKeyList.add(row)
+        #shortcuts
+        sc_box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        sc_label=Gtk.Label()
+        sc_label.set_text(tartarus.shortcuts[keynum])
+        sc_box.pack_start(sc_label, True, True, 0)
+        sc_box.set_margin_top(3)
+        sc_box.set_margin_bottom(3)
+        sc_box.set_margin_left(6)
+        sc_box.set_margin_right(6)
+        sc_row=Gtk.ListBoxRow()
+        sc_row.add(sc_box)
+        tartarusShortcutList.add(sc_row)
+        tartarusShortcutList.show_all()
+
+refreshTartarusLists()
+
 class Handler:
 
     def onDeleteWindow(self, *args):
         Gtk.main_quit(*args)
+
+    def on_tartarusKeyList_row_activated(self, list, row):
+        # TODO: set shortcut entry to already existing shortcut
+        tartarusShortcutDialogKeyNumber.set_text(str(row.value))
+        tartarusShortcutDialog.show()
+
+    def on_tartarusShortcutDialogOk_clicked(self, button):
+        myrazerkb.assignMacro(
+            tartarusShortcutDialogKeyNumber.get_text(),
+            tartarusShortcutEntry.get_text()
+        )
+        tartarus.addShortcut(
+            tartarusShortcutDialogKeyNumber.get_text(),
+            tartarusShortcutEntry.get_text()
+        )
+        tartarusShortcutDialog.hide()
+        refreshTartarusLists(True)
+
+    def on_tartarusShortcutDialogCacel_clicked(self, button):
+        tartarusShortcutDialog.hide()
 
     def on_customProfilesButton_clicked(self, button):
         if not popoverProfiles.get_visible():

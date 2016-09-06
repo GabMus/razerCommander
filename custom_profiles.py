@@ -125,7 +125,6 @@ blackProfile={
 }
 
 
-
 profiles=[blackProfile,]
 
 if not os.path.isdir(CONFDIR):

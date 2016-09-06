@@ -10,7 +10,7 @@ import razer.client as rclient
 device_manager = rclient.DeviceManager()
 devlist = []
 for device in device_manager.devices:
-    if device.type == 'keyboard':
+    if device.type in ['keyboard', 'tartarus']:
         devlist.append(device)
 
 
@@ -239,6 +239,11 @@ class Device:
 
     def _hex2rgb(self, mhex):
         return tuple(int(mhex[i:i+2], 16) for i in (0, 2 ,4))
+
+    def assignMacro(self, key, command):
+        return None
+        script_macro=self.device.macro.create_script_macro_item(command)
+        self.device.macro.add_macro(key, script_macro)
 
     def applyCustom(self, customKb):
         rindex = 0
