@@ -241,7 +241,6 @@ class Device:
         return tuple(int(mhex[i:i+2], 16) for i in (0, 2 ,4))
 
     def assignMacro(self, key, command):
-        return None
         script_macro=self.device.macro.create_script_macro_item(command)
         self.device.macro.add_macro(key, script_macro)
 
