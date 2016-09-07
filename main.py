@@ -197,7 +197,7 @@ def refreshFxList():
         gameModeIcon.hide()
         gameModeSwitch.hide()
 
-    if myrazerkb.device.type is not 'tartarus':
+    if myrazerkb.device.type != 'tartarus':
         mainStackSwitcherButtons.hide()
     else:
         mainStackSwitcherButtons.show()
