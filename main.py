@@ -185,7 +185,7 @@ def refreshFxList():
             row.add(box)
             row.value = i
             fxListBox.add(row)
-    if myrazerkbd.device.has('game_mode_led')
+    if myrazerkbd.device.has('game_mode_led'):
         gameModeSwitch.set_state(myrazerkb.device.game_mode_led)
         if gameModeSwitch.get_state():
             gameModeIcon.set_from_file(EXEC_FOLDER + "img/gameModeOn.svg")
@@ -193,7 +193,7 @@ def refreshFxList():
             gameModeIcon.set_from_file(EXEC_FOLDER + "img/gameModeOff.svg")
         gameModeIcon.show()
         gameModeSwitch.show()
-	else:
+    else:
         gameModeIcon.hide()
         gameModeSwitch.hide()
 
