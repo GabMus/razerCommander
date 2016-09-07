@@ -185,11 +185,17 @@ def refreshFxList():
             row.add(box)
             row.value = i
             fxListBox.add(row)
-    gameModeSwitch.set_state(myrazerkb.device.game_mode_led)
-    if gameModeSwitch.get_state():
-        gameModeIcon.set_from_file(EXEC_FOLDER + "img/gameModeOn.svg")
-    else:
-        gameModeIcon.set_from_file(EXEC_FOLDER + "img/gameModeOff.svg")
+    try:
+        gameModeSwitch.set_state(myrazerkb.device.game_mode_led)
+        if gameModeSwitch.get_state():
+            gameModeIcon.set_from_file(EXEC_FOLDER + "img/gameModeOn.svg")
+        else:
+            gameModeIcon.set_from_file(EXEC_FOLDER + "img/gameModeOff.svg")
+        gameModeIcon.show()
+        gameModeSwitch.show()
+    except:
+        gameModeIcon.hide()
+        gameModeSwitch.hide()
 
     if myrazerkb.device.type is not 'tartarus':
         mainStackSwitcherButtons.hide()
