@@ -20,6 +20,8 @@ currentDeviceLabel = builder.get_object('currentDeviceLabel')
 
 universalApplyButton = builder.get_object('universalApplyButton')
 
+refreshDevicesButton=builder.get_object('refreshDevicesButton')
+
 universalApplyButton.modify_bg(
     Gtk.StateFlags.NORMAL,
     Gdk.Color.parse('#4884cb').color)
@@ -32,12 +34,18 @@ universalApplyButton.modify_bg(
 
 devicesList = []
 
+mainBox=builder.get_object('mainBox')
+noDevicesLabel=builder.get_object('noDevicesLabel')
 
 def initDevices():
     for dev in device.devlist:
         newdev = device.Device(dev)
         devicesList.append(newdev)
 
+def emptyDevicesList():
+    for devindex in range(len(devicesList)):
+        popoverDevicesListBox.remove(popoverDevicesListBox.get_row_at_index(0))
+        del devicesList[0]
 
 def fillDevicesList():
     if len(devicesList) > 0:
@@ -59,11 +67,24 @@ def fillDevicesList():
             popoverDevicesListBox.get_row_at_index(0).value.name
         )
     else:
-        print("no devices")
-        exit(1)
+        currentDeviceLabel.set_text('No devices')
 
-initDevices()
-fillDevicesList()
+def updateDevicesConnected():
+    if len(devicesList)>0:
+        mainBox.show_all()
+        noDevicesLabel.hide()
+    else:
+        print("no devices")
+        mainBox.hide()
+        noDevicesLabel.show()
+
+def refreshDevices():
+    emptyDevicesList()
+    initDevices()
+    fillDevicesList()
+    updateDevicesConnected()
+
+refreshDevices()
 
 settings = Gtk.Settings.get_default()
 settings.set_property("gtk-application-prefer-dark-theme", True)
@@ -138,6 +159,7 @@ class App(Gtk.Application):
         app.set_app_menu(appMenu)
         window.show_all()
         keyboardBox.hide()
+        updateDevicesConnected()
 
     def on_about_activate(self, *agrs):
         builder.get_object("aboutdialog").show()
@@ -145,7 +167,10 @@ class App(Gtk.Application):
     def on_quit_activate(self, *args):
         self.quit()
 
-myrazerkb = devicesList[0]
+if len(devicesList)>0:
+    myrazerkb = devicesList[0]
+else:
+    myrazerkb = None
 
 
 gameModeIcon = builder.get_object("gameModeIcon")
@@ -158,6 +183,8 @@ fxListBox = builder.get_object("fxListBox")
 mainStackSwitcherButtons=builder.get_object('mainStackSwitcherButtons')
 
 def refreshFxList():
+    if not myrazerkb:
+        return
     # empty list before (re)filling it
     while True:
         row = fxListBox.get_row_at_index(0)
@@ -197,10 +224,11 @@ def refreshFxList():
         gameModeIcon.hide()
         gameModeSwitch.hide()
 
-    if myrazerkb.device.type != 'tartarus':
-        mainStackSwitcherButtons.hide()
-    else:
+        # macro functionalities temporarely limited to tartarus
+    if myrazerkb.device.has('macro_logic') and myrazerkb.device.type=='tartarus':
         mainStackSwitcherButtons.show()
+    else:
+        mainStackSwitcherButtons.hide()
 
 refreshFxList()
 
@@ -447,6 +475,9 @@ class Handler:
 
     def onDeleteWindow(self, *args):
         Gtk.main_quit(*args)
+
+    def on_refreshDevicesButton_clicked(self, button):
+        refreshDevices()
 
     def on_tartarusKeyList_row_activated(self, list, row):
         # TODO: set shortcut entry to already existing shortcut
