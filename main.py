@@ -22,6 +22,8 @@ universalApplyButton = builder.get_object('universalApplyButton')
 
 refreshDevicesButton=builder.get_object('refreshDevicesButton')
 
+keyboardBox = builder.get_object("keyboardBox")
+
 universalApplyButton.modify_bg(
     Gtk.StateFlags.NORMAL,
     Gdk.Color.parse('#4884cb').color)
@@ -72,6 +74,7 @@ def fillDevicesList():
 def updateDevicesConnected():
     if len(devicesList)>0:
         mainBox.show_all()
+		keyboardBox.hide()
         noDevicesLabel.hide()
     else:
         print("no devices")
@@ -250,7 +253,7 @@ reactiveSettingsBox = builder.get_object('reactiveSettingsBox')
 spinReactiveTime = builder.get_object('spinReactiveTime')
 reactiveRGBchooser = builder.get_object('reactiveRGBchooser')
 
-keyboardBox = builder.get_object("keyboardBox")
+# keyboardBox declared at top of document
 customColorPicker = builder.get_object('customColorPicker')
 pipetteTBtn = builder.get_object('customPipetteToolBtn')
 clearTBtn = builder.get_object('customClearToolBtn')
