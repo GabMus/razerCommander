@@ -74,7 +74,7 @@ def fillDevicesList():
 def updateDevicesConnected():
     if len(devicesList)>0:
         mainBox.show_all()
-		keyboardBox.hide()
+        keyboardBox.hide()
         noDevicesLabel.hide()
     else:
         print("no devices")
