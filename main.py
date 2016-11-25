@@ -175,6 +175,8 @@ class App(Gtk.Application):
     def on_quit_activate(self, *args):
         self.quit()
 
+app=App()
+
 if len(devicesList)>0:
     myrazerkb = devicesList[0]
 else:
@@ -219,6 +221,7 @@ def refreshFxList():
             row.add(box)
             row.value = i
             fxListBox.add(row)
+            row.show_all()
     if myrazerkb.device.has('game_mode_led'):
         gameModeSwitch.set_state(myrazerkb.device.game_mode_led)
         if gameModeSwitch.get_state():
@@ -236,6 +239,8 @@ def refreshFxList():
         mainStackSwitcherButtons.show()
     else:
         mainStackSwitcherButtons.hide()
+
+    # fxListBox.show_all()
 
 refreshFxList()
 
@@ -481,7 +486,7 @@ refreshTartarusLists()
 class Handler:
 
     def onDeleteWindow(self, *args):
-        Gtk.main_quit(*args)
+        app.quit() 
 
     def on_refreshDevicesButton_clicked(self, button):
         refreshDevices()
@@ -545,8 +550,13 @@ class Handler:
             popoverChooseDevice.show_all()
 
     def on_popoverDevicesListBox_row_selected(self, list, row):
+        # TODO: move to changeDevice() function
+        global myrazerkb # there must be a better way
+        # myrazerkb in row below is interpreted as local
+        # var if global isn't specified. this ain't good
         myrazerkb = row.value
         currentDeviceLabel.set_text(row.value.name)
+        refreshFxList()
         popoverChooseDevice.hide()
 
     def on_universalApplyButton_clicked(self, button):
@@ -618,5 +628,4 @@ builder.connect_signals(Handler())
 
 
 if __name__ == "__main__":
-    app = App()
     app.run(sys.argv)
