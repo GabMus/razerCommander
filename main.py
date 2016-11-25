@@ -23,6 +23,7 @@ universalApplyButton = builder.get_object('universalApplyButton')
 refreshDevicesButton=builder.get_object('refreshDevicesButton')
 
 keyboardBox = builder.get_object("keyboardBox")
+gameModeSwitch = builder.get_object("gameModeSwitch")
 
 universalApplyButton.modify_bg(
     Gtk.StateFlags.NORMAL,
@@ -74,12 +75,16 @@ def fillDevicesList():
 def updateDevicesConnected():
     if len(devicesList)>0:
         mainBox.show_all()
-		keyboardBox.hide()
+        keyboardBox.hide()
         noDevicesLabel.hide()
+        gameModeSwitch.set_sensitive(True)
+        universalApplyButton.set_sensitive(True)
     else:
         print("no devices")
         mainBox.hide()
         noDevicesLabel.show()
+        gameModeSwitch.set_sensitive(False)
+        universalApplyButton.set_sensitive(False)
 
 def refreshDevices():
     emptyDevicesList()
@@ -177,7 +182,6 @@ else:
 
 
 gameModeIcon = builder.get_object("gameModeIcon")
-gameModeSwitch = builder.get_object("gameModeSwitch")
 
 brightnessScale = builder.get_object("brightnessScale")
 
