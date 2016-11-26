@@ -190,6 +190,7 @@ brightnessScale = builder.get_object("brightnessScale")
 fxListBox = builder.get_object("fxListBox")
 
 mainStackSwitcherButtons=builder.get_object('mainStackSwitcherButtons')
+mainStack=builder.get_object('mainStack')
 
 def refreshFxList():
     if not myrazerkb:
@@ -234,12 +235,19 @@ def refreshFxList():
         gameModeIcon.hide()
         gameModeSwitch.hide()
 
-        # macro functionalities temporarely limited to tartarus
-    if myrazerkb.device.has('macro_logic') and myrazerkb.device.type=='tartarus':
-        mainStackSwitcherButtons.show()
-    else:
-        mainStackSwitcherButtons.hide()
+    # selective hiding of switcher buttons
+    stackButtons = mainStackSwitcherButtons.get_children()
 
+    # if has macro, is tartarus or mouse
+    if myrazerkb.device.has('macro_logic') and myrazerkb.device.type in ['mouse', 'tartarus']:
+        stackButtons[2].show()
+    else:
+        stackButtons[2].hide()
+    if myrazerkb.device.type == 'mouse':
+        stackButtons[0].show()
+    else:
+        stackButtons[0].hide()
+        mainStack.set_visible_child(mainStack.get_children()[1])
     # fxListBox.show_all()
 
 refreshFxList()
@@ -486,7 +494,7 @@ refreshTartarusLists()
 class Handler:
 
     def onDeleteWindow(self, *args):
-        app.quit() 
+        app.quit()
 
     def on_refreshDevicesButton_clicked(self, button):
         refreshDevices()
