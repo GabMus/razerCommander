@@ -34,21 +34,9 @@ class Device:
         for fx in self.uFXList:
             if self.device.fx.has(fx):
                 self.availableFX.append(fx)
-        self.availableFX.append('custom')
+        if self.device.type != 'mouse':
+            self.availableFX.append('custom')
         self.name = str(device.name)
-
-    friendlyFXList = [
-        'Breath',
-        'Reactive',
-        'Spectrum',
-        'Pulsate',
-        'Wave',
-        'Ripple'
-        #'Starlight',
-        'Static',
-        'None',
-        #'Custom'
-    ]
 
     # unfriendly fx list
     uFXList = [
@@ -163,21 +151,6 @@ class Device:
             self.device.game_mode_led = not self.device.game_mode_led
         else:
             logging.warning('The Game Mode LED is not available')
-
-    # NOTE: removed for future use
-    # Enables macro keys
-    # M1 generates keycode 191, M5 generates code 195
-    # There isn't an explicit option to disable macro,
-    # probably you'd want to call reset
-    # def enableMacro(self):
-    #    # check if macro is available for the current device
-    #    if self.KNOWN_OTHER_BUFFERS['MACRO'] in self.other_buffers:
-    #        command='echo -n \'1\' > '+self.DRIVER_PATH+self.escaped_uid+'/'+self.KNOWN_OTHER_BUFFERS['MACRO']
-    #        self.__gksu_run__(command)
-    #        return 0
-    #    else:
-    #        self.__dbug_print__("Macro keys not available on this device")
-    #        return 1
 
     # Spectrum mode effect
     # This should only be supported in RGB keyboards

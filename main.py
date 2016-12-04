@@ -239,11 +239,11 @@ def refreshFxList():
     stackButtons = mainStackSwitcherButtons.get_children()
 
     # if has macro, is tartarus or mouse
-    if myrazerkb.device.has('macro_logic') and myrazerkb.device.type in ['mouse', 'tartarus']:
+    if myrazerkb.device.has('macro_logic') and myrazerkb.device.type in ['tartarus']: # in ['mouse', 'tartarus']:
         stackButtons[2].show()
     else:
         stackButtons[2].hide()
-    if myrazerkb.device.type == 'mouse':
+    if myrazerkb.device.type == 'mouse' and False: # TO REMOVE no mouse support in the lib yet
         stackButtons[0].show()
     else:
         stackButtons[0].hide()
