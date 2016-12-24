@@ -198,13 +198,14 @@ class Device:
             logging.warning('Brightness is not available')
 
     def enableFX(self, fx):
-        if fx in self.friendlyFXList:
-            if fx == "None":
-                self.enableNone()
-            elif fx == "Spectrum":
-                self.enableSpectrum()
-            elif fx == "Pulsate":
-                self.enablePulsate()
+        if fx == "None":
+            self.enableNone()
+            return 0
+        elif fx == "Spectrum":
+            self.enableSpectrum()
+            return 0
+        elif fx == "Pulsate":
+            self.enablePulsate()
             return 0
         else:
             logging.error("FX not listed")
