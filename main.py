@@ -332,12 +332,14 @@ def drawKB(profile=None):
                 box.set_size_request(KEYCAP_SIZE * 2.25, KEYCAP_SIZE)
             elif key.label == 'rshift':
                 box.set_size_request(KEYCAP_SIZE * 2.75, KEYCAP_SIZE)
-            elif key.label == 'bckspc':
+            elif key.label == 'bck\nspc':
                 box.set_size_request(KEYCAP_SIZE * 2, KEYCAP_SIZE)
             elif key.label == 'spacebar':
                 box.set_size_request(KEYCAP_SIZE * 6, KEYCAP_SIZE)
             elif key.label == CustomKb.kblayouts.INV_GHOST:
                 box.set_size_request(0, 0)
+            elif key.label == CustomKb.kblayouts.GHOST:
+                box.set_size_request(KEYCAP_SIZE-4, KEYCAP_SIZE-4)
             else:
                 box.set_size_request(KEYCAP_SIZE, KEYCAP_SIZE)
             box.connect("button-press-event", onVirtKeyClick)
