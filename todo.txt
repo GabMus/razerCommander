@@ -1,0 +1,5 @@
+- improve mouse UI
+- add support for naga hex v2
+- add support for orbweaver
+-- generalize tartarus logic
+- improve macro binding
