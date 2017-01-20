@@ -25,16 +25,6 @@ refreshDevicesButton=builder.get_object('refreshDevicesButton')
 keyboardBox = builder.get_object("keyboardBox")
 gameModeSwitch = builder.get_object("gameModeSwitch")
 
-universalApplyButton.modify_bg(
-    Gtk.StateFlags.NORMAL,
-    Gdk.Color.parse('#4884cb').color)
-universalApplyButton.modify_bg(
-    Gtk.StateFlags.PRELIGHT,
-    Gdk.Color.parse('#5294E2').color)
-universalApplyButton.modify_bg(
-    Gtk.StateFlags.ACTIVE,
-    Gdk.Color.parse('#454A57').color)
-
 devicesList = []
 
 mainBox=builder.get_object('mainBox')
