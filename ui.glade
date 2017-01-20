@@ -21,7 +21,6 @@
     <property name="page_increment">1</property>
   </object>
   <object class="GtkApplicationWindow" id="window">
-    <property name="width_request">600</property>
     <property name="height_request">400</property>
     <property name="can_focus">False</property>
     <property name="show_menubar">False</property>
@@ -1239,8 +1238,8 @@
             </child>
             <child>
               <object class="GtkImage" id="gameModeIcon">
-                <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="no_show_all">True</property>
                 <property name="pixbuf">img/gameModeOff.svg</property>
               </object>
               <packing>
@@ -1251,8 +1250,8 @@
             </child>
             <child>
               <object class="GtkSwitch" id="gameModeSwitch">
-                <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="no_show_all">True</property>
                 <property name="valign">center</property>
                 <signal name="state-set" handler="on_gameModeSwitch_state_set" swapped="no"/>
               </object>
@@ -1323,14 +1322,16 @@ And special thanks to all the folks that have supported and helped with the deve
     <property name="relative_to">deviceChooserButton</property>
     <property name="position">bottom</property>
     <child>
-      <object class="GtkListBox" id="popoverDevicesListBox">
+      <object class="GtkViewport">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">6</property>
-        <property name="margin_right">6</property>
-        <property name="margin_top">6</property>
-        <property name="margin_bottom">6</property>
-        <signal name="row-activated" handler="on_popoverDevicesListBox_row_selected" swapped="no"/>
+        <child>
+          <object class="GtkListBox" id="popoverDevicesListBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <signal name="row-activated" handler="on_popoverDevicesListBox_row_selected" swapped="no"/>
+          </object>
+        </child>
       </object>
     </child>
   </object>
@@ -1377,6 +1378,9 @@ And special thanks to all the folks that have supported and helped with the deve
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="halign">center</property>
+            <property name="margin_top">6</property>
+            <property name="margin_bottom">6</property>
             <signal name="clicked" handler="on_popoverProfilesSaveProfile_clicked" swapped="no"/>
           </object>
           <packing>

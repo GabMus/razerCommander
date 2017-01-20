@@ -8,6 +8,7 @@ import device
 import custom_keyboard as CustomKb
 import custom_profiles
 import tartarus
+import listboxHelper
 
 EXEC_FOLDER = os.path.realpath(os.path.dirname(__file__)) + "/"
 builder = Gtk.Builder()
@@ -35,22 +36,10 @@ def initDevices():
         newdev = device.Device(dev)
         devicesList.append(newdev)
 
-def emptyDevicesList():
-    for devindex in range(len(devicesList)):
-        popoverDevicesListBox.remove(popoverDevicesListBox.get_row_at_index(0))
-        del devicesList[0]
-
 def fillDevicesList():
     if len(devicesList) > 0:
         for i in devicesList:
-            box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-            labelName = Gtk.Label()
-            labelName.set_text(i.name)
-            box.pack_start(labelName, True, True, 0)
-            box.set_margin_top(12)
-            box.set_margin_bottom(12)
-            row = Gtk.ListBoxRow()
-            row.add(box)
+            row = listboxHelper.make_row(i.name)
             row.value = i
             popoverDevicesListBox.add(row)
         popoverDevicesListBox.select_row(
@@ -77,7 +66,7 @@ def updateDevicesConnected():
         universalApplyButton.set_sensitive(False)
 
 def refreshDevices():
-    emptyDevicesList()
+    listboxHelper.empty_listbox(popoverDevicesListBox)
     initDevices()
     fillDevicesList()
     updateDevicesConnected()
@@ -186,30 +175,20 @@ def refreshFxList():
     if not myrazerkb:
         return
     # empty list before (re)filling it
-    while True:
-        row = fxListBox.get_row_at_index(0)
-        if row:
-            fxListBox.remove(row)
-        else:
-            break
+    listboxHelper.empty_listbox(fxListBox)
     # fill list with supported effects
     for i in myrazerkb.availableFX:
         if i not in ['breath_single', 'breath_dual']:
             if i == 'breath_random':
                 i = 'breath'
             i = i.capitalize()
-            box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-            labelName = Gtk.Label()
-            labelName.set_text(i)
-            iconPath = EXEC_FOLDER + "img/" + i + ".svg"
-            # check if icon file exists before creating the icon
-            if os.path.isfile(iconPath):
-                fxIcon = Gtk.Image()
-                fxIcon.set_from_file(iconPath)
-                box.pack_start(fxIcon, False, False, 0)
-            box.pack_start(labelName, True, True, 0)
-            row = Gtk.ListBoxRow()
-            row.add(box)
+
+            # ~~~ start
+            iconPath = EXEC_FOLDER + "img/" + i + ".svg" # !!!
+            row = listboxHelper.make_image_row(
+                i,
+                iconPath
+            )
             row.value = i
             fxListBox.add(row)
             row.show_all()
@@ -445,37 +424,17 @@ tartarusShortcutList=builder.get_object('tartarusShortcutList')
 
 def refreshTartarusLists(shortcuts_only=False):
     # empty list first
-    for child in tartarusShortcutList.get_children():
-        tartarusShortcutList.remove(child)
-    if not shortcuts_only:
-        for child in tartarusKeyList.get_children():
-            tartarusKeyList.remove(child)
+    listboxHelper.empty_listbox(tartarusShortcutList)
+    listboxHelper.empty_listbox(tartarusKeyList)
     for keynum in tartarus.KEYS:
         # keys
         if not shortcuts_only:
-            box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-            label=Gtk.Label()
-            label.set_text(str(keynum))
-            box.pack_start(label, True, True, 0)
-            box.set_margin_top(3)
-            box.set_margin_bottom(3)
-            box.set_margin_left(24)
-            box.set_margin_right(24)
-            row=Gtk.ListBoxRow()
-            row.add(box)
-            row.value=keynum
+            row = listboxHelper.make_row(str(keynum))
+            row.value = keynum
             tartarusKeyList.add(row)
+            tartarusKeyList.show_all()
         #shortcuts
-        sc_box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        sc_label=Gtk.Label()
-        sc_label.set_text(tartarus.shortcuts[keynum])
-        sc_box.pack_start(sc_label, True, True, 0)
-        sc_box.set_margin_top(3)
-        sc_box.set_margin_bottom(3)
-        sc_box.set_margin_left(6)
-        sc_box.set_margin_right(6)
-        sc_row=Gtk.ListBoxRow()
-        sc_row.add(sc_box)
+        sc_row = listboxHelper.make_row(tartarus.shortcuts[keynum])
         tartarusShortcutList.add(sc_row)
         tartarusShortcutList.show_all()
 
@@ -491,8 +450,9 @@ class Handler:
 
     def on_tartarusKeyList_row_activated(self, list, row):
         # TODO: set shortcut entry to already existing shortcut
-        tartarusShortcutDialogKeyNumber.set_text(str(row.value))
-        tartarusShortcutDialog.show()
+        if row:
+            tartarusShortcutDialogKeyNumber.set_text(str(row.value))
+            tartarusShortcutDialog.show()
 
     def on_tartarusShortcutDialogOk_clicked(self, button):
         myrazerkb.assignMacro(
@@ -514,9 +474,10 @@ class Handler:
             popoverProfiles.show_all()
 
     def on_popoverProfilesListBox_row_selected(self, list, row):
-        profile=custom_profiles.getProfile(row.value)
-        drawKB(profile)
-        popoverProfiles.hide()
+        if row:
+            profile=custom_profiles.getProfile(row.value)
+            drawKB(profile)
+            popoverProfiles.hide()
 
     def on_popoverProfilesSaveProfile_clicked(self, button):
         saveProfileDialog.show_all()
@@ -552,10 +513,11 @@ class Handler:
         global myrazerkb # there must be a better way
         # myrazerkb in row below is interpreted as local
         # var if global isn't specified. this ain't good
-        myrazerkb = row.value
-        currentDeviceLabel.set_text(row.value.name)
-        refreshFxList()
-        popoverChooseDevice.hide()
+        if row:
+            myrazerkb = row.value
+            currentDeviceLabel.set_text(row.value.name)
+            refreshFxList()
+            popoverChooseDevice.hide()
 
     def on_universalApplyButton_clicked(self, button):
         newVal = brightnessScale.get_value()
@@ -617,10 +579,11 @@ class Handler:
             clearTBtn.set_active(False)
 
     def on_fxListBox_row_selected(self, list, row):
-        for pane in settingsPanes.values():
-            pane.hide()
-        if row.value in settingsPanes.keys():
-            settingsPanes[row.value].show()
+        if row:
+            for pane in settingsPanes.values():
+                pane.hide()
+            if row.value in settingsPanes.keys():
+                settingsPanes[row.value].show()
 
 builder.connect_signals(Handler())
 
