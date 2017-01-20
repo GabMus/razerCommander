@@ -34,7 +34,7 @@ class Device:
         for fx in self.uFXList:
             if self.device.fx.has(fx):
                 self.availableFX.append(fx)
-        if self.device.type != 'mouse':
+        if self.device.has('lighting_led_matrix'):
             self.availableFX.append('custom')
         self.name = str(device.name)
 
