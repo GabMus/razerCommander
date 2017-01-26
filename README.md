@@ -38,7 +38,7 @@ Go to the [releases page](https://github.com/GabMus/razerCommander/releases) and
 ### Other distros
 
 You'll need the following libraries to make razerCommander work:
-- GTK+ >=3.18 (could work with previous versions, but I'm not sure)
+- GTK+ >=3.14 (could work with previous versions, but I'm not sure)
 - python3
 
 To download razerCommander you have to follow these steps:
