@@ -211,8 +211,8 @@ class Device:
             logging.error("FX not listed")
             return 1
 
-    def _hex2rgb(self, mhex):
-        return tuple(int(mhex[i:i+2], 16) for i in (0, 2 ,4))
+    def _make_color_tuple(self, mcol):
+    	return (int(mcol.red*255), int(mcol.green*255), int(mcol.blue*255))
 
     def assignMacro(self, key, command):
 
@@ -224,8 +224,9 @@ class Device:
         for row in customKb.rows:
             cindex=0
             for key in row.keylist:
+                print(self._make_color_tuple(key.color))
                 self.device.fx.advanced.matrix.set(
-                    rindex, cindex, self._hex2rgb(key.color)
+                    rindex, cindex, self._make_color_tuple(key.color)
                 )
                 cindex+=1
             rindex += 1

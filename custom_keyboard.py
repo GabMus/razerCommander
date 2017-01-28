@@ -1,18 +1,24 @@
 import kblayouts
-
+import gi
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gdk
 
 class RKeyboardKey:
     label = ''
-    color = '000000'
+    color = Gdk.RGBA(0,0,0)
     isGhost = False
+    x = -1
+    y = -1
 
-    def __init__(self, label):
+    def __init__(self, label, x, y):
         if label in [kblayouts.GHOST, kblayouts.INV_GHOST]:
             self.isGhost = True
         self.label = label
+        self.x = x
+        self.y = y
 
     def __str__(self):
-        return label
+        return self.label + self.color.to_string()
 
 
 class RKeyboardRow:
@@ -22,8 +28,10 @@ class RKeyboardRow:
     def __init__(self, rowarr, index):
         self.rowindex = index
         self.keylist = []
+        cx=0
         for key in rowarr:
-            self.keylist.append(RKeyboardKey(key))
+            self.keylist.append(RKeyboardKey(key, cx, index))
+            cx+=1
 
     def getKey(self, index):
         return self.keylist[index]

@@ -9,6 +9,7 @@ import custom_keyboard as CustomKb
 import custom_profiles
 import tartarus
 import listboxHelper
+import custom_kb_builder
 
 EXEC_FOLDER = os.path.realpath(os.path.dirname(__file__)) + "/"
 builder = Gtk.Builder()
@@ -260,98 +261,36 @@ settingsPanes = {
 
 rkb = CustomKb.RKeyboard('ansi_us')
 
-
-def rgba_to_hex(color):
-    return "{0:02x}{1:02x}{2:02x}".format(int(color.red * 255),
-                                          int(color.green * 255),
-                                          int(color.blue * 255))
-
-
 def onVirtKeyClick(eventbox, eventbtn):
     key = rkb.getKey(eventbox.keyx, eventbox.keyy)
     if not key.isGhost:
         if pipetteTBtn.get_active():
-            color = Gdk.RGBA()
-            color.parse('#' + key.color)
+            color = key.color
             customColorPicker.set_rgba(color)
             pipetteTBtn.set_active(False)
         elif clearTBtn.get_active():
-            key.color = '000000'
-            black_rgba = Gdk.RGBA()
-            black_rgba.parse('#000000')
+            key.color = Gdk.RGBA(0,0,0)
+            black_rgba = Gdk.RGBA(0,0,0)
             eventbox.override_background_color(
                 Gtk.StateType.NORMAL, black_rgba)
         else:
-            key.color = rgba_to_hex(customColorPicker.get_rgba())
+            key.color = customColorPicker.get_rgba()
             eventbox.override_background_color(
                 Gtk.StateType.NORMAL, customColorPicker.get_rgba())
 
 KEYCAP_SIZE = 50
 
-# drawKB is now usable multiple times and profile read
+# drawKB is now usable multiple times and profile ready
 def drawKB(profile=None):
-    # Empty keyboardBox
-    if len(keyboardBox.get_children()) >= 2:
-        keyboardBox.remove(keyboardBox.get_children()[1])
-
     # Load black fake profile if none provided
     if not profile:
         profile=custom_profiles.blackProfile
-
-    prof_index=0
-
-    keyy = 0
-    kbcont = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-    for row in rkb.rows:
-        keyx = 0
-        rowbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-        for key in row.keylist:
-            box = Gtk.EventBox()
-            if not key.isGhost:
-                box.get_style_context().add_class('keycap')
-                mcolor=Gdk.RGBA(
-                    profile['colors'][prof_index][0],
-                    profile['colors'][prof_index][1],
-                    profile['colors'][prof_index][2]
-                )
-                prof_index+=1
-                rkb.getKey(keyx, keyy).color=rgba_to_hex(mcolor)
-                box.override_background_color(
-                    Gtk.StateType.NORMAL, mcolor)
-                label = Gtk.Label()
-                label.set_text(key.label)
-                box.add(label)
-            box.keyx = keyx
-            box.keyy = keyy
-
-            if key.label in ['tab', 'lctrl', 'lalt', 'ralt', 'rctrl', '\\']:
-                box.set_size_request(KEYCAP_SIZE * 1.5, KEYCAP_SIZE)
-            elif key.label == 'capslk':
-                box.set_size_request(KEYCAP_SIZE * 1.75, KEYCAP_SIZE)
-            elif key.label in ['lshift', 'ret']:
-                box.set_size_request(KEYCAP_SIZE * 2.25, KEYCAP_SIZE)
-            elif key.label == 'rshift':
-                box.set_size_request(KEYCAP_SIZE * 2.75, KEYCAP_SIZE)
-            elif key.label == 'bck\nspc':
-                box.set_size_request(KEYCAP_SIZE * 2, KEYCAP_SIZE)
-            elif key.label == 'spacebar':
-                box.set_size_request(KEYCAP_SIZE * 6, KEYCAP_SIZE)
-            elif key.label == CustomKb.kblayouts.INV_GHOST:
-                box.set_size_request(0, 0)
-            elif key.label == CustomKb.kblayouts.GHOST:
-                box.set_size_request(KEYCAP_SIZE-4, KEYCAP_SIZE-4)
-            else:
-                box.set_size_request(KEYCAP_SIZE, KEYCAP_SIZE)
-            box.connect("button-press-event", onVirtKeyClick)
-            rowbox.pack_start(box, True, True, 0)
-            keyx += 1
-        kbcont.pack_start(rowbox, True, True, 0)
-        keyy += 1
-    keyboardBox.pack_end(kbcont, True, True, 0)
-    keyboardBox.show_all()
-
-drawKB()
-
+    custom_kb_builder.build_keyboard_box(
+        keyboardBox,
+        profile['colors'],
+        onVirtKeyClick,
+        rkb
+    )
 
 # Any better way than specifying every case?
 def enableFXwSettings(fx):
@@ -586,9 +525,12 @@ class Handler:
                 pane.hide()
             if row.value in settingsPanes.keys():
                 settingsPanes[row.value].show()
+            if row.value == 'Custom':
+                drawKB()
 
 builder.connect_signals(Handler())
 
 
 if __name__ == "__main__":
+    keyboardBox.show_all()
     app.run(sys.argv)
