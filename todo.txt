@@ -1,7 +1,0 @@
-- improve mouse UI
-- add support for naga hex v2
-- add support for orbweaver
--- generalize tartarus logic
-- improve macro binding
-- "there are 2 dbus signals notifying when devices are added and removed": make use of them
-- device.py 10:14: encapsulate in a method
