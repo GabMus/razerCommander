@@ -40,7 +40,6 @@ class Device:
         if self.device.has('macro_logic'): # unsupported dev failsafe in macro_logic.make_device()
             self.macro_device=macro_logic.make_device(
                 str(self.device.serial),
-                self.device.type,
                 self.device)
         else:
             self.macro_device=None

@@ -59,16 +59,16 @@ def make_shortcutslistbox_rows(m_dev):
         rowlist.append(listboxHelper.make_2x_row(key.key, key.macro))
     return rowlist
 
-def make_device(device_uid, device_t, device):
-    if not device_t in macro_kls.keys(): # failsafe for unsupported devices
+def make_device(device_uid, device):
+    if not device.name in macro_kls.keys(): # failsafe for unsupported devices
         return None
     mk_arr=[]
     if not device_uid in macros_conf_loaded.keys():
         macros_conf_loaded[device_uid] = dict()
-        for key_n in macro_kls[device_t]:
+        for key_n in macro_kls[device.name]:
             macros_conf_loaded[device_uid][key_n] = ''
         confFileManager.save_file(CONF_FILE_PATH, macros_conf_loaded)
-    for key_n in macro_kls[device_t]:
+    for key_n in macro_kls[device.name]:
         mk_arr.append(MacroKey(key_n, macros_conf_loaded[device_uid][key_n]))
     n_device = MacroDevice(mk_arr, device_uid, device)
     n_device.set_all_current_macros()

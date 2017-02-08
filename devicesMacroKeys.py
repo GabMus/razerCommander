@@ -1,5 +1,5 @@
 macro_kls = {
-    'tartarus': [
+    'Razer Tartarus Chroma': [
         '1',
         '2',
         '3',
@@ -22,7 +22,30 @@ macro_kls = {
         'DOWN',
         'LEFT'
     ],
-    'orbweaver': [
+    'Razer Tartarus': [
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '10',
+        '11',
+        '12',
+        '13',
+        '14',
+        '15',
+        'MODE_SWITCH',
+        'THUMB',
+        'UP',
+        'RIGHT',
+        'DOWN',
+        'LEFT'
+    ],
+    'Razer Orbweaver Chroma': [
         '1',
         '2',
         '3',
@@ -49,5 +72,42 @@ macro_kls = {
         'RIGHT',
         'DOWN',
         'LEFT'
+    ],
+    'Razer Orbweaver': [
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '10',
+        '11',
+        '12',
+        '13',
+        '14',
+        '15',
+        '16',
+        '17',
+        '18',
+        '19',
+        '20',
+        'MODE_SWITCH',
+        'THUMB',
+        'UP',
+        'RIGHT',
+        'DOWN',
+        'LEFT'
+    ],
+    'Razer Naga Hex V2': [
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7'
     ]
 }
