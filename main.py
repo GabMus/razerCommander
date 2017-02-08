@@ -7,7 +7,6 @@ import sys
 import device
 import custom_keyboard as CustomKb
 import custom_profiles
-import tartarus
 import listboxHelper
 import custom_kb_builder
 
@@ -163,15 +162,32 @@ else:
     myrazerkb = None
 
 
-gameModeIcon = builder.get_object("gameModeIcon")
+gameModeIcon = builder.get_object('gameModeIcon')
 
-brightnessScale = builder.get_object("brightnessScale")
+brightnessScale = builder.get_object('brightnessScale')
 
-fxListBox = builder.get_object("fxListBox")
+fxListBox = builder.get_object('fxListBox')
 
 mainStackSwitcherButtons=builder.get_object('mainStackSwitcherButtons')
 mainStack=builder.get_object('mainStack')
 
+# macro logic
+macro_listbox=builder.get_object('macroShortcutsListbox')
+macro_device_picture=builder.get_object('macroDevicePicture')
+macro_shortcut_dialog=builder.get_object('macroShortcutDialog')
+macro_shortcut_entry=builder.get_object('macroShortcutEntry')
+macro_shortcut_dialog_keyname_label=builder.get_object('macroShortcutDialogKeyName')
+def refresh_macro_section():
+    if not myrazerkb or not myrazerkb.macro_device:
+        return
+    listboxHelper.empty_listbox(macro_listbox)
+    rows_l = device.macro_logic.make_shortcutslistbox_rows(myrazerkb.macro_device)
+    for row in rows_l:
+        macro_listbox.add(row)
+        row.show_all()
+    macro_device_picture.set_from_file(EXEC_FOLDER + 'img/'+ myrazerkb.name +'.svg')
+
+# TODO: polish this function
 def refreshFxList():
     if not myrazerkb:
         return
@@ -208,9 +224,10 @@ def refreshFxList():
     # selective hiding of switcher buttons
     stackButtons = mainStackSwitcherButtons.get_children()
 
-    # if has macro, is tartarus or mouse
-    if myrazerkb.device.has('macro_logic') and myrazerkb.device.type in ['tartarus']: # in ['mouse', 'tartarus']:
+    # if device supports macros
+    if myrazerkb.macro_device:
         stackButtons[2].show()
+        refresh_macro_section() # possibly move this from here
     else:
         stackButtons[2].hide()
     if myrazerkb.device.type == 'mouse' and False: # TO REMOVE no mouse support in the lib yet
@@ -352,35 +369,6 @@ saveProfileDialog=builder.get_object('saveProfileDialog')
 profileNameEntry=builder.get_object('profileNameEntry')
 presetExistsInfobar=builder.get_object('presetExistsInfobar')
 
-
-# tartarus stuff
-tartarusImage=builder.get_object('tartarusImage')
-tartarusImage.set_from_file(EXEC_FOLDER+'/img/tartarus.svg')
-tartarusShortcutDialog=builder.get_object('tartarusShortcutDialog')
-tartarusShortcutDialogKeyNumber=builder.get_object('tartarusShortcutDialogKeyNumber')
-tartarusShortcutEntry=builder.get_object('tartarusShortcutEntry')
-# populate key list
-tartarusKeyList=builder.get_object('tartarusKeyList')
-tartarusShortcutList=builder.get_object('tartarusShortcutList')
-
-def refreshTartarusLists(shortcuts_only=False):
-    # empty list first
-    listboxHelper.empty_listbox(tartarusShortcutList)
-    listboxHelper.empty_listbox(tartarusKeyList)
-    for keynum in tartarus.KEYS:
-        # keys
-        if not shortcuts_only:
-            row = listboxHelper.make_row(str(keynum))
-            row.value = keynum
-            tartarusKeyList.add(row)
-            tartarusKeyList.show_all()
-        #shortcuts
-        sc_row = listboxHelper.make_row(tartarus.shortcuts[keynum])
-        tartarusShortcutList.add(sc_row)
-        tartarusShortcutList.show_all()
-
-refreshTartarusLists()
-
 class Handler:
 
     def onDeleteWindow(self, *args):
@@ -388,27 +376,6 @@ class Handler:
 
     def on_refreshDevicesButton_clicked(self, button):
         refreshDevices()
-
-    def on_tartarusKeyList_row_activated(self, list, row):
-        # TODO: set shortcut entry to already existing shortcut
-        if row:
-            tartarusShortcutDialogKeyNumber.set_text(str(row.value))
-            tartarusShortcutDialog.show()
-
-    def on_tartarusShortcutDialogOk_clicked(self, button):
-        myrazerkb.assignMacro(
-            tartarusShortcutDialogKeyNumber.get_text(),
-            tartarusShortcutEntry.get_text()
-        )
-        tartarus.addShortcut(
-            tartarusShortcutDialogKeyNumber.get_text(),
-            tartarusShortcutEntry.get_text()
-        )
-        tartarusShortcutDialog.hide()
-        refreshTartarusLists(True)
-
-    def on_tartarusShortcutDialogCacel_clicked(self, button):
-        tartarusShortcutDialog.hide()
 
     def on_customProfilesButton_clicked(self, button):
         if not popoverProfiles.get_visible():
@@ -527,6 +494,39 @@ class Handler:
                 settingsPanes[row.value].show()
             if row.value == 'Custom':
                 drawKB()
+
+    def on_macroShortcutDialogCancel_clicked(self, btn):
+        macro_shortcut_dialog.hide()
+        macro_shortcut_entry.set_text('')
+
+    def on_macroShortcutsListbox_row_activated(self, list, row):
+        if row and row.value:
+            macro_shortcut_dialog_keyname_label.set_text(row.value['key'])
+            if not row.value['val']:
+                macro_shortcut_entry.set_text('')
+            else:
+                macro_shortcut_entry.set_text(row.value['val'])
+            macro_shortcut_dialog.show()
+
+    def on_macroShortcutDialogOk_clicked(self, btn):
+        macro_d=myrazerkb.macro_device
+        n_macro=macro_shortcut_entry.get_text()
+        macro_d.set_macro(
+            macro_shortcut_dialog_keyname_label.get_text(),
+            n_macro
+        )
+        refresh_macro_section()
+        macro_shortcut_dialog.hide()
+
+    def on_macroShortcutDialogClear_clicked(self, btn):
+        macro_d=myrazerkb.macro_device
+        n_macro=''
+        macro_d.set_macro(
+            macro_shortcut_dialog_keyname_label.get_text(),
+            n_macro
+        )
+        macro_shortcut_dialog.hide()
+
 
 builder.connect_signals(Handler())
 
