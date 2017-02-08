@@ -1,0 +1,167 @@
+<style is="custom-style">
+	@font-face {
+	    font-family: "Zekton-Regular";
+	    src: url("zektonrg.ttf") format("truetype");
+	    font-weight: normal;
+	    font-style: normal;
+	}
+
+	body {
+		width: 100%;
+		height: 100vh;
+		padding: 0 0 0 0;
+		margin: 0 0 0 0;
+		color: white;
+		background-color: black;
+		font-family: Zekton-Regular, Roboto Regular, Arial, sans-serif;
+		line-height: 150%;
+	}
+
+	.shade {
+		background-color: rgba(20,20,20,.5);
+	}
+
+	.fs-box, .fs-box-wrap {
+		width: 100%;
+		min-height: 100vh;
+		height: auto;
+		padding: 0 0 0 0;
+		margin: 0 0 0 0;
+		@apply(--layout-center-justified);
+		@apply(--layout-center);
+	}
+
+	.fs-box {
+		@apply(--layout-vertical);
+		position: relative;
+	}
+
+	.fs-box-wrap, .wrapbox {
+		@apply(--layout-horizontal);
+		@apply(--layout-wrap);
+		@apply(--layout-around-justified);
+	}
+
+	.wrapbox {
+		@apply(--layout-center);
+
+		width: 100%;
+	}
+
+	h1, h2, h3, p {
+		text-align: center;
+		font-weight: normal;
+	}
+
+	h1 {
+		margin: 10px 0 10px 0;
+		font-size: 10vw;
+		line-height: 100%;
+	}
+
+	h2 {
+		font-size: 35pt;
+		line-height: 85%;
+	}
+
+	h3 {
+		margin: 10px 0 10px 0;
+		font-size: 30pt;
+		line-height: 100%;
+	}
+
+	p {
+		font-size: 18pt;
+	}
+
+	.inline-video {
+		max-height: 55vh;
+		max-width: 80vw;
+	}
+
+	.icon {
+		display: block;
+		width: 70vw;
+		max-width: 512px;
+	}
+
+	.getit {
+		color: white;
+		font-weight: bold;
+		font-size: 14pt;
+		font-family: Zekton-Regular, Roboto Regular, Arial, sans-serif;
+		margin-top: 20px;
+		padding: 20px 20px 20px 20px;
+		background-color: rgba(30, 192, 30, 1);
+		border: none;
+		border-radius: 15px;
+		outline: none;
+		transition-duration: 0.4s;
+		cursor: pointer;
+	}
+
+	.getit:hover {
+		background-color: rgba(30, 192, 30, .6);
+	}
+
+	.arrowdown {
+		background: url(arrowdown.svg);
+		background-repeat: no-repeat;
+		background-size: cover;
+		width: 70px;
+		height: 70px;
+		cursor: pointer;
+		border-radius: 100%;
+		position: absolute;
+		bottom: 2vh;
+		display: inline-block;
+	}
+
+	.v-spacer {
+		margin-bottom: 128px;
+	}
+
+	.hbox {
+		@apply(--layout-horizontal);
+	}
+
+	.vbox {
+		@apply(--layout-vertical);
+		@apply(--layout-center);
+		@apply(--layout-center-justified);
+		max-width: 100%;
+		display: block;
+		max-width: 400px;
+	}
+
+	.wrappable {
+		max-width: 80%;
+		min-width: 60%;
+		min-width: 20%;
+		height: auto;
+		display: block;
+	}
+
+
+	.fullscreen-bg {
+	    position: absolute;
+		top: 50%;
+  		left: 50%;
+	    overflow: hidden;
+		min-width: 100%;
+		min-height: 100%;
+		display: inline-block;
+		width: auto;
+		height: auto;
+	    z-index: -100;
+		transform: translate(-50%, -50%);
+	}
+
+	.nooverflow {
+		position: absolute;
+		display: inline-block;
+		overflow: hidden;
+		width: 100%;
+		height: 100vh;
+	}
+</style>

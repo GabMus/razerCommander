@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="theme-color" content="#3F51B5">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+		<link rel="shortcut icon" type="image/png"
+			href="favicon.ico" />
+		<link rel="apple-touch-icon" href="appicon.png" />
+		<title>razerCommander</title>
+
+		<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
+		<link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+		<link rel="import" href="style.html">
+	</head>
+	<body>
+
+		<script>
+			function scroll(dest=1) {
+				$("body").animate({ scrollTop:$(window).height()*dest}, 800);
+			}
+		</script>
+
+		<div class="nooverflow">
+			<div class="fullscreen-bg">
+					<video loop muted autoplay>
+						<source src="razercommanderbackdrop.webm" type="video/webm">
+					</video>
+				</div>
+		</div>
+
+		<div class="fs-box shade">
+			<h1>razerCommander</h1>
+			<h2>Razer device manager<br />
+			for Linux</h2>
+
+			<span class="arrowdown" onclick="scroll(1)"></span>
+		</div>
+
+		<div class="fs-box">
+			<div class="wrapbox">
+				<img class="wrappable" src="screenshotpersp.png" />
+				<div class="vbox">
+					<h3>Beautiful</h3>
+					<p>
+						Control your Razer device with a
+						finely crafted UX built with GTK+3
+					</p>
+				</div>
+			</div>
+			<span class="arrowdown" onclick="scroll(2)"></span>
+		</div>
+
+		<div class="fs-box">
+			<h2>Make it yours</h2>
+			<video loop muted autoplay class="inline-video">
+				<source src="razercommandershow.webm" type="video/webm">
+			</video>
+			<p>
+				Full control over your device.<br />
+				If you can think of it, you can do it.
+			</p>
+			<span class="arrowdown" onclick="scroll(3)"></span>
+		</div>
+
+		<div class="fs-box">
+			<div class="wrapbox">
+				<div class="vbox">
+					<h3>Free as in freedom</h3>
+					<p>
+						razerCommander and the whole
+						razer-drivers stack are free software.
+						You have access to all the source code,
+						and you're free to hack it to your liking
+					</p>
+				</div>
+				<img class="wrappable" src="GPLv3_Logo.png" />
+			</div>
+			<span class="arrowdown" onclick="scroll(4)"></span>
+		</div>
+
+		<div class="fs-box">
+			<h2>Get it now</h2>
+			<img src="icon.png" class="icon" />
+			<button class="getit" onclick="location.href='https://github.com/gabmus/razercommander'">GitHub Project Page</button>
+		</div>
+
+	</body>
+</html>
