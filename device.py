@@ -11,8 +11,7 @@ import razer.client as rclient
 device_manager = rclient.DeviceManager()
 devlist = []
 for device in device_manager.devices:
-    if device.type in ['keyboard', 'tartarus', 'mouse']:
-        devlist.append(device)
+    devlist.append(device)
 
 
 def is_two_digit_hex(s):
