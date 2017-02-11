@@ -109,5 +109,12 @@ macro_kls = {
         '5',
         '6',
         '7'
+    ],
+    'Razer BlackWidow Chroma': [
+        'M1',
+        'M2',
+        'M3',
+        'M4',
+        'M5',
     ]
 }
