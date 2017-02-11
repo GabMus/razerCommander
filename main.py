@@ -430,6 +430,9 @@ class Handler:
     def on_universalApplyButton_clicked(self, button):
         newVal = brightnessScale.get_value()
         myrazerkb.setBrightness(int(newVal))
+        if not fxListBox.get_selected_row():
+            print('No fx row selected')
+            return
         currentFX = fxListBox.get_selected_row().value
         if currentFX in settingsPanes.keys():
             enableFXwSettings(currentFX)

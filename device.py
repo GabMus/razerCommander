@@ -13,17 +13,6 @@ devlist = []
 for device in device_manager.devices:
     devlist.append(device)
 
-def is_two_digit_hex(s):
-    try:
-        int(s, 16)
-        if len(s) == 2:
-            return True
-        else:
-            return False
-    except:
-        return False
-
-
 # This class represents a single device (ie: a keyboard)
 class Device:
 
