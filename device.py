@@ -13,7 +13,6 @@ devlist = []
 for device in device_manager.devices:
     devlist.append(device)
 
-
 def is_two_digit_hex(s):
     try:
         int(s, 16)
