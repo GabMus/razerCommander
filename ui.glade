@@ -1643,6 +1643,9 @@ And special thanks to all the folks that have supported and helped with the deve
             <property name="receives_default">True</property>
             <property name="use_stock">True</property>
             <signal name="clicked" handler="on_saveProfileDialogOk_clicked" swapped="no"/>
+            <style>
+              <class name="suggested-action"/>
+            </style>
           </object>
           <packing>
             <property name="pack_type">end</property>
