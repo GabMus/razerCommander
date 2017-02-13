@@ -369,6 +369,29 @@ saveProfileDialog=builder.get_object('saveProfileDialog')
 profileNameEntry=builder.get_object('profileNameEntry')
 presetExistsInfobar=builder.get_object('presetExistsInfobar')
 
+macro_current_keystroke_label=builder.get_object('currentKeystrokeLabel')
+
+keystroke_shortcuts_all_mods_str=[
+    'Shift_L',
+    'Control_L',
+    'Super_L',
+    'Alt_L'
+]
+
+keystroke_shortcuts_mod_shift=builder.get_object('setShortcutKeystrokeShiftModifierCheck')
+keystroke_shortcuts_mod_ctrl=builder.get_object('setShortcutKeystrokeCtrlModifierCheck')
+keystroke_shortcuts_mod_super=builder.get_object('setShortcutKeystrokeSuperModifierCheck')
+keystroke_shortcuts_mod_alt=builder.get_object('setShortcutKeystrokeAltModifierCheck')
+
+keystroke_shortcuts_all_mods=[
+    keystroke_shortcuts_mod_shift,
+    keystroke_shortcuts_mod_ctrl,
+    keystroke_shortcuts_mod_super,
+    keystroke_shortcuts_mod_alt
+]
+
+set_shortcut_stack=builder.get_object('setShortcutStack')
+
 class Handler:
 
     def onDeleteWindow(self, *args):
@@ -504,16 +527,28 @@ class Handler:
 
     def on_macroShortcutsListbox_row_activated(self, list, row):
         if row and row.value:
+            # uncheck all modifier checkboxes
+            for i in keystroke_shortcuts_all_mods:
+                i.set_active(False)
+            macro_current_keystroke_label.set_text('...')
             macro_shortcut_dialog_keyname_label.set_text(row.value['key'])
+            set_shortcut_stack.set_visible_child_name('Command')
             if not row.value['val']:
                 macro_shortcut_entry.set_text('')
+            elif row.value['val'].startswith('xdotool key '): # is keystroke
+                set_shortcut_stack.set_visible_child_name('Keystroke')
+                current_keystroke=row.value['val'][12:]
+                macro_current_keystroke_label.set_text(current_keystroke)
             else:
                 macro_shortcut_entry.set_text(row.value['val'])
             macro_shortcut_dialog.show()
 
     def on_macroShortcutDialogOk_clicked(self, btn):
+        if set_shortcut_stack.get_visible_child_name() == 'Keystroke':
+            n_macro='xdotool key '+macro_current_keystroke_label.get_text()
+        else:
+            n_macro=macro_shortcut_entry.get_text()
         macro_d=myrazerkb.macro_device
-        n_macro=macro_shortcut_entry.get_text()
         macro_d.set_macro(
             macro_shortcut_dialog_keyname_label.get_text(),
             n_macro
@@ -528,8 +563,40 @@ class Handler:
             macro_shortcut_dialog_keyname_label.get_text(),
             n_macro
         )
+        refresh_macro_section()
         macro_shortcut_dialog.hide()
 
+    key_stroke_list=[]
+    key_stroke_n=0
+
+    def on_recordKeystrokeToggleBtn_key_press_event(self, toggle_btn, event):
+        if toggle_btn.get_active():
+            keyname = Gdk.keyval_name(event.keyval)
+            if keyname not in self.key_stroke_list:
+                self.key_stroke_list.append(keyname)
+                self.key_stroke_n+=1
+        else:
+            self.key_stroke_n=0
+            self.key_stroke_list=[]
+
+    def on_recordKeystrokeToggleBtn_key_release_event(self, toggle_btn, event):
+        if toggle_btn.get_active():
+            keyname = Gdk.keyval_name(event.keyval)
+            #print("Release Key %s (keycode: %d)" % (keyname, event.keyval))
+            self.key_stroke_n-=1
+            if not self.key_stroke_n:
+                keystroke=''
+                for i in range(0,4):
+                    if keystroke_shortcuts_all_mods[i].get_active():
+                        keystroke+=keystroke_shortcuts_all_mods_str[i]+'+'
+                keystroke+='+'.join(self.key_stroke_list)
+                macro_current_keystroke_label.set_text(keystroke)
+                self.key_stroke_list=[]
+                self.key_stroke_n=0
+                toggle_btn.set_active(False)
+        else:
+            self.key_stroke_n=0
+            self.key_stroke_list=[]
 
 builder.connect_signals(Handler())
 

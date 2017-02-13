@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.20.0 
+
+Copyright (C) 
+
+This file is part of razerCommander.
+
+razerCommander is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+razerCommander is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with razerCommander.  If not, see <http://www.gnu.org/licenses/>.
+
+Author: Gabriele Musco
+
+-->
 <interface>
   <requires lib="gtk+" version="3.14"/>
+  <!-- interface-license-type gplv3 -->
+  <!-- interface-name razerCommander -->
+  <!-- interface-description Razer device manager for Linux -->
+  <!-- interface-authors Gabriele Musco -->
   <object class="GtkAdjustment" id="brightnessAdjustment">
     <property name="upper">100</property>
     <property name="value">100</property>
@@ -1321,8 +1346,6 @@ And special thanks to all the folks that have supported and helped with the deve
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">6</property>
-            <property name="margin_right">6</property>
             <property name="margin_top">6</property>
             <property name="margin_bottom">6</property>
             <child>
@@ -1330,7 +1353,7 @@ And special thanks to all the folks that have supported and helped with the deve
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
-                <property name="label" translatable="yes">Shortcut for key </property>
+                <property name="label" translatable="yes">Set shortcut for key </property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -1359,14 +1382,180 @@ And special thanks to all the folks that have supported and helped with the deve
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="macroShortcutEntry">
+          <placeholder/>
+        </child>
+        <child>
+          <object class="GtkStack" id="setShortcutStack">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="placeholder_text" translatable="yes">Shortcut command...</property>
+            <property name="can_focus">False</property>
+            <property name="transition_type">slide-left-right</property>
+            <child>
+              <object class="GtkBox" id="setShortcutCommand">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">6</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="macroShortcutEntry">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="placeholder_text" translatable="yes">Shortcut command...</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="name">Command</property>
+                <property name="title" translatable="yes">Command</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">12</property>
+                <child>
+                  <object class="GtkToggleButton" id="recordKeystrokeToggleBtn">
+                    <property name="label" translatable="yes">Record Keystroke</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="halign">center</property>
+                    <property name="margin_top">12</property>
+                    <signal name="key-press-event" handler="on_recordKeystrokeToggleBtn_key_press_event" swapped="no"/>
+                    <signal name="key-release-event" handler="on_recordKeystrokeToggleBtn_key_release_event" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">Modifier Keys:</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkCheckButton" id="setShortcutKeystrokeShiftModifierCheck">
+                        <property name="label" translatable="yes">Shift</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="halign">center</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="setShortcutKeystrokeCtrlModifierCheck">
+                        <property name="label" translatable="yes">Ctrl</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="halign">center</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="setShortcutKeystrokeSuperModifierCheck">
+                        <property name="label" translatable="yes">Super</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="halign">center</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="setShortcutKeystrokeAltModifierCheck">
+                        <property name="label" translatable="yes">Alt</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="halign">center</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="currentKeystrokeLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_top">12</property>
+                    <property name="label" translatable="yes">...</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">Keystroke</property>
+                <property name="title" translatable="yes">Keystroke</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -1380,8 +1569,6 @@ And special thanks to all the folks that have supported and helped with the deve
       <object class="GtkHeaderBar">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="title">Set shortcut</property>
-        <property name="has_subtitle">False</property>
         <child>
           <object class="GtkButton" id="macroShortcutDialogCancel">
             <property name="label">gtk-cancel</property>
@@ -1407,6 +1594,14 @@ And special thanks to all the folks that have supported and helped with the deve
           <packing>
             <property name="position">2</property>
           </packing>
+        </child>
+        <child type="title">
+          <object class="GtkStackSwitcher" id="setShortcutStackSwitcher">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">center</property>
+            <property name="stack">setShortcutStack</property>
+          </object>
         </child>
         <child>
           <object class="GtkButton" id="macroShortcutDialogOk">
