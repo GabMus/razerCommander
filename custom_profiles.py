@@ -153,8 +153,7 @@ def makeProfile(name, rkb):
     for row in rkb.rows:
         for key in row.keylist:
             if not key.isGhost:
-                color = Gdk.RGBA()
-                color.parse('#'+key.color)
+                color = key.color
                 profile['colors'].append(
                     [
                         color.red,

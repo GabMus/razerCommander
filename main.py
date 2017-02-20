@@ -7,7 +7,6 @@ import sys
 import device
 import custom_keyboard as CustomKb
 import custom_profiles
-import tartarus
 import listboxHelper
 import custom_kb_builder
 
@@ -163,15 +162,32 @@ else:
     myrazerkb = None
 
 
-gameModeIcon = builder.get_object("gameModeIcon")
+gameModeIcon = builder.get_object('gameModeIcon')
 
-brightnessScale = builder.get_object("brightnessScale")
+brightnessScale = builder.get_object('brightnessScale')
 
-fxListBox = builder.get_object("fxListBox")
+fxListBox = builder.get_object('fxListBox')
 
 mainStackSwitcherButtons=builder.get_object('mainStackSwitcherButtons')
 mainStack=builder.get_object('mainStack')
 
+# macro logic
+macro_listbox=builder.get_object('macroShortcutsListbox')
+macro_device_picture=builder.get_object('macroDevicePicture')
+macro_shortcut_dialog=builder.get_object('macroShortcutDialog')
+macro_shortcut_entry=builder.get_object('macroShortcutEntry')
+macro_shortcut_dialog_keyname_label=builder.get_object('macroShortcutDialogKeyName')
+def refresh_macro_section():
+    if not myrazerkb or not myrazerkb.macro_device:
+        return
+    listboxHelper.empty_listbox(macro_listbox)
+    rows_l = device.macro_logic.make_shortcutslistbox_rows(myrazerkb.macro_device)
+    for row in rows_l:
+        macro_listbox.add(row)
+        row.show_all()
+    macro_device_picture.set_from_file(EXEC_FOLDER + 'img/'+ myrazerkb.name +'.svg')
+
+# TODO: polish this function
 def refreshFxList():
     if not myrazerkb:
         return
@@ -208,9 +224,10 @@ def refreshFxList():
     # selective hiding of switcher buttons
     stackButtons = mainStackSwitcherButtons.get_children()
 
-    # if has macro, is tartarus or mouse
-    if myrazerkb.device.has('macro_logic') and myrazerkb.device.type in ['tartarus']: # in ['mouse', 'tartarus']:
+    # if device supports macros
+    if myrazerkb.macro_device:
         stackButtons[2].show()
+        refresh_macro_section() # possibly move this from here
     else:
         stackButtons[2].hide()
     if myrazerkb.device.type == 'mouse' and False: # TO REMOVE no mouse support in the lib yet
@@ -352,34 +369,28 @@ saveProfileDialog=builder.get_object('saveProfileDialog')
 profileNameEntry=builder.get_object('profileNameEntry')
 presetExistsInfobar=builder.get_object('presetExistsInfobar')
 
+macro_current_keystroke_label=builder.get_object('currentKeystrokeLabel')
 
-# tartarus stuff
-tartarusImage=builder.get_object('tartarusImage')
-tartarusImage.set_from_file(EXEC_FOLDER+'/img/tartarus.svg')
-tartarusShortcutDialog=builder.get_object('tartarusShortcutDialog')
-tartarusShortcutDialogKeyNumber=builder.get_object('tartarusShortcutDialogKeyNumber')
-tartarusShortcutEntry=builder.get_object('tartarusShortcutEntry')
-# populate key list
-tartarusKeyList=builder.get_object('tartarusKeyList')
-tartarusShortcutList=builder.get_object('tartarusShortcutList')
+keystroke_shortcuts_all_mods_str=[
+    'Shift_L',
+    'Control_L',
+    'Super_L',
+    'Alt_L'
+]
 
-def refreshTartarusLists(shortcuts_only=False):
-    # empty list first
-    listboxHelper.empty_listbox(tartarusShortcutList)
-    listboxHelper.empty_listbox(tartarusKeyList)
-    for keynum in tartarus.KEYS:
-        # keys
-        if not shortcuts_only:
-            row = listboxHelper.make_row(str(keynum))
-            row.value = keynum
-            tartarusKeyList.add(row)
-            tartarusKeyList.show_all()
-        #shortcuts
-        sc_row = listboxHelper.make_row(tartarus.shortcuts[keynum])
-        tartarusShortcutList.add(sc_row)
-        tartarusShortcutList.show_all()
+keystroke_shortcuts_mod_shift=builder.get_object('setShortcutKeystrokeShiftModifierCheck')
+keystroke_shortcuts_mod_ctrl=builder.get_object('setShortcutKeystrokeCtrlModifierCheck')
+keystroke_shortcuts_mod_super=builder.get_object('setShortcutKeystrokeSuperModifierCheck')
+keystroke_shortcuts_mod_alt=builder.get_object('setShortcutKeystrokeAltModifierCheck')
 
-refreshTartarusLists()
+keystroke_shortcuts_all_mods=[
+    keystroke_shortcuts_mod_shift,
+    keystroke_shortcuts_mod_ctrl,
+    keystroke_shortcuts_mod_super,
+    keystroke_shortcuts_mod_alt
+]
+
+set_shortcut_stack=builder.get_object('setShortcutStack')
 
 class Handler:
 
@@ -388,27 +399,6 @@ class Handler:
 
     def on_refreshDevicesButton_clicked(self, button):
         refreshDevices()
-
-    def on_tartarusKeyList_row_activated(self, list, row):
-        # TODO: set shortcut entry to already existing shortcut
-        if row:
-            tartarusShortcutDialogKeyNumber.set_text(str(row.value))
-            tartarusShortcutDialog.show()
-
-    def on_tartarusShortcutDialogOk_clicked(self, button):
-        myrazerkb.assignMacro(
-            tartarusShortcutDialogKeyNumber.get_text(),
-            tartarusShortcutEntry.get_text()
-        )
-        tartarus.addShortcut(
-            tartarusShortcutDialogKeyNumber.get_text(),
-            tartarusShortcutEntry.get_text()
-        )
-        tartarusShortcutDialog.hide()
-        refreshTartarusLists(True)
-
-    def on_tartarusShortcutDialogCacel_clicked(self, button):
-        tartarusShortcutDialog.hide()
 
     def on_customProfilesButton_clicked(self, button):
         if not popoverProfiles.get_visible():
@@ -463,6 +453,9 @@ class Handler:
     def on_universalApplyButton_clicked(self, button):
         newVal = brightnessScale.get_value()
         myrazerkb.setBrightness(int(newVal))
+        if not fxListBox.get_selected_row():
+            print('No fx row selected')
+            return
         currentFX = fxListBox.get_selected_row().value
         if currentFX in settingsPanes.keys():
             enableFXwSettings(currentFX)
@@ -527,6 +520,83 @@ class Handler:
                 settingsPanes[row.value].show()
             if row.value == 'Custom':
                 drawKB()
+
+    def on_macroShortcutDialogCancel_clicked(self, btn):
+        macro_shortcut_dialog.hide()
+        macro_shortcut_entry.set_text('')
+
+    def on_macroShortcutsListbox_row_activated(self, list, row):
+        if row and row.value:
+            # uncheck all modifier checkboxes
+            for i in keystroke_shortcuts_all_mods:
+                i.set_active(False)
+            macro_current_keystroke_label.set_text('...')
+            macro_shortcut_dialog_keyname_label.set_text(row.value['key'])
+            set_shortcut_stack.set_visible_child_name('Command')
+            if not row.value['val']:
+                macro_shortcut_entry.set_text('')
+            elif row.value['val'].startswith('xdotool key '): # is keystroke
+                set_shortcut_stack.set_visible_child_name('Keystroke')
+                current_keystroke=row.value['val'][12:]
+                macro_current_keystroke_label.set_text(current_keystroke)
+            else:
+                macro_shortcut_entry.set_text(row.value['val'])
+            macro_shortcut_dialog.show()
+
+    def on_macroShortcutDialogOk_clicked(self, btn):
+        if set_shortcut_stack.get_visible_child_name() == 'Keystroke':
+            n_macro='xdotool key '+macro_current_keystroke_label.get_text()
+        else:
+            n_macro=macro_shortcut_entry.get_text()
+        macro_d=myrazerkb.macro_device
+        macro_d.set_macro(
+            macro_shortcut_dialog_keyname_label.get_text(),
+            n_macro
+        )
+        refresh_macro_section()
+        macro_shortcut_dialog.hide()
+
+    def on_macroShortcutDialogClear_clicked(self, btn):
+        macro_d=myrazerkb.macro_device
+        n_macro=''
+        macro_d.set_macro(
+            macro_shortcut_dialog_keyname_label.get_text(),
+            n_macro
+        )
+        refresh_macro_section()
+        macro_shortcut_dialog.hide()
+
+    key_stroke_list=[]
+    key_stroke_n=0
+
+    def on_recordKeystrokeToggleBtn_key_press_event(self, toggle_btn, event):
+        if toggle_btn.get_active():
+            keyname = Gdk.keyval_name(event.keyval)
+            if keyname not in self.key_stroke_list:
+                self.key_stroke_list.append(keyname)
+                self.key_stroke_n+=1
+        else:
+            self.key_stroke_n=0
+            self.key_stroke_list=[]
+
+    def on_recordKeystrokeToggleBtn_key_release_event(self, toggle_btn, event):
+        if toggle_btn.get_active():
+            keyname = Gdk.keyval_name(event.keyval)
+            #print("Release Key %s (keycode: %d)" % (keyname, event.keyval))
+            self.key_stroke_n-=1
+            if not self.key_stroke_n:
+                keystroke=''
+                for i in range(0,4):
+                    if keystroke_shortcuts_all_mods[i].get_active():
+                        keystroke+=keystroke_shortcuts_all_mods_str[i]+'+'
+                keystroke+='+'.join(self.key_stroke_list)
+                macro_current_keystroke_label.set_text(keystroke)
+                self.key_stroke_list=[]
+                self.key_stroke_n=0
+                toggle_btn.set_active(False)
+        else:
+            self.key_stroke_n=0
+            self.key_stroke_list=[]
 
 builder.connect_signals(Handler())
 

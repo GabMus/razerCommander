@@ -3,6 +3,7 @@ import os
 import io
 import logging
 logging.basicConfig(level=logging.DEBUG)
+import macro_logic
 
 import razer.client as rclient
 #import razer.client.constants as razer_constants
@@ -10,20 +11,7 @@ import razer.client as rclient
 device_manager = rclient.DeviceManager()
 devlist = []
 for device in device_manager.devices:
-    if device.type in ['keyboard', 'tartarus', 'mouse']:
-        devlist.append(device)
-
-
-def is_two_digit_hex(s):
-    try:
-        int(s, 16)
-        if len(s) == 2:
-            return True
-        else:
-            return False
-    except:
-        return False
-
+    devlist.append(device)
 
 # This class represents a single device (ie: a keyboard)
 class Device:
@@ -36,7 +24,14 @@ class Device:
                 self.availableFX.append(fx)
         if self.device.has('lighting_led_matrix'):
             self.availableFX.append('custom')
+        if self.device.has('macro_logic'): # unsupported dev failsafe in macro_logic.make_device()
+            self.macro_device=macro_logic.make_device(
+                str(self.device.serial),
+                self.device)
+        else:
+            self.macro_device=None
         self.name = str(device.name)
+
 
     # unfriendly fx list
     uFXList = [
@@ -214,8 +209,14 @@ class Device:
     def _make_color_tuple(self, mcol):
     	return (int(mcol.red*255), int(mcol.green*255), int(mcol.blue*255))
 
-    def assignMacro(self, key, command):
+    def set_macro(self, key, command):
+        if not self.macro_device:
+            print("ERROR: device "+self.name+" doesn't implement macro logic")
+            return
+        self.macro_device.set_macro(key, command)
 
+    #legacy
+    def assignMacro(self, key, command):
         script_macro=self.device.macro.create_script_macro_item(command)
         self.device.macro.add_macro(key, script_macro)
 

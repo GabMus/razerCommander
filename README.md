@@ -15,21 +15,22 @@
 
 ![screenshot](preview.gif)
 
-A simple GTK control center for managing razer peripherals on Linux.
+Razer device manager for Linux
 
 ## Installing
 
-To install this software the first thing you need is to install `razer_drivers`: an unofficial driver for razer peripherals for Linux. Go to the [project page](https://github.com/terrycain/razer-drivers) to find out more about it and how to install it. (There are different packages available, as well as PKGBUILDs if you're using Arch)
+To install this software the first thing you need is to install `razer_drivers`. You can find installation instructions on the [project page](https://github.com/terrycain/razer-drivers).
 
 You need 3 packages provided in the `razer-drivers`:
 - `razer-driver-dkms`: the actual driver, best if installed using DKMS
-- `razer-daemon`: a daemon that interfaces with the driver, providing a higher level interface with it
-- `python3-razer`: a python library that interfaces with the daemon, it's used by razerCommander, thus it's needed to use it
+- `razer-daemon`: a daemon that interfaces with the driver, providing a higher level interface for it
+- `python3-razer`: a python library that interfaces with the daemon, it's used by razerCommander, thus it's a direct dependency.
 
 ### Installing on Arch Linux (or derivates: Antergos, Manjaro...)
 
 You can find razerCommander on AUR, as `razercommander-git` ([AUR page](https://aur.archlinux.org/packages/razercommander-git)).
-You still need to install `razer-drivers` manually, as it's still not available on AUR.
+If you use an AUR helper, it should automatically pull `razer-driver-dkms`, `razer-daemon` and `python-razer` as dependencies.
+Alternativelly you can install these packages manually, or even opt for the git version of the driver stack (`razer-driver-dkms-git`, `razer-daemon-git`, `python-razer-git`).
 
 ### Installing on Ubuntu or Debian
 
@@ -38,13 +39,17 @@ Go to the [releases page](https://github.com/GabMus/razerCommander/releases) and
 ### Other distros
 
 You'll need the following libraries to make razerCommander work:
-- GTK+ >=3.14 (could work with previous versions, but I'm not sure)
-- python3
+- `GTK+>=3.14`
+- `python3`
+- `razer-driver-dkms`
+- `razer-daemon`
+- `python-razer`
 
-To download razerCommander you have to follow these steps:
-- Clone this repo (`git clone https://github.com/gabmus/razercommander`)
-- `cd` into the newly cloned folder (`cd razercommander`)
-- Run `chmod +x main.py`
+Download razerCommander by following these steps:
+- `mkdir git && cd git` (optional, but avoids cluttering your home folder)
+- `git clone https://github.com/gabmus/razercommander`
+- `cd razercommander`
+- `chmod +x main.py`
 
 ## Running
 
@@ -52,9 +57,12 @@ Just run `./main.py` from the razerCommander directory. You can also make a .des
 
 ## Supported hardware
 
-As far as support goes, in theory this software should support every device supported by the `razer-drivers` package.
-
-razerCommander has been created to work with keyboards, but may work with mice and firefly mousepads, too.
+- Keyboards
+- Macro keypads (Tartarus, Orbweaver)
+- Mice ***(only lighting effects, most macro features)***
+- Laptops ***(keyboards only)***
+- Headsets ***(possibly, untested)***
+- Mousepads (Firefly)
 
 ## How can you help?
 
