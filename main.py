@@ -10,7 +10,7 @@ import custom_profiles
 import listboxHelper
 import custom_kb_builder
 
-EXEC_FOLDER = os.path.realpath(os.path.dirname(__file__)) + "/"
+EXEC_FOLDER = os.path.dirname(os.path.realpath(__file__)) + "/"
 builder = Gtk.Builder()
 builder.add_from_file(EXEC_FOLDER + "ui.glade")
 HOME = os.environ.get('HOME')
