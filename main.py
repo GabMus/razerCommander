@@ -4,7 +4,13 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gio, Gdk
 import os
 import sys
-import device
+print('Importing device logic, waiting for daemon')
+try:
+    import device
+    print('Device logic loaded, deamon is alive')
+except:
+    print('ERROR: the daemon is not responding!\nTry running `killall razer-service && razer-service` or rebooting. If this doesn\'t work, please fill an issue!')
+    exit(1)
 import custom_keyboard as CustomKb
 import custom_profiles
 import listboxHelper
