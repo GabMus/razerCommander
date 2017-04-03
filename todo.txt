@@ -6,6 +6,7 @@
 - improve mouse UI
 - "there are 2 dbus signals notifying when devices are added and removed": make use of them
 - device.py 11:15: encapsulate in a method
+- Check in your Frontend if the user is in the group plugdev as the daemon won't start without
 - [almost done] add record keystroke feature in macro section
 - [done] update readme
 - [done] improve macro binding
