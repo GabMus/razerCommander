@@ -38,6 +38,8 @@ mainBox=builder.get_object('mainBox')
 noDevicesLabel=builder.get_object('noDevicesLabel')
 
 def initDevices():
+    global devicesList
+    devicesList = []
     for dev in device.devlist:
         newdev = device.Device(dev)
         devicesList.append(newdev)
