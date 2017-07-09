@@ -17,6 +17,15 @@
 
 Razer device manager for Linux
 
+## Supported hardware
+
+- Keyboards
+- Macro keypads (Tartarus, Orbweaver)
+- Mice ***(only lighting effects, most macro features)***
+- Laptops ***(keyboards only)***
+- Headsets ***(possibly, untested)***
+- Mousepads (Firefly)
+
 ## Installing
 
 To install this software the first thing you need is to install `razer_drivers`. You can find installation instructions on the [project page](https://github.com/terrycain/razer-drivers).
@@ -54,15 +63,6 @@ Download razerCommander by following these steps:
 ## Running
 
 Just run `./main.py` from the razerCommander directory. You can also make a .desktop file to launch it from your DE/WM (an easy way to do it is using [mlauncher](https://github.com/gabmus/mlauncher)).
-
-## Supported hardware
-
-- Keyboards
-- Macro keypads (Tartarus, Orbweaver)
-- Mice ***(only lighting effects, most macro features)***
-- Laptops ***(keyboards only)***
-- Headsets ***(possibly, untested)***
-- Mousepads (Firefly)
 
 ## How can you help?
 
