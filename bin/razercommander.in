@@ -1,0 +1,17 @@
+#!@PYTHON@
+
+import sys
+import locale
+import gettext
+
+localedir = '@localedir@'
+
+locale.bindtextdomain('razercommander', localedir)
+locale.textdomain('razercommander')
+gettext.bindtextdomain('razercommander', localedir)
+gettext.textdomain('razercommander')
+
+if __name__ == "__main__":
+    sys.path.insert(1, '@pythondir@')
+    from razercommander import __main__
+    __main__.main()
