@@ -1,3 +1,5 @@
+__pycache__
+ui.glade\~
 *.o
 .deps
 /**/*.swp
