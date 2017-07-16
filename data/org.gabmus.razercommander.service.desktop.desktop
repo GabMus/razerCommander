@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=razerCommander
+# TODO: We could include the full path here but Meson requires
+#       newer GLib to generate files for GResource
+TryExec=razerCommander
+# Exec=razerCommander --gapplication-service
+Exec=razerCommander --gapplication-service
+Type=Application
+NoDisplay=true
+Name[en_US]=org.gabmus.razercommander.service.desktop

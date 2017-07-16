@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/gabmus/razercommander">
+    <file compressed="true">org.gabmus.razercommander.service.desktop</file>
+
+    <!-- <file preprocess="xml-stripblanks">gtk/menus.ui</file> -->
+    <!--file preprocess="xml-stripblanks">gtk/help-overlay.ui</file-->
+
+    <file preprocess="xml-stripblanks">ui/ui.glade</file>
+
+    <file preprocess="xml-stripblanks">icons/org.gabmus.razercommander.svg</file>
+  </gresource>
+</gresources>

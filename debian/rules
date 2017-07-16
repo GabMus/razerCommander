@@ -1,0 +1,22 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE=1
+export NINJA=ninja -v
+export BUILDDIR=_build
+export PKG=transmission-remote-gnome
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	meson $(BUILDDIR) --prefix=/usr
+
+override_dh_auto_build:
+	$(NINJA) -C $(BUILDDIR)
+
+override_dh_auto_clean:
+	rm -rf $(BUILDDIR)
+
+override_dh_auto_install:
+	env DESTDIR=$(CURDIR)/debian/$(PKG) $(NINJA) -C $(BUILDDIR) install
+

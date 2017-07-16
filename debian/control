@@ -1,0 +1,23 @@
+Source: razercommander
+Section: gnome
+Priority: optional
+Maintainer: Gabriele Musco <emaildigabry@gmail.com>
+Homepage: https://github.com/GabMus/razerCommander
+Standards-Version: 3.9.7
+X-Python3-Version: >= 3.4
+Build-Depends:
+ debhelper (>= 9),
+ pkg-config,
+ gettext,
+ libappstream-glib-dev,
+ meson (>= 0.40.0)
+
+Package: transmission-remote-gnome
+Architecture: all
+Depends:
+ python3 (>= 3.4),
+ python3-gi (>= 3.14.0),
+ gir1.2-gtk-3.0 (>= 3.14.0)
+Recommends:
+ gnome-icon-theme-symbolic
+Description: Razer device manager for Linux

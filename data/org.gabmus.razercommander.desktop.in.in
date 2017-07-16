@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=razerCommander
+Comment=Razer device manager for Linux
+Exec=@bindir@/razercommander %U
+Icon=org.gabmus.razercommander
+Terminal=false
+Type=Application
+StartupNotify=true
+MimeType=
+Categories=Utility;GTK;GNOME;
+Keywords=razer;commander;

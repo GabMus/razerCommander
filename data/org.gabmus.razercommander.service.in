@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.gabmus.razercommander
+# Exec=@bindir@/razercommander --gapplication-service
+Exec=@bindir@/razercommander --gapplication-service
