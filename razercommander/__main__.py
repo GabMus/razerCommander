@@ -51,6 +51,10 @@ class Application(Gtk.Application):
         self.window = self.builder.get_object('window')
 
         self.brightnessScale = self.builder.get_object('brightnessScale')
+        self.logoBrightnessScale = self.builder.get_object('logoBrightnessScale')
+        self.scrollBrightnessScale = self.builder.get_object('scrollBrightnessScale')
+        self.brightnessBox = self.builder.get_object('brightnessBox')
+        self.mouseBrightnessBox = self.builder.get_object('mouseBrightnessBox')
         self.currentDeviceLabel = self.builder.get_object('currentDeviceLabel')
         self.customColorPicker = self.builder.get_object('customColorPicker')
         self.fxListBox = self.builder.get_object('fxListBox')
@@ -90,12 +94,16 @@ class Application(Gtk.Application):
         self.staticRGB = self.builder.get_object('staticRGBchooser')
         self.waveToggleLeft = self.builder.get_object('waveToggleBtnLeft')
         self.waveToggleRight = self.builder.get_object('waveToggleBtnRight')
+        self.blinkRGBChooser = self.builder.get_object('blinkRGBChooser')
+        self.pulsateRGBChooser = self.builder.get_object('pulsateRGBChooser')
 
         self.breathSettingsBox = self.builder.get_object('breathSettingsBox')
         self.waveSettingsBox = self.builder.get_object('waveSettingsBox')
         self.staticSettingsBox = self.builder.get_object('staticSettingsBox')
         self.reactiveSettingsBox = self.builder.get_object('reactiveSettingsBox')
         self.rippleSettingsBox = self.builder.get_object('rippleSettingsBox')
+        self.blinkSettingsBox = self.builder.get_object('blinkSettingsBox')
+        self.pulsateSettingsBox = self.builder.get_object('pulsateSettingsBox')
         self.clearTBtn = self.builder.get_object('customClearToolBtn')
 
         self.dpi1Adjustment = self.builder.get_object('mouseDpi1Adjustment')
@@ -112,7 +120,17 @@ class Application(Gtk.Application):
             'Static': self.staticSettingsBox,
             'Reactive': self.reactiveSettingsBox,
             'Custom': self.keyboardBox,
-            'Ripple': self.rippleSettingsBox
+            'Ripple': self.rippleSettingsBox,
+            'Scroll blinking': self.blinkSettingsBox,
+            'Logo blinking': self.blinkSettingsBox,
+            'Scroll pulsate': self.pulsateSettingsBox,
+            'Logo pulsate': self.pulsateSettingsBox,
+            'Scroll breath': self.breathSettingsBox,
+            'Logo breath': self.breathSettingsBox,
+            'Scroll reactive': self.reactiveSettingsBox,
+            'Logo reactive': self.reactiveSettingsBox,
+            'Scroll static': self.staticSettingsBox,
+            'Logo static': self.staticSettingsBox,
         }
 
         self.rkb = CustomKb.RKeyboard('ansi_us')
@@ -239,13 +257,42 @@ class Application(Gtk.Application):
         # empty list before (re)filling it
         listboxHelper.empty_listbox(self.fxListBox)
         # fill list with supported effects
+        if self.active_razer_device.device.type == 'mouse':
+            self.brightnessBox.hide()
+            self.mouseBrightnessBox.show_all()
+            self.logoBrightnessScale.set_value(
+                self.active_razer_device.getLogoBrightness()
+            )
+            self.scrollBrightnessScale.set_value(
+                self.active_razer_device.getScrollBrightness()
+            )
+        else:
+            self.brightnessBox.show_all()
+            self.mouseBrightnessBox.hide()
         for i in self.active_razer_device.availableFX:
-            if i not in ['breath_single', 'breath_dual']:
+            if i not in [
+                'breath_single',
+                'breath_dual',
+                'scroll_breath_single',
+                'scroll_breath_dual',
+                'logo_breath_single',
+                'logo_breath_dual'
+            ]:
                 if i == 'breath_random':
                     i = 'breath'
+
+                if i == 'scroll_breath_random':
+                    i = 'scroll_breath'
+                elif i == 'logo_breath_random':
+                    i = 'logo_breath'
+
+                if 'scroll' in i or 'logo' in i:
+                    i = i.replace('_', ' ')
+
                 i = i.capitalize()
 
                 iconPath = '%s/%s.svg' % (self.EXEC_FOLDER, i)
+                print(iconPath)
                 row = listboxHelper.make_image_row(
                     i,
                     iconPath
@@ -340,8 +387,6 @@ class Application(Gtk.Application):
 
     def enableFXwSettings(self, fx):
         if fx == 'Breath':
-            print(self.breathSingleRadio.get_active())
-            print(self.breathDoubleRadio.get_active())
             if self.breathRandomRadio.get_active():
                 self.active_razer_device.enableRandomBreath()
             else:
@@ -386,6 +431,88 @@ class Application(Gtk.Application):
                 g = self.getColorVal(rgb.green)
                 b = self.getColorVal(rgb.blue)
                 self.active_razer_device.enableRipple(r, g, b)
+        elif fx == 'Scroll blinking':
+            rgb = self.blinkRGBChooser.get_rgba()
+            r = self.getColorVal(rgb.red)
+            g = self.getColorVal(rgb.green)
+            b = self.getColorVal(rgb.blue)
+            self.active_razer_device.enableScrollBlinking(r, g, b)
+        elif fx == 'Logo blinking':
+            rgb = self.blinkRGBChooser.get_rgba()
+            r = self.getColorVal(rgb.red)
+            g = self.getColorVal(rgb.green)
+            b = self.getColorVal(rgb.blue)
+            self.active_razer_device.enableLogoBlinking(r, g, b)
+        elif fx == 'Scroll pulsate':
+            rgb = self.blinkRGBChooser.get_rgba()
+            r = self.getColorVal(rgb.red)
+            g = self.getColorVal(rgb.green)
+            b = self.getColorVal(rgb.blue)
+            self.active_razer_device.enableScrollPulsate(r, g, b)
+        elif fx == 'Logo pulsate':
+            rgb = self.blinkRGBChooser.get_rgba()
+            r = self.getColorVal(rgb.red)
+            g = self.getColorVal(rgb.green)
+            b = self.getColorVal(rgb.blue)
+            self.active_razer_device.enableLogoPulsate(r, g, b)
+        elif fx == 'Scroll breath':
+            if self.breathRandomRadio.get_active():
+                self.active_razer_device.enableScrollBreathRandom()
+            else:
+                rgb1 = self.breathRGB1.get_rgba()
+                r1 = self.getColorVal(rgb1.red)
+                g1 = self.getColorVal(rgb1.green)
+                b1 = self.getColorVal(rgb1.blue)
+                if self.breathDoubleRadio.get_active():
+                    rgb2 = self.breathRGB2.get_rgba()
+                    r2 = self.getColorVal(rgb2.red)
+                    g2 = self.getColorVal(rgb2.green)
+                    b2 = self.getColorVal(rgb2.blue)
+                    self.active_razer_device.enableScrollBreathDual(r1, g1, b1, r2, g2, b2)
+                else:
+                    self.active_razer_device.enableScrollBreathSingle(r1, g1, b1)
+        elif fx == 'Logo breath':
+            if self.breathRandomRadio.get_active():
+                self.active_razer_device.enableLogoBreathRandom()
+            else:
+                rgb1 = self.breathRGB1.get_rgba()
+                r1 = self.getColorVal(rgb1.red)
+                g1 = self.getColorVal(rgb1.green)
+                b1 = self.getColorVal(rgb1.blue)
+                if self.breathDoubleRadio.get_active():
+                    rgb2 = self.breathRGB2.get_rgba()
+                    r2 = self.getColorVal(rgb2.red)
+                    g2 = self.getColorVal(rgb2.green)
+                    b2 = self.getColorVal(rgb2.blue)
+                    self.active_razer_device.enableLogoBreathDual(r1, g1, b1, r2, g2, b2)
+                else:
+                    self.active_razer_device.enableLogoBreathSingle(r1, g1, b1)
+        elif fx == 'Scroll reactive':
+            r_time = self.spinReactiveTime.get_value_as_int()
+            rgb = self.reactiveRGBchooser.get_rgba()
+            r = self.getColorVal(rgb.red)
+            g = self.getColorVal(rgb.green)
+            b = self.getColorVal(rgb.blue)
+            self.active_razer_device.enableScrollReactive(r, g, b, r_time)
+        elif fx == 'Logo reactive':
+            r_time = self.spinReactiveTime.get_value_as_int()
+            rgb = self.reactiveRGBchooser.get_rgba()
+            r = self.getColorVal(rgb.red)
+            g = self.getColorVal(rgb.green)
+            b = self.getColorVal(rgb.blue)
+            self.active_razer_device.enableLogoReactive(r, g, b, r_time)
+        elif fx == 'Scroll static':
+            rgb = self.staticRGB.get_rgba()
+            r = self.getColorVal(rgb.red)
+            g = self.getColorVal(rgb.green)
+            b = self.getColorVal(rgb.blue)
+            self.active_razer_device.enableScrollStatic(r, g, b)
+        elif fx == 'Logo static':
+            rgb = self.staticRGB.get_rgba()
+            r = self.getColorVal(rgb.red)
+            g = self.getColorVal(rgb.green)
+            b = self.getColorVal(rgb.blue)
+            self.active_razer_device.enableLogoStatic(r, g, b)
         else:
             self.active_razer_device.enableFX(fx)
 
@@ -475,7 +602,7 @@ class Application(Gtk.Application):
             self.popoverChooseDevice.show_all()
 
     def on_popoverDevicesListBox_row_selected(self, list, row):
-        # TODO_NO?: move to changeDevice() function
+        # TODO ?: move to changeDevice() function
         if row:
             self.active_razer_device = row.value
             self.currentDeviceLabel.set_text(row.value.name)
@@ -497,8 +624,15 @@ class Application(Gtk.Application):
                 currentPollRate=1000
             self.active_razer_device.set_poll_rate(currentPollRate)
             return
-        newVal = self.brightnessScale.get_value()
-        self.active_razer_device.setBrightness(int(newVal))
+
+        if self.active_razer_device.device.type == 'mouse':
+            logoBrightness = self.logoBrightnessScale.get_value()
+            scrollBrightness = self.scrollBrightnessScale.get_value()
+            self.active_razer_device.setLogoBrightness(int(logoBrightness))
+            self.active_razer_device.setScrollBrightness(int(scrollBrightness))
+        else:
+            newVal = self.brightnessScale.get_value()
+            self.active_razer_device.setBrightness(int(newVal))
         if not self.fxListBox.get_selected_row():
             print('No fx row selected')
             return

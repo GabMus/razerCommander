@@ -213,6 +213,15 @@ class Device:
         else:
             logging.warning('The Pulsate FX is not available')
 
+
+    def getBrightness(self):
+        # check if brightness is available for the current device
+        if self.device.has('brightness'):
+            return self.device.brightness
+        else:
+            return -1
+            logging.warning('Brightness is not available')
+
     # Set birghtness for backlight
     # gets values between 0 and 255
     def setBrightness(self, value):
@@ -221,6 +230,36 @@ class Device:
             self.device.brightness = value
         else:
             logging.warning('Brightness is not available')
+
+    def getScrollBrightness(self):
+        # check if brightness is available for the current device
+        if self.device.fx.has('scroll_brightness'):
+            return self.device.fx.misc.scroll_wheel.brightness
+        else:
+            logging.warning('Scroll Brightness is not available')
+            return -1
+
+    def getLogoBrightness(self):
+        # check if brightness is available for the current device
+        if self.device.fx.has('logo_brightness'):
+            return self.device.fx.misc.scroll_wheel.brightness
+        else:
+            logging.warning('Logo Brightness is not available')
+            return -1
+
+    def setScrollBrightness(self, value):
+        # check if brightness is available for the current device
+        if self.device.fx.has('scroll_brightness'):
+            self.device.fx.misc.scroll_wheel.brightness = value
+        else:
+            logging.warning('Scroll Brightness is not available')
+
+    def setLogoBrightness(self, value):
+        # check if brightness is available for the current device
+        if self.device.fx.has('logo_brightness'):
+            self.device.fx.misc.logo.brightness = value
+        else:
+            logging.warning('Logo Brightness is not available')
 
     def enableFX(self, fx):
         if fx == "None":
@@ -232,6 +271,14 @@ class Device:
         elif fx == "Pulsate":
             self.enablePulsate()
             return 0
+        elif fx == 'Scroll spectrum':
+            self.enableScrollSpectrum()
+        elif fx == 'Logo spectrum':
+            self.enableLogoSpectrum()
+        elif fx == 'Scroll none':
+            self.enableScrollNone()
+        elif fx == 'Logo none':
+            self.enableLogoNone()
         else:
             logging.error("FX not listed")
             return 1

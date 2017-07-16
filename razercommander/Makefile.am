@@ -33,6 +33,17 @@ app_PYTHON = \
 	img/Static.svg \
 	img/tartarus_backup.svg \
 	img/tartarus.svg \
-	img/Wave.svg
+	img/Wave.svg \
+	img/Scroll\ none.svg \
+	img/Scroll\ static.svg \
+	img/Scroll\ pulsate.svg \
+	img/Scroll\ reactive.svg \
+	img/Scroll\ spectrum.svg \
+	img/Scroll\ blinking.svg \
+	img/Logo\ blinking.svg \
+	img/Logo\ none.svg \
+	img/Logo\ pulsate.svg \
+	img/Logo\ spectrum.svg \
+	img/Logo\ static.svg
 
 -include $(top_srcdir)/git.mk
