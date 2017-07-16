@@ -19,9 +19,21 @@ class Device:
     def __init__(self, device):
         self.device = device
         self.availableFX = []
-        for fx in self.uFXList:
-            if self.device.fx.has(fx):
-                self.availableFX.append(fx)
+
+        if self.device.type == 'mouse':
+            for fx in self.mouse_scroll_uFXList:
+               if self.device.fx.misc.has('scroll'):
+                   if self.device.fx.misc.scroll_wheel.has(fx):
+                       self.availableFX.append(fx)
+            for fx in self.mouse_logo_uFXList:
+                if self.device.fx.misc.has('logo'):
+                    if self.device.fx.misc.logo.has(fx):
+                        self.availableFX.append(fx)
+        else:
+            for fx in self.uFXList:
+                if self.device.fx.has(fx):
+                    self.availableFX.append(fx)
+
         if self.device.has('lighting_led_matrix'):
             self.availableFX.append('custom')
         if self.device.has('macro_logic'): # unsupported dev failsafe in macro_logic.make_device()
@@ -47,13 +59,31 @@ class Device:
         'none',
     ]
 
-    MSG_PROBLEM_ENABLING = 'There was an error enabling the FX '
+    mouse_scroll_uFXList = [
+        'scroll_blinking',
+        'scroll_pulsate',
+        'scroll_breath_single',
+        'scroll_breath_dual',
+        'scroll_breath_random',
+        'scroll_spectrum',
+        'scroll_reactive',
+        'scroll_static',
+        'scroll_none',
+    ]
 
-    # legacy:
-    def __gksu_run__(self, command):
-        toRun = command
-        logging.info("running " + toRun)
-        os.system(toRun)
+    mouse_logo_uFXList = [
+        'logo_blinking',
+        'logo_pulsate',
+        'logo_breath_single',
+        'logo_breath_dual',
+        'logo_breath_random',
+        'logo_spectrum',
+        'logo_reactive',
+        'logo_static',
+        'logo_none',
+    ]
+
+    MSG_PROBLEM_ENABLING = 'There was an error enabling the FX '
 
     # Breathing effect mode
     def enableRandomBreath(self):
@@ -205,6 +235,69 @@ class Device:
         else:
             logging.error("FX not listed")
             return 1
+
+    def enableScrollBlinking(self, R, G, B):
+        if self.device.fx.misc.scroll_wheel.has('scroll_blinking'):
+            if not self.device.fx.misc.scroll_wheel.blinking(R, G, B):
+                logging.error('%sBlinking' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Scroll Blinking FX is not available')
+
+    def enableScrollPulsate(self, R, G, B):
+        if self.device.fx.misc.scroll_wheel.has('scroll_pulsate'):
+            if not self.device.fx.misc.scroll_wheel.pulsate(R, G, B):
+                logging.error('%sPulsate' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Scroll Pulsate FX is not available')
+
+    def enableScrollBreathSingle(self, R, G, B):
+        if self.device.fx.misc.scroll_wheel.has('scroll_breath_single'):
+            if not self.device.fx.misc.scroll_wheel.breath_single(R, G, B):
+                logging.error('%sBreath Single' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Breath Single FX is not available')
+
+    def enableScrollBreathDual(self, R, G, B, R1, G1, B1):
+        if self.device.fx.misc.scroll_wheel.has('scroll_breath_dual'):
+            if not self.device.fx.misc.scroll_wheel.breath_dual(R, G, B, R1, G1, B1):
+                logging.error('%sBreath Dual' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Breath Dual FX is not available')
+
+    def enableScrollBreathRandom(self):
+        if self.device.fx.misc.scroll_wheel.has('scroll_breath_random'):
+            if not self.device.fx.misc.scroll_wheel.breath_random():
+                logging.error('%sBreath Random' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Breath Random FX is not available')
+
+    def enableScrollSpectrum(self):
+        if self.device.fx.misc.scroll_wheel.has('scroll_spectrum'):
+            if not self.device.fx.misc.scroll_wheel.spectrum():
+                logging.error('%sSpectrum' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Spectrum FX is not available')
+
+    def enableScrollReactive(self, R, G, B, time):
+        if self.device.fx.misc.scroll_wheel.has('scroll_reactive'):
+            if not self.device.fx.misc.scroll_wheel.reactive(R, G, B, time):
+                logging.error('%sReactive' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Reactive FX is not available')
+
+    def enableScrollStatic(self, R, G, B):
+        if self.device.fx.misc.scroll_wheel.has('scroll_static'):
+            if not self.device.fx.misc.scroll_wheel.static(R, G, B):
+                logging.error('%sStatic' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Static FX is not available')
+
+    def enableScrollNone(self):
+        if self.device.fx.misc.scroll_wheel.has('scroll_none'):
+            if not self.device.fx.misc.scroll_wheel.none():
+                logging.error('%sNone' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The None FX is not available')
 
     def _make_color_tuple(self, mcol):
     	return (int(mcol.red*255), int(mcol.green*255), int(mcol.blue*255))
