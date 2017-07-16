@@ -7,7 +7,7 @@ def make_image_row(text, img_path):
     label = Gtk.Label()
     label.set_text(text)
     icon = Gtk.Image()
-    icon.set_from_file(img_path)
+    icon.set_from_resource(img_path)
     label.set_margin_left(12)
     label.set_margin_right(12)
     box.pack_start(icon, False, False, 0)

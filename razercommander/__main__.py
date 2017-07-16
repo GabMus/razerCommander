@@ -38,11 +38,12 @@ HOME = os.environ.get('HOME')
 
 class Application(Gtk.Application):
     def __init__(self, **kwargs):
-        self.builder = Gtk.Builder()
+        self.builder = Gtk.Builder.new_from_resource('/org/gabmus/razercommander/ui/ui.glade')
         super().__init__(application_id='org.gabmus.razercommander', **kwargs)
-        self.EXEC_FOLDER = os.path.dirname(os.path.realpath(__file__))
+        self.RESOURCE_PATH = '/org/gabmus/razercommander/'
 
-        self.builder.add_from_file('%s/ui.glade' % self.EXEC_FOLDER)
+        # self.builder.add_from_file('%s/ui.glade' % self.RESOURCE_PATH)
+        # self.builder.add_from_resource()
         self.builder.connect_signals(self)
 
         settings = Gtk.Settings.get_default()
@@ -245,10 +246,8 @@ class Application(Gtk.Application):
         for row in rows_l:
             self.macro_listbox.add(row)
             row.show_all()
-        self.macro_device_picture.set_from_file(
-            self.EXEC_FOLDER +
-            self.active_razer_device.name
-            + '.svg'
+        self.macro_device_picture.set_from_resource(
+            '%simg/%s.svg' %(self.RESOURCE_PATH, self.active_razer_device.name.replace(' ', '_'))
         )
 
     def refreshFxList(self):
@@ -291,7 +290,7 @@ class Application(Gtk.Application):
 
                 i = i.capitalize()
 
-                iconPath = '%s/%s.svg' % (self.EXEC_FOLDER, i)
+                iconPath = '%simg/%s.svg' % (self.RESOURCE_PATH, i.replace(' ', '_'))
                 print(iconPath)
                 row = listboxHelper.make_image_row(
                     i,
@@ -303,9 +302,9 @@ class Application(Gtk.Application):
         if self.active_razer_device.device.has('game_mode_led'):
             self.gameModeSwitch.set_state(self.active_razer_device.device.game_mode_led)
             if self.gameModeSwitch.get_state():
-                self.gameModeIcon.set_from_file('%s/gameModeOn.svg' % self.EXEC_FOLDER)
+                self.gameModeIcon.set_from_resource('%simg/gameModeOn.svg' % self.RESOURCE_PATH)
             else:
-                self.gameModeIcon.set_from_file('%s/gameModeOff.svg' % self.EXEC_FOLDER)
+                self.gameModeIcon.set_from_resource('%simg/gameModeOff.svg' % self.RESOURCE_PATH)
             self.gameModeIcon.show()
             self.gameModeSwitch.show()
         else:
@@ -647,9 +646,9 @@ class Application(Gtk.Application):
         value = self.gameModeSwitch.get_state()
         # the state is inverted
         if not value:
-            self.gameModeIcon.set_from_file('%s/gameModeOn.svg' % self.EXEC_FOLDER)
+            self.gameModeIcon.set_from_resource('%simg/gameModeOn.svg' % self.RESOURCE_PATH)
         else:
-            self.gameModeIcon.set_from_file('%s/gameModeOff.svg' % self.EXEC_FOLDER)
+            self.gameModeIcon.set_from_resource('%simg/gameModeOff.svg' % self.RESOURCE_PATH)
 
     def on_breathRadio_toggled(self, radio):
         if radio.get_state():

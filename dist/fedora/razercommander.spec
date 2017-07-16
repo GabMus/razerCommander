@@ -51,7 +51,7 @@ fi
 %files
 %license COPYING
 %doc README.md
-%{_bindir}/transmission-remote-gnome
+%{_bindir}/razercommander
 %dir %{python3_sitelib}/razercommander
 %{python3_sitelib}/razercommander/
 %{_datadir}/razercommander/%{appid}.gresource

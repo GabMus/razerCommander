@@ -22,5 +22,4 @@ if not destdir:
 
 print('Compiling python bytecode...')
 moduledir = sysconfig.get_path('purelib', vars={'base': str(prefix)})
-compileall.compile_dir(destdir + os.path.join(moduledir, 'trg'), optimize=2)
-
+compileall.compile_dir(destdir + os.path.join(moduledir, 'razercommander'), optimize=2)

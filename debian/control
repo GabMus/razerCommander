@@ -12,7 +12,7 @@ Build-Depends:
  libappstream-glib-dev,
  meson (>= 0.40.0)
 
-Package: transmission-remote-gnome
+Package: razercommander
 Architecture: all
 Depends:
  python3 (>= 3.4),
