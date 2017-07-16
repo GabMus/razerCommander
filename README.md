@@ -19,6 +19,10 @@ Razer device manager for Linux
 
 ## Supported hardware
 
+Any of the devices supported by the driver stack should work fine in razerCommander.
+
+For a detailed list of supported devices refer to [this page](https://github.com/terrycain/razer-drivers#device-support)
+
 - Keyboards
 - Macro keypads (Tartarus, Orbweaver)
 - Mice ***(only lighting effects, most macro features)***
