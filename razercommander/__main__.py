@@ -98,6 +98,14 @@ class Application(Gtk.Application):
         self.rippleSettingsBox = self.builder.get_object('rippleSettingsBox')
         self.clearTBtn = self.builder.get_object('customClearToolBtn')
 
+        self.dpi1Adjustment = self.builder.get_object('mouseDpi1Adjustment')
+        self.dpi2Adjustment = self.builder.get_object('mouseDpi2Adjustment')
+        self.radioPollrateGroup = self.builder.get_object('radioPollrate125').get_group()
+
+        self.radioPollrate125 = self.builder.get_object('radioPollrate125')
+        self.radioPollrate500 = self.builder.get_object('radioPollrate500')
+        self.radioPollrate1000 = self.builder.get_object('radioPollrate1000')
+
         self.settingsPanes = {
             'Breath': self.breathSettingsBox,
             'Wave': self.waveSettingsBox,
@@ -266,8 +274,30 @@ class Application(Gtk.Application):
             self.refresh_macro_section() # possibly move this from here
         else:
             stackButtons[2].hide()
-        if self.active_razer_device.device.type == 'mouse' and False: # TODO: REMOVE no mouse support in the lib yet
+        if self.active_razer_device.device.type == 'mouse':
             stackButtons[0].show()
+            self.builder.get_object(
+                'mouseDpi1Adjustment'
+                ).set_upper(self.active_razer_device.get_max_dpi())
+            self.builder.get_object(
+                'mouseDpi2Adjustment'
+                ).set_upper(self.active_razer_device.get_max_dpi())
+            currentDpi=self.active_razer_device.get_dpi()
+            print(currentDpi[1])
+            self.builder.get_object(
+                'mouseDpi1Adjustment'
+                ).set_value(currentDpi[0])
+            self.builder.get_object(
+                'mouseDpi2Adjustment'
+                ).set_value(currentDpi[1])
+            if self.active_razer_device.get_poll_rate() == 125:
+                self.radioPollrate125.set_active(True)
+            elif self.active_razer_device.get_poll_rate() == 500:
+                self.radioPollrate500.set_active(True)
+            elif self.active_razer_device.get_poll_rate() == 1000:
+                self.radioPollrate1000.set_active(True)
+            else:
+                self.radioPollrate500.set_active(True)
         else:
             stackButtons[0].hide()
             self.mainStack.set_visible_child(self.mainStack.get_children()[1])
@@ -453,6 +483,20 @@ class Application(Gtk.Application):
             self.popoverChooseDevice.hide()
 
     def on_universalApplyButton_clicked(self, button):
+        if self.mainStack.get_visible_child_name() == 'Mouse':
+            self.active_razer_device.set_dpi(
+                int(self.dpi1Adjustment.get_value()),
+                int(self.dpi2Adjustment.get_value()),
+            )
+            currentPollRate=500
+            if self.radioPollrate125.get_active():
+                currentPollRate=125
+            elif self.radioPollrate500.get_active():
+                currentPollRate=500
+            elif self.radioPollrate1000.get_active():
+                currentPollRate=1000
+            self.active_razer_device.set_poll_rate(currentPollRate)
+            return
         newVal = self.brightnessScale.get_value()
         self.active_razer_device.setBrightness(int(newVal))
         if not self.fxListBox.get_selected_row():

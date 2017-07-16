@@ -232,3 +232,40 @@ class Device:
                 cindex+=1
             rindex += 1
         self.device.fx.advanced.draw()
+
+    def get_poll_rate(self):
+        if self.device.has('poll_rate'):
+            return self.device.poll_rate
+        else:
+            return -1
+
+    def set_poll_rate(self, value):
+        # the poll rate value can only be 125, 500 or 1000
+        if not value in [125,500,1000]:
+            print('ERROR: Poll rate can only be one of 125, 500 or 1000')
+            return
+        if not self.device.has('poll_rate'):
+            print('ERROR: device %s doesn\'t support poll_rate' % self.device.name)
+            return
+        self.device.poll_rate = value
+
+    def get_dpi(self):
+        if self.device.has('dpi'):
+            return self.device.dpi
+        else:
+            return -1
+
+    def get_max_dpi(self):
+        if self.device.has('dpi'):
+            return self.device.max_dpi
+        else:
+            return -1
+
+    def set_dpi(self, dpi1, dpi2):
+        if not self.device.has('dpi'):
+            print('ERROR: device %s doesn\'t support dpi' % self.device.name)
+            return
+        if dpi1 > self.device.max_dpi or dpi2 > self.device.max_dpi:
+            print('ERROR: the dpi value(s) provided are over the maximum dpi supported by the device')
+            return
+        self.device.dpi = (dpi1, dpi2)
