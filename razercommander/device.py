@@ -299,6 +299,69 @@ class Device:
         else:
             logging.warning('The None FX is not available')
 
+    def enableLogoBlinking(self, R, G, B):
+        if self.device.fx.misc.logo.has('logo_blinking'):
+            if not self.device.fx.misc.logo.blinking(R, G, B):
+                logging.error('%sBlinking' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Logo Blinking FX is not available')
+
+    def enableLogoPulsate(self, R, G, B):
+        if self.device.fx.misc.logo.has('logo_pulsate'):
+            if not self.device.fx.misc.logo.pulsate(R, G, B):
+                logging.error('%sPulsate' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Logo Pulsate FX is not available')
+
+    def enableLogoBreathSingle(self, R, G, B):
+        if self.device.fx.misc.logo.has('logo_breath_single'):
+            if not self.device.fx.misc.logo.breath_single(R, G, B):
+                logging.error('%sBreath Single' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Breath Single FX is not available')
+
+    def enableLogoBreathDual(self, R, G, B, R1, G1, B1):
+        if self.device.fx.misc.logo.has('logo_breath_dual'):
+            if not self.device.fx.misc.logo.breath_dual(R, G, B, R1, G1, B1):
+                logging.error('%sBreath Dual' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Breath Dual FX is not available')
+
+    def enableLogoBreathRandom(self):
+        if self.device.fx.misc.logo.has('logo_breath_random'):
+            if not self.device.fx.misc.logo.breath_random():
+                logging.error('%sBreath Random' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Breath Random FX is not available')
+
+    def enableLogoSpectrum(self):
+        if self.device.fx.misc.logo.has('logo_spectrum'):
+            if not self.device.fx.misc.logo.spectrum():
+                logging.error('%sSpectrum' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Spectrum FX is not available')
+
+    def enableLogoReactive(self, R, G, B, time):
+        if self.device.fx.misc.logo.has('logo_reactive'):
+            if not self.device.fx.misc.logo.reactive(R, G, B, time):
+                logging.error('%sReactive' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Reactive FX is not available')
+
+    def enableLogoStatic(self, R, G, B):
+        if self.device.fx.misc.logo.has('logo_static'):
+            if not self.device.fx.misc.logo.static(R, G, B):
+                logging.error('%sStatic' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The Static FX is not available')
+
+    def enableLogoNone(self):
+        if self.device.fx.misc.logo.has('logo_none'):
+            if not self.device.fx.misc.logo.none():
+                logging.error('%sNone' % self.MSG_PROBLEM_ENABLING)
+        else:
+            logging.warning('The None FX is not available')
+
     def _make_color_tuple(self, mcol):
     	return (int(mcol.red*255), int(mcol.green*255), int(mcol.blue*255))
 
