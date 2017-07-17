@@ -22,9 +22,9 @@ class Device:
 
         if self.device.type == 'mouse':
             for fx in self.mouse_scroll_uFXList:
-               if self.device.fx.misc.has('scroll'):
-                   if self.device.fx.misc.scroll_wheel.has(fx):
-                       self.availableFX.append(fx)
+                if self.device.fx.misc.has('scroll'):
+                    if self.device.fx.misc.scroll_wheel.has(fx):
+                        self.availableFX.append(fx)
             for fx in self.mouse_logo_uFXList:
                 if self.device.fx.misc.has('logo'):
                     if self.device.fx.misc.logo.has(fx):
@@ -36,12 +36,12 @@ class Device:
 
         if self.device.has('lighting_led_matrix'):
             self.availableFX.append('custom')
-        if self.device.has('macro_logic'): # unsupported dev failsafe in macro_logic.make_device()
-            self.macro_device=macro_logic.make_device(
+        if self.device.has('macro_logic'):  # unsupported dev failsafe in macro_logic.make_device()
+            self.macro_device = macro_logic.make_device(
                 str(self.device.serial),
                 self.device)
         else:
-            self.macro_device=None
+            self.macro_device = None
         self.name = str(device.name)
 
 

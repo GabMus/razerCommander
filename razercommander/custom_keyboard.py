@@ -3,9 +3,10 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gdk
 
+
 class RKeyboardKey:
     label = ''
-    color = Gdk.RGBA(0,0,0)
+    color = Gdk.RGBA(0, 0, 0)
     isGhost = False
     x = -1
     y = -1
@@ -28,10 +29,10 @@ class RKeyboardRow:
     def __init__(self, rowarr, index):
         self.rowindex = index
         self.keylist = []
-        cx=0
+        cx = 0
         for key in rowarr:
             self.keylist.append(RKeyboardKey(key, cx, index))
-            cx+=1
+            cx += 1
 
     def getKey(self, index):
         return self.keylist[index]

@@ -7,11 +7,12 @@ from . import custom_profiles
 KEYCAP_SIZE = 50
 rkb = None
 
+
 def build_key_box(key, color, signal_handler):
     box = Gtk.EventBox()
     if not key.isGhost:
         box.get_style_context().add_class('keycap')
-        key.color=color
+        key.color = color
         box.override_background_color(
             Gtk.StateType.NORMAL,
             color
@@ -19,8 +20,8 @@ def build_key_box(key, color, signal_handler):
         label = Gtk.Label()
         label.set_text(key.label)
         box.add(label)
-    box.keyx=key.x
-    box.keyy=key.y
+    box.keyx = key.x
+    box.keyy = key.y
     if key.label in ['tab', 'lctrl', 'lalt', 'ralt', 'rctrl', '\\']:
         box.set_size_request(KEYCAP_SIZE * 1.5, KEYCAP_SIZE)
     elif key.label == 'capslk':
@@ -42,26 +43,28 @@ def build_key_box(key, color, signal_handler):
     box.connect('button-press-event', signal_handler)
     return box
 
+
 def build_keyrow_box(row, colors, signal_handler, prof_index):
     box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
     for key in row.keylist:
         if not key.isGhost:
-            k_col=Gdk.RGBA(
+            k_col = Gdk.RGBA(
                 colors[prof_index][0],
                 colors[prof_index][1],
                 colors[prof_index][2]
             )
         else:
-            k_col=Gdk.RGBA(0,0,0)
+            k_col = Gdk.RGBA(0, 0, 0)
         keybox = build_key_box(
             key,
             k_col,
             signal_handler
         )
         if not key.isGhost:
-            prof_index+=1
+            prof_index += 1
         box.pack_start(keybox, True, True, 0)
     return {'row': box, 'prof_index': prof_index}
+
 
 def build_keyboard_box(box, colors, signal_handler, nrkb):
     global rkb

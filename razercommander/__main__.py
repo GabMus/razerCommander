@@ -25,8 +25,9 @@ print('Importing device logic, waiting for daemon')
 try:
     from . import device
     print('Device logic loaded, deamon is alive')
-except:
+except Exception as e:
     print('ERROR: the daemon is not responding!\nTry running `killall razer-service && razer-service` or rebooting. If this doesn\'t work, please fill an issue!')
+    print('Exception: %s' % e)
 #    exit(1)
 from . import device
 from . import custom_keyboard as CustomKb
@@ -36,9 +37,12 @@ from . import custom_kb_builder
 
 HOME = os.environ.get('HOME')
 
+
 class Application(Gtk.Application):
     def __init__(self, **kwargs):
-        self.builder = Gtk.Builder.new_from_resource('/org/gabmus/razercommander/ui/ui.glade')
+        self.builder = Gtk.Builder.new_from_resource(
+            '/org/gabmus/razercommander/ui/ui.glade'
+        )
         super().__init__(application_id='org.gabmus.razercommander', **kwargs)
         self.RESOURCE_PATH = '/org/gabmus/razercommander/'
 
@@ -212,23 +216,23 @@ class Application(Gtk.Application):
             self.profilesListBox.remove(child)
 
         for p in custom_profiles.profiles:
-            box=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-            labelName=Gtk.Label()
+            box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+            labelName = Gtk.Label()
             labelName.set_text(p['name'])
             box.pack_start(labelName, True, True, 0)
             box.set_margin_top(6)
             box.set_margin_bottom(6)
-            if not p['name']=='Empty':
-                rmIcon=Gtk.Image()
+            if not p['name'] == 'Empty':
+                rmIcon = Gtk.Image()
                 rmIcon.set_from_icon_name('gtk-delete', Gtk.IconSize.BUTTON)
-                rmButton=Gtk.Button()
+                rmButton = Gtk.Button()
                 rmButton.add(rmIcon)
-                rmButton.preset=p['name']
+                rmButton.preset = p['name']
                 rmButton.connect("button-press-event", self.onRmProfile)
                 box.pack_end(rmButton, False, False, 0)
             row = Gtk.ListBoxRow()
             row.add(box)
-            row.value=p['name']
+            row.value = p['name']
             self.profilesListBox.add(row)
         self.profilesListBox.unselect_all()
         if self.popoverProfiles.get_visible():
@@ -247,7 +251,10 @@ class Application(Gtk.Application):
             self.macro_listbox.add(row)
             row.show_all()
         self.macro_device_picture.set_from_resource(
-            '%simg/%s.svg' %(self.RESOURCE_PATH, self.active_razer_device.name.replace(' ', '_'))
+            '%simg/%s.svg' % (
+                self.RESOURCE_PATH,
+                self.active_razer_device.name.replace(' ', '_')
+            )
         )
 
     def refreshFxList(self):
@@ -317,7 +324,7 @@ class Application(Gtk.Application):
         # if device supports macros
         if self.active_razer_device.macro_device:
             stackButtons[2].show()
-            self.refresh_macro_section() # possibly move this from here
+            self.refresh_macro_section()  # possibly move this from here
         else:
             stackButtons[2].hide()
         if self.active_razer_device.device.type == 'mouse':
@@ -328,7 +335,7 @@ class Application(Gtk.Application):
             self.builder.get_object(
                 'mouseDpi2Adjustment'
                 ).set_upper(self.active_razer_device.get_max_dpi())
-            currentDpi=self.active_razer_device.get_dpi()
+            currentDpi = self.active_razer_device.get_dpi()
             print(currentDpi[1])
             self.builder.get_object(
                 'mouseDpi1Adjustment'
@@ -357,8 +364,8 @@ class Application(Gtk.Application):
                 self.customColorPicker.set_rgba(color)
                 self.pipetteTBtn.set_active(False)
             elif self.clearTBtn.get_active():
-                key.color = Gdk.RGBA(0,0,0)
-                black_rgba = Gdk.RGBA(0,0,0)
+                key.color = Gdk.RGBA(0, 0, 0)
+                black_rgba = Gdk.RGBA(0, 0, 0)
                 eventbox.override_background_color(
                     Gtk.StateType.NORMAL,
                     black_rgba
@@ -370,7 +377,7 @@ class Application(Gtk.Application):
                     self.customColorPicker.get_rgba()
                 )
 
-    def drawKB(self, profile = None):
+    def drawKB(self, profile=None):
         # Load black fake profile if none provided
         if not profile:
             profile = custom_profiles.blackProfile
@@ -515,8 +522,6 @@ class Application(Gtk.Application):
         else:
             self.active_razer_device.enableFX(fx)
 
-
-
     def do_activate(self):
         window = self.builder.get_object('window')
         self.add_window(window)
@@ -580,9 +585,9 @@ class Application(Gtk.Application):
             custom_profiles.makeProfile(name, self.rkb)
         ):
             print('error')
-            #presetExistsInfobar.show()
+            # presetExistsInfobar.show()
         else:
-            #presetExistsInfobar.hide()
+            # presetExistsInfobar.hide()
             self.profileNameEntry.set_text('')
             self.saveProfileDialog.hide()
             self.refreshProfiles()
@@ -614,13 +619,13 @@ class Application(Gtk.Application):
                 int(self.dpi1Adjustment.get_value()),
                 int(self.dpi2Adjustment.get_value()),
             )
-            currentPollRate=500
+            currentPollRate = 500
             if self.radioPollrate125.get_active():
-                currentPollRate=125
+                currentPollRate = 125
             elif self.radioPollrate500.get_active():
-                currentPollRate=500
+                currentPollRate = 500
             elif self.radioPollrate1000.get_active():
-                currentPollRate=1000
+                currentPollRate = 1000
             self.active_razer_device.set_poll_rate(currentPollRate)
             return
 
@@ -714,9 +719,9 @@ class Application(Gtk.Application):
             self.set_shortcut_stack.set_visible_child_name('Command')
             if not row.value['val']:
                 self.macro_shortcut_entry.set_text('')
-            elif row.value['val'].startswith('xdotool key '): # is keystroke
+            elif row.value['val'].startswith('xdotool key '):  # is keystroke
                 self.set_shortcut_stack.set_visible_child_name('Keystroke')
-                current_keystroke=row.value['val'][12:]
+                current_keystroke = row.value['val'][12:]
                 self.macro_current_keystroke_label.set_text(current_keystroke)
             else:
                 self.macro_shortcut_entry.set_text(row.value['val'])
@@ -758,11 +763,11 @@ class Application(Gtk.Application):
     def on_recordKeystrokeToggleBtn_key_release_event(self, toggle_btn, event):
         if toggle_btn.get_active():
             keyname = Gdk.keyval_name(event.keyval)
-            #print("Release Key %s (keycode: %d)" % (keyname, event.keyval))
+            # print("Release Key %s (keycode: %d)" % (keyname, event.keyval))
             self.key_stroke_n -= 1
             if not self.key_stroke_n:
                 keystroke = ''
-                for i in range(0,4):
+                for i in range(0, 4):
                     if self.keystroke_shortcuts_all_mods[i].get_active():
                         keystroke += self.keystroke_shortcuts_all_mods_str[i]+'+'
                 keystroke += '+'.join(self.key_stroke_list)
@@ -775,7 +780,6 @@ class Application(Gtk.Application):
             self.key_stroke_list = []
 
     # Handler functions END
-
 
 
 def main():
