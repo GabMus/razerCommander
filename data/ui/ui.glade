@@ -53,63 +53,6 @@ Author: Gabriele Musco
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkPopover" id="popoverProfiles">
-    <property name="can_focus">False</property>
-    <property name="relative_to">customProfilesButton</property>
-    <property name="position">bottom</property>
-    <child>
-      <object class="GtkBox">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkScrolledWindow">
-            <property name="width_request">150</property>
-            <property name="height_request">250</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">never</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <object class="GtkViewport">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkListBox" id="popoverProfilesListBox">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <signal name="row-activated" handler="on_popoverProfilesListBox_row_selected" swapped="no"/>
-                  </object>
-                </child>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="popoverProfilesSaveButton">
-            <property name="label" translatable="yes">Save profile</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="halign">center</property>
-            <property name="margin_top">6</property>
-            <property name="margin_bottom">6</property>
-            <signal name="clicked" handler="on_popoverProfilesSaveProfile_clicked" swapped="no"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkAdjustment" id="reactiveTimeAdjustment">
     <property name="lower">1</property>
     <property name="upper">3</property>
@@ -1868,7 +1811,7 @@ Author: Gabriele Musco
                 <property name="can_focus">False</property>
                 <property name="no_show_all">True</property>
                 <property name="valign">center</property>
-                <property name="pixbuf">icon.svg</property>
+                <property name="resource">/org/gabmus/razercommander/img/gameModeOff.svg</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1912,7 +1855,7 @@ Tim Theede aka pez2001 (razer-chroma-driver)
 Terry Cain aka terrycain (razer_driver, original driver fork)
 
 And special thanks to all the folks that have supported and helped with the development. We are building the future of Linux, piece by piece, together.</property>
-    <property name="logo">icon.svg</property>
+    <property name="logo_icon_name">org.gabmus.razercommander</property>
     <property name="license_type">gpl-3-0</property>
     <child internal-child="vbox">
       <object class="GtkBox">
@@ -2270,6 +2213,63 @@ And special thanks to all the folks that have supported and helped with the deve
             <property name="can_focus">False</property>
             <signal name="row-activated" handler="on_popoverDevicesListBox_row_selected" swapped="no"/>
           </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkPopover" id="popoverProfiles">
+    <property name="can_focus">False</property>
+    <property name="relative_to">customProfilesButton</property>
+    <property name="position">bottom</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="width_request">150</property>
+            <property name="height_request">250</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">never</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <object class="GtkViewport">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkListBox" id="popoverProfilesListBox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <signal name="row-activated" handler="on_popoverProfilesListBox_row_selected" swapped="no"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="popoverProfilesSaveButton">
+            <property name="label" translatable="yes">Save profile</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="halign">center</property>
+            <property name="margin_top">6</property>
+            <property name="margin_bottom">6</property>
+            <signal name="clicked" handler="on_popoverProfilesSaveProfile_clicked" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
     </child>

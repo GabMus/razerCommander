@@ -114,7 +114,9 @@ class Application(Gtk.Application):
 
         self.dpi1Adjustment = self.builder.get_object('mouseDpi1Adjustment')
         self.dpi2Adjustment = self.builder.get_object('mouseDpi2Adjustment')
-        self.radioPollrateGroup = self.builder.get_object('radioPollrate125').get_group()
+        self.radioPollrateGroup = self.builder.get_object(
+            'radioPollrate125'
+        ).get_group()
 
         self.radioPollrate125 = self.builder.get_object('radioPollrate125')
         self.radioPollrate500 = self.builder.get_object('radioPollrate500')
@@ -325,8 +327,9 @@ class Application(Gtk.Application):
 
                 i = i.capitalize()
 
-                iconPath = '%simg/%s.svg' % (self.RESOURCE_PATH, i.replace(' ', '_'))
-                print(iconPath)
+                iconPath = '%simg/%s.svg' % (
+                    self.RESOURCE_PATH, i.replace(' ', '_')
+                )
                 row = listboxHelper.make_image_row(
                     i,
                     iconPath
@@ -335,11 +338,17 @@ class Application(Gtk.Application):
                 self.fxListBox.add(row)
                 row.show_all()
         if self.active_razer_device.device.has('game_mode_led'):
-            self.gameModeSwitch.set_state(self.active_razer_device.device.game_mode_led)
+            self.gameModeSwitch.set_state(
+                self.active_razer_device.device.game_mode_led
+            )
             if self.gameModeSwitch.get_state():
-                self.gameModeIcon.set_from_resource('%simg/gameModeOn.svg' % self.RESOURCE_PATH)
+                self.gameModeIcon.set_from_resource(
+                    '%simg/gameModeOn.svg' % self.RESOURCE_PATH
+                )
             else:
-                self.gameModeIcon.set_from_resource('%simg/gameModeOff.svg' % self.RESOURCE_PATH)
+                self.gameModeIcon.set_from_resource(
+                    '%simg/gameModeOff.svg' % self.RESOURCE_PATH
+                )
             self.gameModeIcon.show()
             self.gameModeSwitch.show()
         else:
@@ -433,7 +442,9 @@ class Application(Gtk.Application):
                     r2 = self.getColorVal(rgb2.red)
                     g2 = self.getColorVal(rgb2.green)
                     b2 = self.getColorVal(rgb2.blue)
-                    self.active_razer_device.enableDoubleBreath(r1, g1, b1, r2, g2, b2)
+                    self.active_razer_device.enableDoubleBreath(
+                        r1, g1, b1, r2, g2, b2
+                    )
                 else:
                     self.active_razer_device.enableSingleBreath(r1, g1, b1)
         elif fx == 'Wave':
@@ -502,9 +513,13 @@ class Application(Gtk.Application):
                     r2 = self.getColorVal(rgb2.red)
                     g2 = self.getColorVal(rgb2.green)
                     b2 = self.getColorVal(rgb2.blue)
-                    self.active_razer_device.enableScrollBreathDual(r1, g1, b1, r2, g2, b2)
+                    self.active_razer_device.enableScrollBreathDual(
+                        r1, g1, b1, r2, g2, b2
+                    )
                 else:
-                    self.active_razer_device.enableScrollBreathSingle(r1, g1, b1)
+                    self.active_razer_device.enableScrollBreathSingle(
+                        r1, g1, b1
+                    )
         elif fx == 'Logo breath':
             if self.breathRandomRadio.get_active():
                 self.active_razer_device.enableLogoBreathRandom()
@@ -518,7 +533,9 @@ class Application(Gtk.Application):
                     r2 = self.getColorVal(rgb2.red)
                     g2 = self.getColorVal(rgb2.green)
                     b2 = self.getColorVal(rgb2.blue)
-                    self.active_razer_device.enableLogoBreathDual(r1, g1, b1, r2, g2, b2)
+                    self.active_razer_device.enableLogoBreathDual(
+                        r1, g1, b1, r2, g2, b2
+                    )
                 else:
                     self.active_razer_device.enableLogoBreathSingle(r1, g1, b1)
         elif fx == 'Scroll reactive':
@@ -562,7 +579,9 @@ class Application(Gtk.Application):
         about_action = Gio.SimpleAction.new("about", None)
         about_action.connect("activate", self.on_about_activate)
         self.builder.get_object("aboutdialog").connect(
-            "delete-event", lambda *_: builder.get_object("aboutdialog").hide() or True)
+            "delete-event", lambda *_:
+                self.builder.get_object("aboutdialog").hide() or True
+        )
         self.add_action(about_action)
         quit_action = Gio.SimpleAction.new("quit", None)
         quit_action.connect("activate", self.on_quit_activate)
