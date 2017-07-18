@@ -527,6 +527,9 @@ Author: Gabriele Musco
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
+                                        <style>
+                                          <class name="background"/>
+                                        </style>
                                       </object>
                                       <packing>
                                         <property name="name">defaultSettingsBox</property>
@@ -535,14 +538,13 @@ Author: Gabriele Musco
                                     </child>
                                     <child>
                                       <object class="GtkBox" id="breathSettingsBox">
-                                        <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkImage">
+                                          <object class="GtkImage" id="breathAnimIcon">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
+                                            <property name="stock">gtk-missing-image</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -757,6 +759,9 @@ Author: Gabriele Musco
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
+                                        <style>
+                                          <class name="background"/>
+                                        </style>
                                       </object>
                                       <packing>
                                         <property name="name">breathSettingsBox</property>
@@ -766,14 +771,13 @@ Author: Gabriele Musco
                                     </child>
                                     <child>
                                       <object class="GtkBox" id="waveSettingsBox">
-                                        <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkImage">
+                                          <object class="GtkImage" id="waveAnimIcon">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
+                                            <property name="stock">gtk-missing-image</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -850,6 +854,9 @@ Author: Gabriele Musco
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
+                                        <style>
+                                          <class name="background"/>
+                                        </style>
                                       </object>
                                       <packing>
                                         <property name="name">waveSettingsBox</property>
@@ -859,14 +866,13 @@ Author: Gabriele Musco
                                     </child>
                                     <child>
                                       <object class="GtkBox" id="staticSettingsBox">
-                                        <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkImage">
+                                          <object class="GtkImage" id="staticAnimIcon">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
+                                            <property name="stock">gtk-missing-image</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -929,11 +935,14 @@ Author: Gabriele Musco
                                             </child>
                                           </object>
                                           <packing>
-                                            <property name="expand">False</property>
+                                            <property name="expand">True</property>
                                             <property name="fill">True</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
+                                        <style>
+                                          <class name="background"/>
+                                        </style>
                                       </object>
                                       <packing>
                                         <property name="name">staticSettingsBox</property>
@@ -943,11 +952,10 @@ Author: Gabriele Musco
                                     </child>
                                     <child>
                                       <object class="GtkBox" id="reactiveSettingsBox">
-                                        <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkImage">
+                                          <object class="GtkImage" id="reactiveAnimIcon">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
@@ -1054,6 +1062,9 @@ Author: Gabriele Musco
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
+                                        <style>
+                                          <class name="background"/>
+                                        </style>
                                       </object>
                                       <packing>
                                         <property name="name">reactiveSettingsBox</property>
@@ -1063,14 +1074,13 @@ Author: Gabriele Musco
                                     </child>
                                     <child>
                                       <object class="GtkBox" id="rippleSettingsBox">
-                                        <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkImage">
+                                          <object class="GtkImage" id="rippleAnimIcon">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
+                                            <property name="stock">gtk-missing-image</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1190,11 +1200,14 @@ Author: Gabriele Musco
                                             </child>
                                           </object>
                                           <packing>
-                                            <property name="expand">False</property>
+                                            <property name="expand">True</property>
                                             <property name="fill">True</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
+                                        <style>
+                                          <class name="background"/>
+                                        </style>
                                       </object>
                                       <packing>
                                         <property name="name">rippleSettingsBox</property>
@@ -1204,14 +1217,13 @@ Author: Gabriele Musco
                                     </child>
                                     <child>
                                       <object class="GtkBox" id="blinkSettingsBox">
-                                        <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkImage">
+                                          <object class="GtkImage" id="blinkAnimIcon">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
+                                            <property name="stock">gtk-missing-image</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1274,11 +1286,14 @@ Author: Gabriele Musco
                                             </child>
                                           </object>
                                           <packing>
-                                            <property name="expand">False</property>
+                                            <property name="expand">True</property>
                                             <property name="fill">True</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
+                                        <style>
+                                          <class name="background"/>
+                                        </style>
                                       </object>
                                       <packing>
                                         <property name="name">blinkSettingsBox</property>
@@ -1288,14 +1303,13 @@ Author: Gabriele Musco
                                     </child>
                                     <child>
                                       <object class="GtkBox" id="pulsateSettingsBox">
-                                        <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkImage">
+                                          <object class="GtkImage" id="pulsateAnimIcon">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
+                                            <property name="stock">gtk-missing-image</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1358,11 +1372,14 @@ Author: Gabriele Musco
                                             </child>
                                           </object>
                                           <packing>
-                                            <property name="expand">False</property>
+                                            <property name="expand">True</property>
                                             <property name="fill">True</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
+                                        <style>
+                                          <class name="background"/>
+                                        </style>
                                       </object>
                                       <packing>
                                         <property name="name">pulsateSettingsBox</property>
@@ -1372,11 +1389,10 @@ Author: Gabriele Musco
                                     </child>
                                     <child>
                                       <object class="GtkBox" id="keyboardSettingsBox">
-                                        <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkImage">
+                                          <object class="GtkImage" id="customAnimIcon">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
@@ -1554,11 +1570,112 @@ Author: Gabriele Musco
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
+                                        <style>
+                                          <class name="background"/>
+                                        </style>
                                       </object>
                                       <packing>
                                         <property name="name">keyboardSettingsBox</property>
                                         <property name="title" translatable="yes">keyboardSettingsBox</property>
                                         <property name="position">8</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkBox" id="noneSettingsBox">
+                                        <property name="can_focus">False</property>
+                                        <property name="orientation">vertical</property>
+                                        <child>
+                                          <object class="GtkImage" id="noneAnimIcon">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="stock">gtk-missing-image</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkBox" id="noneSettingsBoxProper">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
+                                            <property name="orientation">vertical</property>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                        <style>
+                                          <class name="background"/>
+                                        </style>
+                                      </object>
+                                      <packing>
+                                        <property name="name">noneSettingsBox</property>
+                                        <property name="title" translatable="yes">noneSettingsBox</property>
+                                        <property name="position">9</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkBox" id="spectrumSettingsBox">
+                                        <property name="can_focus">False</property>
+                                        <property name="orientation">vertical</property>
+                                        <child>
+                                          <object class="GtkImage" id="spectrumAnimIcon">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="stock">gtk-missing-image</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkBox" id="spectrumSettingsBoxProper">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
+                                            <property name="orientation">vertical</property>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                        <style>
+                                          <class name="background"/>
+                                        </style>
+                                      </object>
+                                      <packing>
+                                        <property name="name">spectrumSettingsBox</property>
+                                        <property name="title" translatable="yes">spectrumSettingsBox</property>
+                                        <property name="position">10</property>
                                       </packing>
                                     </child>
                                   </object>

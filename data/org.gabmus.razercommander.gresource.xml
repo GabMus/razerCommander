@@ -47,5 +47,14 @@
     <file preprocess="xml-stripblanks" alias="img/Scroll_spectrum.svg">img/Spectrum.svg</file>
     <file preprocess="xml-stripblanks" alias="img/Logo_static.svg">img/Static.svg</file>
 
+    <file>animations/breath.gif</file>
+    <file>animations/custom.gif</file>
+    <file>animations/none.gif</file>
+    <file>animations/reactive.gif</file>
+    <file>animations/ripple.gif</file>
+    <file>animations/spectrum.gif</file>
+    <file>animations/static.gif</file>
+    <file>animations/wave.gif</file>
+
   </gresource>
 </gresources>

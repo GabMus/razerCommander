@@ -19,7 +19,7 @@ import sys
 import os
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gdk, Gio
+from gi.repository import Gtk, Gdk, Gio, GdkPixbuf
 print('Importing device logic, waiting for daemon')
 
 try:
@@ -148,6 +148,8 @@ class Application(Gtk.Application):
             'Reactive': 'reactiveSettingsBox',
             'Custom': 'keyboardSettingsBox',
             'Ripple': 'rippleSettingsBox',
+            'None': 'noneSettingsBox',
+            'Spectrum': 'spectrumSettingsBox',
             'Scroll blinking': 'blinkSettingsBox',
             'Logo blinking': 'blinkSettingsBox',
             'Scroll pulsate': 'pulsateSettingsBox',
@@ -159,6 +161,15 @@ class Application(Gtk.Application):
             'Scroll static': 'staticSettingsBox',
             'Logo static': 'staticSettingsBox',
         }
+
+        self.setAnimation('breathAnimIcon', 'breath')
+        self.setAnimation('customAnimIcon', 'custom')
+        self.setAnimation('noneAnimIcon', 'none')
+        self.setAnimation('reactiveAnimIcon', 'reactive')
+        self.setAnimation('rippleAnimIcon', 'ripple')
+        self.setAnimation('spectrumAnimIcon', 'spectrum')
+        self.setAnimation('staticAnimIcon', 'static')
+        self.setAnimation('waveAnimIcon', 'wave')
 
         self.rkb = CustomKb.RKeyboard('ansi_us')
 
@@ -204,6 +215,14 @@ class Application(Gtk.Application):
             self.active_razer_device = self.devicesList[0]
         else:
             self.active_razer_device = None
+
+    def setAnimation(self, widget_name, anim_name):
+        self.builder.get_object(
+            widget_name).set_from_animation(
+                GdkPixbuf.PixbufAnimation.new_from_resource(
+                    '%sanimations/%s.gif' % (self.RESOURCE_PATH, anim_name)
+                )
+            )
 
     def fillDevicesList(self):
         if len(self.devicesList) > 0:
@@ -745,15 +764,17 @@ class Application(Gtk.Application):
 
     def on_fxListBox_row_selected(self, list, row):
         if row:
-            for pane in self.settingsPanes.values():
-                pane.hide()
-            if row.value in self.settingsPanes.keys():
-                self.settingsPanes[row.value].show()
+            if row.value in self.settingsPanesNames.keys():
+                self.builder.get_object(self.settingsPanesNames[row.value]).show_all()
                 self.fxStack.set_visible_child(
-                    self.fxStack.get_child_by_name(self.settingsPanesNames[row.value])
+                    self.fxStack.get_child_by_name(
+                        self.settingsPanesNames[row.value]
+                    )
                 )
             if row.value == 'Custom':
                 self.drawKB()
+            else:
+                self.keyboardBox.hide()
 
     def on_macroShortcutDialogCancel_clicked(self, btn):
         self.macro_shortcut_dialog.hide()
