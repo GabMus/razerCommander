@@ -4,7 +4,7 @@ from gi.repository import Gtk, Gio, Gdk
 from . import custom_keyboard as CustomKb
 from . import custom_profiles
 
-KEYCAP_SIZE = 50
+KEYCAP_SIZE = 40
 rkb = None
 
 
@@ -26,8 +26,10 @@ def build_key_box(key, color, signal_handler):
         box.set_size_request(KEYCAP_SIZE * 1.5, KEYCAP_SIZE)
     elif key.label == 'capslk':
         box.set_size_request(KEYCAP_SIZE * 1.75, KEYCAP_SIZE)
-    elif key.label in ['lshift', 'ret']:
+    elif key.label == 'lshift':  # in ['lshift', 'ret']:
         box.set_size_request(KEYCAP_SIZE * 2.25, KEYCAP_SIZE)
+    elif key.label == 'ret':
+        box.set_size_request(KEYCAP_SIZE * 2.10, KEYCAP_SIZE)
     elif key.label == 'rshift':
         box.set_size_request(KEYCAP_SIZE * 2.75, KEYCAP_SIZE)
     elif key.label == 'bck\nspc':
@@ -36,8 +38,10 @@ def build_key_box(key, color, signal_handler):
         box.set_size_request(KEYCAP_SIZE * 6, KEYCAP_SIZE)
     elif key.label == CustomKb.kblayouts.INV_GHOST:
         box.set_size_request(0, 0)
+        box.set_no_show_all(True)
+        box.set_visible(False)
     elif key.label == CustomKb.kblayouts.GHOST:
-        box.set_size_request(KEYCAP_SIZE-4, KEYCAP_SIZE-4)
+        box.set_size_request(KEYCAP_SIZE, KEYCAP_SIZE)
     else:
         box.set_size_request(KEYCAP_SIZE, KEYCAP_SIZE)
     box.connect('button-press-event', signal_handler)
