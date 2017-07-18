@@ -110,6 +110,7 @@ class Application(Gtk.Application):
         self.blinkSettingsBox = self.builder.get_object('blinkSettingsBox')
         self.pulsateSettingsBox = self.builder.get_object('pulsateSettingsBox')
         self.clearTBtn = self.builder.get_object('customClearToolBtn')
+        self.fxStack = self.builder.get_object('fxStack')
 
         self.dpi1Adjustment = self.builder.get_object('mouseDpi1Adjustment')
         self.dpi2Adjustment = self.builder.get_object('mouseDpi2Adjustment')
@@ -138,6 +139,25 @@ class Application(Gtk.Application):
             'Logo static': self.staticSettingsBox,
         }
 
+        self.settingsPanesNames = {
+            'Breath': 'breathSettingsBox',
+            'Wave': 'waveSettingsBox',
+            'Static': 'staticSettingsBox',
+            'Reactive': 'reactiveSettingsBox',
+            'Custom': 'keyboardSettingsBox',
+            'Ripple': 'rippleSettingsBox',
+            'Scroll blinking': 'blinkSettingsBox',
+            'Logo blinking': 'blinkSettingsBox',
+            'Scroll pulsate': 'pulsateSettingsBox',
+            'Logo pulsate': 'pulsateSettingsBox',
+            'Scroll breath': 'breathSettingsBox',
+            'Logo breath': 'breathSettingsBox',
+            'Scroll reactive': 'reactiveSettingsBox',
+            'Logo reactive': 'reactiveSettingsBox',
+            'Scroll static': 'staticSettingsBox',
+            'Logo static': 'staticSettingsBox',
+        }
+
         self.rkb = CustomKb.RKeyboard('ansi_us')
 
         self.KEYCAP_SIZE = 50
@@ -148,10 +168,18 @@ class Application(Gtk.Application):
             'Alt_L'
         ]
 
-        self.keystroke_shortcuts_mod_shift = self.builder.get_object('setShortcutKeystrokeShiftModifierCheck')
-        self.keystroke_shortcuts_mod_ctrl = self.builder.get_object('setShortcutKeystrokeCtrlModifierCheck')
-        self.keystroke_shortcuts_mod_super = self.builder.get_object('setShortcutKeystrokeSuperModifierCheck')
-        self.keystroke_shortcuts_mod_alt = self.builder.get_object('setShortcutKeystrokeAltModifierCheck')
+        self.keystroke_shortcuts_mod_shift = self.builder.get_object(
+            'setShortcutKeystrokeShiftModifierCheck'
+        )
+        self.keystroke_shortcuts_mod_ctrl = self.builder.get_object(
+            'setShortcutKeystrokeCtrlModifierCheck'
+        )
+        self.keystroke_shortcuts_mod_super = self.builder.get_object(
+            'setShortcutKeystrokeSuperModifierCheck'
+        )
+        self.keystroke_shortcuts_mod_alt = self.builder.get_object(
+            'setShortcutKeystrokeAltModifierCheck'
+        )
         self.keystroke_shortcuts_all_mods = [
             self.keystroke_shortcuts_mod_shift,
             self.keystroke_shortcuts_mod_ctrl,
@@ -702,6 +730,9 @@ class Application(Gtk.Application):
                 pane.hide()
             if row.value in self.settingsPanes.keys():
                 self.settingsPanes[row.value].show()
+                self.fxStack.set_visible_child(
+                    self.fxStack.get_child_by_name(self.settingsPanesNames[row.value])
+                )
             if row.value == 'Custom':
                 self.drawKB()
 

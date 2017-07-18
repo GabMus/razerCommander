@@ -53,6 +53,63 @@ Author: Gabriele Musco
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkPopover" id="popoverProfiles">
+    <property name="can_focus">False</property>
+    <property name="relative_to">customProfilesButton</property>
+    <property name="position">bottom</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="width_request">150</property>
+            <property name="height_request">250</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">never</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <object class="GtkViewport">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkListBox" id="popoverProfilesListBox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <signal name="row-activated" handler="on_popoverProfilesListBox_row_selected" swapped="no"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="popoverProfilesSaveButton">
+            <property name="label" translatable="yes">Save profile</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="halign">center</property>
+            <property name="margin_top">6</property>
+            <property name="margin_bottom">6</property>
+            <signal name="clicked" handler="on_popoverProfilesSaveProfile_clicked" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkAdjustment" id="reactiveTimeAdjustment">
     <property name="lower">1</property>
     <property name="upper">3</property>
@@ -462,6 +519,7 @@ Author: Gabriele Musco
                                 <property name="can_focus">False</property>
                                 <child>
                                   <object class="GtkScrolledWindow">
+                                    <property name="width_request">224</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="hscrollbar_policy">never</property>
@@ -481,95 +539,67 @@ Author: Gabriele Musco
                                     </child>
                                   </object>
                                   <packing>
-                                    <property name="expand">True</property>
+                                    <property name="expand">False</property>
                                     <property name="fill">True</property>
                                     <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkBox">
+                                  <object class="GtkStack" id="fxStack">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="orientation">vertical</property>
-                                    <property name="spacing">6</property>
+                                    <property name="transition_type">crossfade</property>
+                                    <child>
+                                      <object class="GtkBox" id="defaultSettingsBox">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="halign">center</property>
+                                        <property name="valign">center</property>
+                                        <property name="orientation">vertical</property>
+                                        <child>
+                                          <object class="GtkImage">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="pixel_size">256</property>
+                                            <property name="icon_name">preferences-other</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label" translatable="yes">Select an effect to show its settings</property>
+                                            <attributes>
+                                              <attribute name="scale" value="1.5"/>
+                                            </attributes>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="name">defaultSettingsBox</property>
+                                        <property name="title" translatable="yes">defaultSettingsBox</property>
+                                      </packing>
+                                    </child>
                                     <child>
                                       <object class="GtkBox" id="breathSettingsBox">
+                                        <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="no_show_all">True</property>
-                                        <property name="spacing">16</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkBox">
+                                          <object class="GtkImage">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="orientation">vertical</property>
-                                            <property name="spacing">6</property>
-                                            <child>
-                                              <object class="GtkLabel">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="halign">start</property>
-                                                <property name="label" translatable="yes">Breath mode</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkRadioButton" id="breathRandomRadio">
-                                                <property name="label" translatable="yes">Random</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="halign">start</property>
-                                                <property name="active">True</property>
-                                                <property name="draw_indicator">True</property>
-                                                <signal name="toggled" handler="on_breathRadio_toggled" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkRadioButton" id="breathSingleRadio">
-                                                <property name="label" translatable="yes">Single color</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="halign">start</property>
-                                                <property name="draw_indicator">True</property>
-                                                <property name="group">breathRandomRadio</property>
-                                                <signal name="toggled" handler="on_breathRadio_toggled" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">2</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkRadioButton" id="breathDoubleRadio">
-                                                <property name="label" translatable="yes">Double color</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="halign">start</property>
-                                                <property name="draw_indicator">True</property>
-                                                <property name="group">breathRandomRadio</property>
-                                                <signal name="toggled" handler="on_breathRadio_toggled" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">3</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
+                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -578,361 +608,12 @@ Author: Gabriele Musco
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkBox">
+                                          <object class="GtkBox" id="breathSettingsBoxProper">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="orientation">vertical</property>
-                                            <property name="spacing">6</property>
-                                            <child>
-                                              <object class="GtkBox">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="spacing">6</property>
-                                                <child>
-                                                  <object class="GtkLabel">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="halign">start</property>
-                                                    <property name="label" translatable="yes">Color 1</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkColorButton" id="breathRGB1chooser">
-                                                    <property name="visible">True</property>
-                                                    <property name="sensitive">False</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <property name="title" translatable="yes">Select color</property>
-                                                    <property name="rgba">rgb(255,255,255)</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkBox">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="spacing">6</property>
-                                                <child>
-                                                  <object class="GtkLabel">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="halign">start</property>
-                                                    <property name="label" translatable="yes">Color 2</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkColorButton" id="breathRGB2chooser">
-                                                    <property name="visible">True</property>
-                                                    <property name="sensitive">False</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <property name="title" translatable="yes">Select color</property>
-                                                    <property name="rgba">rgb(255,255,255)</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkBox" id="waveSettingsBox">
-                                        <property name="can_focus">False</property>
-                                        <property name="no_show_all">True</property>
-                                        <property name="orientation">vertical</property>
-                                        <property name="spacing">6</property>
-                                        <child>
-                                          <object class="GtkLabel">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Wave mode</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkBox">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="homogeneous">True</property>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                            <child>
-                                              <placeholder/>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkBox">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="homogeneous">True</property>
-                                            <child>
-                                              <object class="GtkToggleButton" id="waveToggleBtnLeft">
-                                                <property name="label" translatable="yes">Left</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <signal name="toggled" handler="on_waveToggleBtn_left" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkToggleButton" id="waveToggleBtnRight">
-                                                <property name="label" translatable="yes">Right</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <property name="active">True</property>
-                                                <signal name="toggled" handler="on_waveToggleBtn_right" swapped="no"/>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">2</property>
-                                          </packing>
-                                        </child>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkBox" id="staticSettingsBox">
-                                        <property name="can_focus">False</property>
-                                        <property name="no_show_all">True</property>
-                                        <property name="orientation">vertical</property>
-                                        <child>
-                                          <object class="GtkLabel">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="halign">start</property>
-                                            <property name="label" translatable="yes">Static Mode</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkBox">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="spacing">6</property>
-                                            <child>
-                                              <object class="GtkLabel">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="halign">start</property>
-                                                <property name="label" translatable="yes">Color</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkColorButton" id="staticRGBchooser">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <property name="title" translatable="yes">Select color</property>
-                                                <property name="rgba">rgb(255,255,255)</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">2</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkBox" id="reactiveSettingsBox">
-                                        <property name="can_focus">False</property>
-                                        <property name="no_show_all">True</property>
-                                        <property name="orientation">vertical</property>
-                                        <property name="spacing">6</property>
-                                        <child>
-                                          <object class="GtkBox">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="spacing">6</property>
-                                            <child>
-                                              <object class="GtkLabel">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="halign">start</property>
-                                                <property name="label" translatable="yes">Key lit time</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkSpinButton" id="spinReactiveTime">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="text" translatable="yes">1</property>
-                                                <property name="adjustment">reactiveTimeAdjustment</property>
-                                                <property name="numeric">True</property>
-                                                <property name="value">1</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkBox">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <child>
-                                              <object class="GtkLabel">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="halign">start</property>
-                                                <property name="label" translatable="yes">Color</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkColorButton" id="reactiveRGBchooser">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <property name="title" translatable="yes">Select color</property>
-                                                <property name="rgba">rgb(255,255,255)</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">3</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkBox" id="rippleSettingsBox">
-                                        <property name="can_focus">False</property>
-                                        <property name="no_show_all">True</property>
-                                        <property name="orientation">vertical</property>
-                                        <property name="spacing">6</property>
-                                        <child>
-                                          <object class="GtkBox">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="spacing">6</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
+                                            <property name="spacing">16</property>
                                             <child>
                                               <object class="GtkBox">
                                                 <property name="visible">True</property>
@@ -940,14 +621,11 @@ Author: Gabriele Musco
                                                 <property name="orientation">vertical</property>
                                                 <property name="spacing">6</property>
                                                 <child>
-                                                  <object class="GtkRadioButton" id="rippleRadioColor">
-                                                    <property name="label" translatable="yes">Single color</property>
+                                                  <object class="GtkLabel">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">False</property>
-                                                    <property name="active">True</property>
-                                                    <property name="draw_indicator">True</property>
-                                                    <signal name="toggled" handler="on_rippleRadioColor_toggled" swapped="no"/>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="halign">start</property>
+                                                    <property name="label" translatable="yes">Breath mode:</property>
                                                   </object>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -956,13 +634,421 @@ Author: Gabriele Musco
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <object class="GtkRadioButton" id="rippleRadioRandom">
-                                                    <property name="label" translatable="yes">Random</property>
+                                                  <object class="GtkBox">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="orientation">vertical</property>
+                                                    <child>
+                                                      <object class="GtkRadioButton" id="breathRandomRadio">
+                                                        <property name="label" translatable="yes">Random</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">False</property>
+                                                        <property name="halign">start</property>
+                                                        <property name="active">True</property>
+                                                        <property name="draw_indicator">True</property>
+                                                        <signal name="toggled" handler="on_breathRadio_toggled" swapped="no"/>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkRadioButton" id="breathSingleRadio">
+                                                        <property name="label" translatable="yes">Single color</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">False</property>
+                                                        <property name="halign">start</property>
+                                                        <property name="active">True</property>
+                                                        <property name="draw_indicator">True</property>
+                                                        <property name="group">breathRandomRadio</property>
+                                                        <signal name="toggled" handler="on_breathRadio_toggled" swapped="no"/>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkRadioButton" id="breathDoubleRadio">
+                                                        <property name="label" translatable="yes">Double color</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">False</property>
+                                                        <property name="halign">start</property>
+                                                        <property name="active">True</property>
+                                                        <property name="draw_indicator">True</property>
+                                                        <property name="group">breathRandomRadio</property>
+                                                        <signal name="toggled" handler="on_breathRadio_toggled" swapped="no"/>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">2</property>
+                                                      </packing>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <placeholder/>
+                                                </child>
+                                                <child>
+                                                  <placeholder/>
+                                                </child>
+                                                <child>
+                                                  <placeholder/>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkBox">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="orientation">vertical</property>
+                                                <property name="spacing">6</property>
+                                                <child>
+                                                  <object class="GtkBox">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="spacing">6</property>
+                                                    <child>
+                                                      <object class="GtkLabel">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="halign">start</property>
+                                                        <property name="label" translatable="yes">Color 1</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkColorButton" id="breathRGB1chooser">
+                                                        <property name="visible">True</property>
+                                                        <property name="sensitive">False</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="title" translatable="yes">Select color</property>
+                                                        <property name="rgba">rgb(255,255,255)</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkBox">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="spacing">6</property>
+                                                    <child>
+                                                      <object class="GtkLabel">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="halign">start</property>
+                                                        <property name="label" translatable="yes">Color 2</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkColorButton" id="breathRGB2chooser">
+                                                        <property name="visible">True</property>
+                                                        <property name="sensitive">False</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="title" translatable="yes">Select color</property>
+                                                        <property name="rgba">rgb(255,255,255)</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="name">breathSettingsBox</property>
+                                        <property name="title" translatable="yes">breathSettingsBox</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkBox" id="waveSettingsBox">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="orientation">vertical</property>
+                                        <child>
+                                          <object class="GtkImage">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkBox" id="waveSettingsBoxProper">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
+                                            <property name="spacing">6</property>
+                                            <child>
+                                              <object class="GtkLabel">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="margin_right">6</property>
+                                                <property name="label" translatable="yes">Direction</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkBox">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="halign">center</property>
+                                                <property name="homogeneous">True</property>
+                                                <child>
+                                                  <object class="GtkToggleButton" id="waveToggleBtnLeft">
+                                                    <property name="label" translatable="yes">Left</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
-                                                    <property name="receives_default">False</property>
-                                                    <property name="draw_indicator">True</property>
-                                                    <property name="group">rippleRadioColor</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="toggled" handler="on_waveToggleBtn_left" swapped="no"/>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkToggleButton" id="waveToggleBtnRight">
+                                                    <property name="label" translatable="yes">Right</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="active">True</property>
+                                                    <signal name="toggled" handler="on_waveToggleBtn_right" swapped="no"/>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="name">waveSettingsBox</property>
+                                        <property name="title" translatable="yes">waveSettingsBox</property>
+                                        <property name="position">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkBox" id="staticSettingsBox">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="orientation">vertical</property>
+                                        <child>
+                                          <object class="GtkImage">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkBox" id="staticSettingsBoxProper">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
+                                            <property name="orientation">vertical</property>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <object class="GtkBox">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="spacing">6</property>
+                                                <child>
+                                                  <object class="GtkLabel">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="halign">start</property>
+                                                    <property name="margin_right">6</property>
+                                                    <property name="label" translatable="yes">Color</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkColorButton" id="staticRGBchooser">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="title" translatable="yes">Select color</property>
+                                                    <property name="rgba">rgb(255,255,255)</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="name">staticSettingsBox</property>
+                                        <property name="title" translatable="yes">staticSettingsBox</property>
+                                        <property name="position">3</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkBox" id="reactiveSettingsBox">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="orientation">vertical</property>
+                                        <child>
+                                          <object class="GtkImage">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkBox" id="reactiveSettingsBoxProper">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
+                                            <property name="orientation">vertical</property>
+                                            <property name="spacing">6</property>
+                                            <child>
+                                              <object class="GtkBox">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="spacing">6</property>
+                                                <child>
+                                                  <object class="GtkLabel">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="halign">start</property>
+                                                    <property name="label" translatable="yes">Key lit time</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkSpinButton" id="spinReactiveTime">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="text" translatable="yes">1</property>
+                                                    <property name="adjustment">reactiveTimeAdjustment</property>
+                                                    <property name="numeric">True</property>
+                                                    <property name="value">1</property>
                                                   </object>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -981,22 +1067,21 @@ Author: Gabriele Musco
                                               <object class="GtkBox">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="halign">end</property>
-                                                <property name="valign">start</property>
                                                 <child>
                                                   <object class="GtkLabel">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Color </property>
+                                                    <property name="halign">start</property>
+                                                    <property name="label" translatable="yes">Color</property>
                                                   </object>
                                                   <packing>
-                                                    <property name="expand">False</property>
+                                                    <property name="expand">True</property>
                                                     <property name="fill">True</property>
                                                     <property name="position">0</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <object class="GtkColorButton" id="rippleColorPicker">
+                                                  <object class="GtkColorButton" id="reactiveRGBchooser">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
@@ -1005,49 +1090,44 @@ Author: Gabriele Musco
                                                   </object>
                                                   <packing>
                                                     <property name="expand">False</property>
-                                                    <property name="fill">False</property>
+                                                    <property name="fill">True</property>
                                                     <property name="position">1</property>
                                                   </packing>
                                                 </child>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="pack_type">end</property>
+                                                <property name="fill">True</property>
                                                 <property name="position">1</property>
                                               </packing>
                                             </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
                                           </object>
                                           <packing>
-                                            <property name="expand">False</property>
+                                            <property name="expand">True</property>
                                             <property name="fill">True</property>
-                                            <property name="position">0</property>
+                                            <property name="position">1</property>
                                           </packing>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
-                                        <child>
-                                          <placeholder/>
                                         </child>
                                       </object>
                                       <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
+                                        <property name="name">reactiveSettingsBox</property>
+                                        <property name="title" translatable="yes">reactiveSettingsBox</property>
                                         <property name="position">4</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkBox" id="blinkSettingsBox">
+                                      <object class="GtkBox" id="rippleSettingsBox">
+                                        <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="no_show_all">True</property>
                                         <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkLabel">
+                                          <object class="GtkImage">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="halign">start</property>
-                                            <property name="label" translatable="yes">Blink Mode</property>
+                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1056,65 +1136,139 @@ Author: Gabriele Musco
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkBox">
+                                          <object class="GtkBox" id="rippleSettingsBoxProper">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
+                                            <property name="orientation">vertical</property>
                                             <property name="spacing">6</property>
                                             <child>
-                                              <object class="GtkLabel">
+                                              <object class="GtkBox">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="halign">start</property>
-                                                <property name="label" translatable="yes">Color</property>
+                                                <property name="spacing">6</property>
+                                                <child>
+                                                  <object class="GtkBox">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="orientation">vertical</property>
+                                                    <child>
+                                                      <object class="GtkRadioButton" id="rippleRadioColor">
+                                                        <property name="label" translatable="yes">Single color</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">False</property>
+                                                        <property name="active">True</property>
+                                                        <property name="draw_indicator">True</property>
+                                                        <signal name="toggled" handler="on_rippleRadioColor_toggled" swapped="no"/>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkRadioButton" id="rippleRadioRandom">
+                                                        <property name="label" translatable="yes">Random</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">False</property>
+                                                        <property name="draw_indicator">True</property>
+                                                        <property name="group">rippleRadioColor</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkBox">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="halign">end</property>
+                                                    <property name="valign">start</property>
+                                                    <child>
+                                                      <object class="GtkLabel">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="margin_right">6</property>
+                                                        <property name="label" translatable="yes">Color </property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <object class="GtkColorButton" id="rippleColorPicker">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="title" translatable="yes">Select color</property>
+                                                        <property name="rgba">rgb(255,255,255)</property>
+                                                      </object>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="pack_type">end</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
                                               </object>
                                               <packing>
-                                                <property name="expand">True</property>
+                                                <property name="expand">False</property>
                                                 <property name="fill">True</property>
                                                 <property name="position">0</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkColorButton" id="blinkRGBChooser">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <property name="title" translatable="yes">Select color</property>
-                                                <property name="rgba">rgb(255,255,255)</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">1</property>
-                                              </packing>
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
                                             </child>
                                           </object>
                                           <packing>
-                                            <property name="expand">True</property>
+                                            <property name="expand">False</property>
                                             <property name="fill">True</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
                                       </object>
                                       <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
+                                        <property name="name">rippleSettingsBox</property>
+                                        <property name="title" translatable="yes">rippleSettingsBox</property>
                                         <property name="position">5</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkBox" id="pulsateSettingsBox">
+                                      <object class="GtkBox" id="blinkSettingsBox">
+                                        <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="no_show_all">True</property>
                                         <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkLabel">
+                                          <object class="GtkImage">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="halign">start</property>
-                                            <property name="label" translatable="yes">Pulsate Mode</property>
+                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1123,65 +1277,352 @@ Author: Gabriele Musco
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkBox">
+                                          <object class="GtkBox" id="blinkSettingsBoxProper">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="spacing">6</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
+                                            <property name="orientation">vertical</property>
                                             <child>
-                                              <object class="GtkLabel">
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <object class="GtkBox">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="halign">start</property>
-                                                <property name="label" translatable="yes">Color</property>
+                                                <property name="spacing">6</property>
+                                                <child>
+                                                  <object class="GtkLabel">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="halign">start</property>
+                                                    <property name="margin_right">6</property>
+                                                    <property name="label" translatable="yes">Color</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkColorButton" id="blinkRGBChooser">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="title" translatable="yes">Select color</property>
+                                                    <property name="rgba">rgb(255,255,255)</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
                                               </object>
                                               <packing>
                                                 <property name="expand">True</property>
                                                 <property name="fill">True</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkColorButton" id="pulsateRGBchooser">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <property name="title" translatable="yes">Select color</property>
-                                                <property name="rgba">rgb(255,255,255)</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">True</property>
                                                 <property name="position">1</property>
                                               </packing>
                                             </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
                                           </object>
                                           <packing>
-                                            <property name="expand">True</property>
+                                            <property name="expand">False</property>
                                             <property name="fill">True</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
-                                        <child>
-                                          <placeholder/>
-                                        </child>
                                       </object>
                                       <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">True</property>
+                                        <property name="name">blinkSettingsBox</property>
+                                        <property name="title" translatable="yes">blinkSettingsBox</property>
                                         <property name="position">6</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <placeholder/>
+                                      <object class="GtkBox" id="pulsateSettingsBox">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="orientation">vertical</property>
+                                        <child>
+                                          <object class="GtkImage">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkBox" id="pulsateSettingsBoxProper">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
+                                            <property name="orientation">vertical</property>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <object class="GtkBox">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="spacing">6</property>
+                                                <child>
+                                                  <object class="GtkLabel">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="halign">start</property>
+                                                    <property name="margin_right">6</property>
+                                                    <property name="label" translatable="yes">Color</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkColorButton" id="pulsateRGBchooser">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="title" translatable="yes">Select color</property>
+                                                    <property name="rgba">rgb(255,255,255)</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="name">pulsateSettingsBox</property>
+                                        <property name="title" translatable="yes">pulsateSettingsBox</property>
+                                        <property name="position">7</property>
+                                      </packing>
                                     </child>
                                     <child>
-                                      <placeholder/>
+                                      <object class="GtkBox" id="keyboardSettingsBox">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="orientation">vertical</property>
+                                        <child>
+                                          <object class="GtkImage">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="resource">/org/gabmus/razercommander/img/breath.svg</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkBox" id="keyboardBox">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="halign">center</property>
+                                            <property name="valign">center</property>
+                                            <property name="orientation">vertical</property>
+                                            <child>
+                                              <object class="GtkBox">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="halign">center</property>
+                                                <property name="valign">center</property>
+                                                <property name="margin_bottom">12</property>
+                                                <property name="spacing">6</property>
+                                                <child>
+                                                  <object class="GtkLabel">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="label" translatable="yes">Color: </property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkColorButton" id="customColorPicker">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="title" translatable="yes">Select color</property>
+                                                    <property name="rgba">rgb(255,255,255)</property>
+                                                    <signal name="color-set" handler="on_customColorPicker_color_set" swapped="no"/>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="label" translatable="yes">Color picker: </property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkToggleButton" id="customPipetteToolBtn">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="toggled" handler="on_customPipetteToolBtn_toggled" swapped="no"/>
+                                                    <child>
+                                                      <object class="GtkImage">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-color-picker</property>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">3</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="label" translatable="yes">Clear: </property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">4</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkToggleButton" id="customClearToolBtn">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="toggled" handler="on_customClearToolBtn_toggled" swapped="no"/>
+                                                    <child>
+                                                      <object class="GtkImage">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="stock">gtk-delete</property>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">5</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkButton" id="customProfilesButton">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="relief">none</property>
+                                                    <signal name="clicked" handler="on_customProfilesButton_clicked" swapped="no"/>
+                                                    <child>
+                                                      <object class="GtkBox">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <child>
+                                                          <object class="GtkLabel">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Profiles</property>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <object class="GtkArrow">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="arrow_type">down</property>
+                                                          </object>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">6</property>
+                                                  </packing>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="name">keyboardSettingsBox</property>
+                                        <property name="title" translatable="yes">keyboardSettingsBox</property>
+                                        <property name="position">8</property>
+                                      </packing>
                                     </child>
                                   </object>
                                   <packing>
-                                    <property name="expand">False</property>
+                                    <property name="expand">True</property>
                                     <property name="fill">True</property>
-                                    <property name="position">1</property>
+                                    <property name="position">2</property>
                                   </packing>
                                 </child>
                               </object>
@@ -1199,171 +1640,7 @@ Author: Gabriele Musco
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="keyboardBox">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="halign">center</property>
-                            <property name="valign">center</property>
-                            <property name="orientation">vertical</property>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">center</property>
-                                <property name="valign">center</property>
-                                <property name="margin_bottom">12</property>
-                                <property name="spacing">6</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Color: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkColorButton" id="customColorPicker">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">True</property>
-                                    <property name="title" translatable="yes">Select color</property>
-                                    <property name="rgba">rgb(255,255,255)</property>
-                                    <signal name="color-set" handler="on_customColorPicker_color_set" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Color picker: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">2</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkToggleButton" id="customPipetteToolBtn">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">True</property>
-                                    <signal name="toggled" handler="on_customPipetteToolBtn_toggled" swapped="no"/>
-                                    <child>
-                                      <object class="GtkImage">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="stock">gtk-color-picker</property>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">3</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Clear: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">4</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkToggleButton" id="customClearToolBtn">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">True</property>
-                                    <signal name="toggled" handler="on_customClearToolBtn_toggled" swapped="no"/>
-                                    <child>
-                                      <object class="GtkImage">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="stock">gtk-delete</property>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">5</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkButton" id="customProfilesButton">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">True</property>
-                                    <property name="relief">none</property>
-                                    <signal name="clicked" handler="on_customProfilesButton_clicked" swapped="no"/>
-                                    <child>
-                                      <object class="GtkBox">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <child>
-                                          <object class="GtkLabel">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Profiles</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkArrow">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="arrow_type">down</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">6</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">4</property>
-                          </packing>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -1591,7 +1868,7 @@ Author: Gabriele Musco
                 <property name="can_focus">False</property>
                 <property name="no_show_all">True</property>
                 <property name="valign">center</property>
-                <property name="pixbuf">gameModeOff.svg</property>
+                <property name="pixbuf">icon.svg</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1993,63 +2270,6 @@ And special thanks to all the folks that have supported and helped with the deve
             <property name="can_focus">False</property>
             <signal name="row-activated" handler="on_popoverDevicesListBox_row_selected" swapped="no"/>
           </object>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkPopover" id="popoverProfiles">
-    <property name="can_focus">False</property>
-    <property name="relative_to">customProfilesButton</property>
-    <property name="position">bottom</property>
-    <child>
-      <object class="GtkBox">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkScrolledWindow">
-            <property name="width_request">150</property>
-            <property name="height_request">250</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">never</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <object class="GtkViewport">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkListBox" id="popoverProfilesListBox">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <signal name="row-activated" handler="on_popoverProfilesListBox_row_selected" swapped="no"/>
-                  </object>
-                </child>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="popoverProfilesSaveButton">
-            <property name="label" translatable="yes">Save profile</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="halign">center</property>
-            <property name="margin_top">6</property>
-            <property name="margin_bottom">6</property>
-            <signal name="clicked" handler="on_popoverProfilesSaveProfile_clicked" swapped="no"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
         </child>
       </object>
     </child>
