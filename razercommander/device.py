@@ -29,12 +29,11 @@ class Device:
                 if self.device.fx.misc.has('logo'):
                     if self.device.fx.misc.logo.has(fx):
                         self.availableFX.append(fx)
-        else:
-            for fx in self.uFXList:
-                if self.device.fx.has(fx):
-                    self.availableFX.append(fx)
+        for fx in self.uFXList:
+            if self.device.fx.has(fx):
+                self.availableFX.append(fx)
 
-        if self.device.has('lighting_led_matrix'):
+        if self.device.has('lighting_led_matrix') and self.device.type == 'keyboard':
             self.availableFX.append('custom')
         if self.device.has('macro_logic'):  # unsupported dev failsafe in macro_logic.make_device()
             self.macro_device = macro_logic.make_device(

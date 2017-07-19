@@ -312,7 +312,7 @@ class Application(Gtk.Application):
         # empty list before (re)filling it
         listboxHelper.empty_listbox(self.fxListBox)
         # fill list with supported effects
-        if self.active_razer_device.device.type == 'mouse':
+        if self.active_razer_device.device.type == 'mouse' and self.active_razer_device.device.has('scroll_brightness'):
             self.brightnessBox.hide()
             self.mouseBrightnessBox.show_all()
             self.logoBrightnessScale.set_value(
@@ -695,12 +695,12 @@ class Application(Gtk.Application):
             self.active_razer_device.set_poll_rate(currentPollRate)
             return
 
-        if self.active_razer_device.device.type == 'mouse':
+        if self.active_razer_device.device.type == 'mouse' and self.active_razer_device.device.has('scroll_brightness'):
             logoBrightness = self.logoBrightnessScale.get_value()
             scrollBrightness = self.scrollBrightnessScale.get_value()
             self.active_razer_device.setLogoBrightness(int(logoBrightness))
             self.active_razer_device.setScrollBrightness(int(scrollBrightness))
-        else:
+        elif self.active_razer_device.device.has('brightness'):
             newVal = self.brightnessScale.get_value()
             self.active_razer_device.setBrightness(int(newVal))
         if not self.fxListBox.get_selected_row():
