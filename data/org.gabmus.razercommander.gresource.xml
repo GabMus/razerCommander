@@ -36,6 +36,8 @@
 
     <file preprocess="xml-stripblanks" alias="img/Logo_blinking.svg">img/Starlight.svg</file>
     <file preprocess="xml-stripblanks" alias="img/Scroll_blinking.svg">img/Starlight.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Scroll_breath.svg">img/Breath.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Logo_breath.svg">img/Breath.svg</file>
     <file preprocess="xml-stripblanks" alias="img/Logo_pulsate.svg">img/Ripple.svg</file>
     <file preprocess="xml-stripblanks" alias="img/Scroll_pulsate.svg">img/Ripple.svg</file>
     <file preprocess="xml-stripblanks" alias="img/Logo_none.svg">img/None.svg</file>

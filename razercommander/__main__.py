@@ -676,6 +676,9 @@ class Application(Gtk.Application):
         if row:
             self.active_razer_device = row.value
             self.currentDeviceLabel.set_text(row.value.name)
+            self.fxStack.set_visible_child(
+                self.fxStack.get_child_by_name('defaultSettingsBox')
+            )
             self.refreshFxList()
             self.popoverChooseDevice.hide()
 
