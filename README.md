@@ -118,10 +118,6 @@ meson ..
 ninja install
 ```
 
-## Running // TODO: remove?
-
-Just run `./main.py` from the razerCommander directory. You can also make a .desktop file to launch it from your DE/WM (an easy way to do it is using [mlauncher](https://github.com/gabmus/mlauncher)).
-
 ## How can you help?
 
 Please, fill up issues and help me test this little piece of software with as much hardware as possible.
