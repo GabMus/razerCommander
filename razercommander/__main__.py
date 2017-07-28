@@ -17,6 +17,7 @@
 
 import sys
 import os
+import argparse
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk, Gio, GdkPixbuf
@@ -26,10 +27,9 @@ try:
     from . import device
     print('Device logic loaded, deamon is alive')
 except Exception as e:
-    print('ERROR: the daemon is not responding!\nTry running `killall razer-service && razer-service` or rebooting. If this doesn\'t work, please fill an issue!')
+    print('ERROR: the daemon is not responding!\nTry running `killall razer-daemon && razer-daemon` or rebooting. If this doesn\'t work, please fill an issue!')
     print('Exception: %s' % e)
 #    exit(1)
-from . import device
 from . import custom_keyboard as CustomKb
 from . import custom_profiles
 from . import listboxHelper
@@ -43,7 +43,11 @@ class Application(Gtk.Application):
         self.builder = Gtk.Builder.new_from_resource(
             '/org/gabmus/razercommander/ui/ui.glade'
         )
-        super().__init__(application_id='org.gabmus.razercommander', **kwargs)
+        super().__init__(
+            application_id='org.gabmus.razercommander',
+            flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+            **kwargs
+        )
         self.RESOURCE_PATH = '/org/gabmus/razercommander/'
 
         # self.builder.add_from_file('%s/ui.glade' % self.RESOURCE_PATH)
@@ -612,12 +616,32 @@ class Application(Gtk.Application):
         self.refreshProfiles()
         self.keyboardBox.hide()
         self.updateDevicesConnected()
+        # Quit if we only need initialization
+        if self.args.quit_after_init:
+            self.quit()
         self.refreshFxList()
 
         window.show_all()
         self.keyboardBox.hide()
 
-    def on_about_activate(self, *agrs):
+    def do_command_line(self, args):
+        '''
+        GTK.Application command line handler
+        called if Gio.ApplicationFlags.HANDLES_COMMAND_LINE is set.
+        must call the self.do_activate() to get the application up and running.
+        '''
+        Gtk.Application.do_command_line(self, args)  # call the default commandline handler
+        # make a command line parser
+        parser = argparse.ArgumentParser(prog='gui')
+        # add a -c/--color option
+        parser.add_argument('-q', '--quit-after-init', dest='quit_after_init', action='store_true', help='initialize application (e.g. for macros initialization on system startup) and quit')
+        # parse the command line stored in args, but skip the first element (the filename)
+        self.args = parser.parse_args(args.get_arguments()[1:])
+        # call the main program do_activate() to start up the app
+        self.do_activate()
+        return 0
+
+    def on_about_activate(self, *args):
         self.builder.get_object("aboutdialog").show()
 
     def on_quit_activate(self, *args):
