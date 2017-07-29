@@ -29,7 +29,7 @@ try:
 except Exception as e:
     print('ERROR: the daemon is not responding!\nTry running `killall razer-daemon && razer-daemon` or rebooting. If this doesn\'t work, please fill an issue!')
     print('Exception: %s' % e)
-#    exit(1)
+    exit(1)
 from . import custom_keyboard as CustomKb
 from . import custom_profiles
 from . import listboxHelper
