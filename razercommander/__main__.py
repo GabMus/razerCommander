@@ -25,7 +25,7 @@ print('Importing device logic, waiting for daemon')
 
 try:
     from . import device
-    print('Device logic loaded, deamon is alive')
+    print('Device logic loaded, daemon is alive')
 except Exception as e:
     print('ERROR: the daemon is not responding!\nTry running `killall razer-daemon && razer-daemon` or rebooting. If this doesn\'t work, please fill an issue!')
     print('Exception: %s' % e)

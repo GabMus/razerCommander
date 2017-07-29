@@ -427,7 +427,7 @@ class Device:
         for row in customKb.rows:
             cindex=0
             for key in row.keylist:
-                print(self._make_color_tuple(key.color))
+                # print(self._make_color_tuple(key.color))
                 self.device.fx.advanced.matrix.set(
                     rindex, cindex, self._make_color_tuple(key.color)
                 )
