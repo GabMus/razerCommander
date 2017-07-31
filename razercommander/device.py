@@ -13,6 +13,16 @@ devlist = []
 for device in device_manager.devices:
     devlist.append(device)
 
+def getSyncFX():
+    return bool(device_manager.sync_effects)
+
+def setSyncFX(value):
+    if type(value) != bool:
+        print('ERROR: device: setSyncFX: the value passed is not a boolean!')
+        return False
+    # print('SyncFX set to %s' % value)
+    device_manager.sync_effects = value
+
 # This class represents a single device (ie: a keyboard)
 class Device:
 

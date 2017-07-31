@@ -90,6 +90,9 @@ class Application(Gtk.Application):
         self.set_shortcut_stack = self.builder.get_object('setShortcutStack')
         self.universalApplyButton = self.builder.get_object('universalApplyButton')
 
+        self.syncFXBox = self.builder.get_object('syncFXBox')
+        self.syncFXToggle = self.builder.get_object('syncFXToggle')
+
         self.breathDoubleRadio = self.builder.get_object('breathDoubleRadio')
         self.breathRandomRadio = self.builder.get_object('breathRandomRadio')
         self.breathRGB1 = self.builder.get_object('breathRGB1chooser')
@@ -230,6 +233,13 @@ class Application(Gtk.Application):
                 )
             )
 
+    def showOrHideSyncFX(self):
+        if len(self.devicesList) > 1:
+            self.syncFXBox.set_visible(True)
+            self.syncFXToggle.set_state(device.getSyncFX())
+        else:
+            self.syncFXBox.set_visible(False)
+
     def fillDevicesList(self):
         if len(self.devicesList) > 0:
             for i in self.devicesList:
@@ -242,6 +252,7 @@ class Application(Gtk.Application):
             self.currentDeviceLabel.set_text(
                 self.popoverDevicesListBox.get_row_at_index(0).value.name
             )
+            self.showOrHideSyncFX()
         else:
             self.currentDeviceLabel.set_text('No devices')
 
@@ -749,6 +760,11 @@ class Application(Gtk.Application):
             self.gameModeIcon.set_from_resource('%simg/gameModeOn.svg' % self.RESOURCE_PATH)
         else:
             self.gameModeIcon.set_from_resource('%simg/gameModeOff.svg' % self.RESOURCE_PATH)
+
+    def on_syncFXToggle_state_set(self, *args):
+        value = self.syncFXToggle.get_state()
+        # the state is inverted
+        device.setSyncFX(not value)
 
     def on_breathRadio_toggled(self, radio):
         if radio.get_state():
