@@ -326,7 +326,6 @@ Author: Gabriele Musco
                         <child>
                           <object class="GtkBox" id="brightnessBox">
                             <property name="can_focus">False</property>
-                            <property name="no_show_all">True</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
@@ -367,9 +366,7 @@ Author: Gabriele Musco
                         </child>
                         <child>
                           <object class="GtkBox" id="mouseBrightnessBox">
-                            <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="no_show_all">True</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
@@ -1924,6 +1921,7 @@ Author: Gabriele Musco
               <object class="GtkImage" id="gameModeIcon">
                 <property name="can_focus">False</property>
                 <property name="no_show_all">True</property>
+                <property name="tooltip_text" translatable="yes">Disables the &lt;Super&gt; key</property>
                 <property name="valign">center</property>
                 <property name="resource">/org/gabmus/razercommander/img/gameModeOff.svg</property>
               </object>
@@ -1967,6 +1965,7 @@ Author: Gabriele Musco
                   <object class="GtkLabel">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Applies the same effect across multiple devices</property>
                     <property name="label" translatable="yes">Sync FX</property>
                   </object>
                   <packing>

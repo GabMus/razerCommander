@@ -240,6 +240,12 @@ class Device:
         else:
             logging.warning('Brightness is not available')
 
+    def getKbBrightness(self):
+        if self.device.has('brightness'):
+            return int(self.device.brightness)
+        else:
+            logging.warning('Brightness is not available')
+
     def getScrollBrightness(self):
         # check if brightness is available for the current device
         if self.device.fx.has('scroll_brightness'):
@@ -251,7 +257,7 @@ class Device:
     def getLogoBrightness(self):
         # check if brightness is available for the current device
         if self.device.fx.has('logo_brightness'):
-            return self.device.fx.misc.scroll_wheel.brightness
+            return self.device.fx.misc.logo.brightness
         else:
             logging.warning('Logo Brightness is not available')
             return -1

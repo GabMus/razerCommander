@@ -329,7 +329,7 @@ class Application(Gtk.Application):
         # empty list before (re)filling it
         listboxHelper.empty_listbox(self.fxListBox)
         # fill list with supported effects
-        if self.active_razer_device.device.type == 'mouse' and self.active_razer_device.device.has('scroll_brightness'):
+        if self.active_razer_device.device.type == 'mouse' and self.active_razer_device.device.fx.has('scroll_brightness'):
             self.brightnessBox.hide()
             self.mouseBrightnessBox.show_all()
             self.logoBrightnessScale.set_value(
@@ -338,9 +338,15 @@ class Application(Gtk.Application):
             self.scrollBrightnessScale.set_value(
                 self.active_razer_device.getScrollBrightness()
             )
-        else:
+        elif self.active_razer_device.device.type == 'keyboard':
             self.brightnessBox.show_all()
+            self.brightnessScale.set_value(
+                self.active_razer_device.getKbBrightness()
+            )
             self.mouseBrightnessBox.hide()
+        else:
+            self.mouseBrightnessBox.hide()
+            self.brightnessBox.hide()
         for i in self.active_razer_device.availableFX:
             if i not in [
                 'breath_single',
@@ -632,9 +638,9 @@ class Application(Gtk.Application):
         # Quit if we only need initialization
         if self.args.quit_after_init:
             self.quit()
-        self.refreshFxList()
 
         window.show_all()
+        self.refreshFxList()
         self.keyboardBox.hide()
 
     def do_command_line(self, args):
@@ -735,7 +741,7 @@ class Application(Gtk.Application):
             self.active_razer_device.set_poll_rate(currentPollRate)
             return
 
-        if self.active_razer_device.device.type == 'mouse' and self.active_razer_device.device.has('scroll_brightness'):
+        if self.active_razer_device.device.type == 'mouse' and self.active_razer_device.device.fx.has('scroll_brightness'):
             logoBrightness = self.logoBrightnessScale.get_value()
             scrollBrightness = self.scrollBrightnessScale.get_value()
             self.active_razer_device.setLogoBrightness(int(logoBrightness))
