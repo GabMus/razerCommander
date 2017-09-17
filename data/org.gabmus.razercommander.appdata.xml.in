@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>org.gabmus.razercommander.desktop</id>
+  <!-- <translation type="gettext">trg</translation> -->
+  <name>razerCommander</name>
+  <developer_name>GabMus</developer_name>
+  <summary>Razer device manager for Linux</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0+</project_license>
+  <description>
+    <p>Razer device manager for Linux</p>
+  </description>
+  <url type="homepage">https://github.com/GabMus/razerCommander</url>
+  <url type="bugtracker">https://github.com/GabMus/razerCommander/issues</url>
+  <kudos>
+    <kudo>AppMenu</kudo>
+    <kudo>ModernToolkit</kudo>
+  </kudos>
+  <update_contact>emaildigabry_at_gmail.com</update_contact>
+</component>

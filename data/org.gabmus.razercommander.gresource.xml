@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/gabmus/razercommander">
+    <file compressed="true">org.gabmus.razercommander.service.desktop</file>
+
+    <!-- <file preprocess="xml-stripblanks">gtk/menus.ui</file> -->
+    <!--file preprocess="xml-stripblanks">gtk/help-overlay.ui</file-->
+
+    <file preprocess="xml-stripblanks">ui/ui.glade</file>
+
+    <file preprocess="xml-stripblanks">icons/org.gabmus.razercommander.svg</file>
+
+    <file preprocess="xml-stripblanks">img/Breath.svg</file>
+    <file preprocess="xml-stripblanks">img/bwchroma.svg</file>
+    <file preprocess="xml-stripblanks">img/Custom.svg</file>
+    <file preprocess="xml-stripblanks">img/gameModeOff.svg</file>
+    <file preprocess="xml-stripblanks">img/gameModeOn.svg</file>
+    <file preprocess="xml-stripblanks">img/nagahexv2.svg</file>
+    <file preprocess="xml-stripblanks">img/None.svg</file>
+    <file preprocess="xml-stripblanks">img/orbweaver.svg</file>
+    <file preprocess="xml-stripblanks">img/Reactive.svg</file>
+    <file preprocess="xml-stripblanks">img/Ripple.svg</file>
+    <file preprocess="xml-stripblanks">img/Spectrum.svg</file>
+    <file preprocess="xml-stripblanks">img/Starlight.svg</file>
+    <file preprocess="xml-stripblanks">img/Static.svg</file>
+    <file preprocess="xml-stripblanks">img/tartarus_backup.svg</file>
+    <file preprocess="xml-stripblanks">img/tartarus.svg</file>
+    <file preprocess="xml-stripblanks">img/Wave.svg</file>
+
+    <file preprocess="xml-stripblanks" alias="img/Razer_BlackWidow_Chroma.svg">img/bwchroma.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Razer_Naga_Hex_V2.svg">img/nagahexv2.svg</file>
+    <file preprocess="xml-stripblanks" alias="Razer_Orbweaver_Chroma.svg">img/orbweaver.svg</file>
+    <file preprocess="xml-stripblanks" alias="Razer_Orbweaver.svg">img/orbweaver.svg</file>
+    <file preprocess="xml-stripblanks" alias="Razer_Tartarus_Chroma.svg">img/tartarus.svg</file>
+    <file preprocess="xml-stripblanks" alias="Razer_Tartarus.svg">img/tartarus.svg</file>
+
+    <file preprocess="xml-stripblanks" alias="img/Logo_blinking.svg">img/Starlight.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Scroll_blinking.svg">img/Starlight.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Scroll_breath.svg">img/Breath.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Logo_breath.svg">img/Breath.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Logo_pulsate.svg">img/Ripple.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Scroll_pulsate.svg">img/Ripple.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Logo_none.svg">img/None.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Scroll_none.svg">img/None.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Logo_reactive.svg">img/Reactive.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Scroll_reactive.svg">img/Reactive.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Logo_spectrum.svg">img/Spectrum.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Scroll_static.svg">img/Static.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Scroll_spectrum.svg">img/Spectrum.svg</file>
+    <file preprocess="xml-stripblanks" alias="img/Logo_static.svg">img/Static.svg</file>
+
+    <file>animations/breath.gif</file>
+    <file>animations/custom.gif</file>
+    <file>animations/none.gif</file>
+    <file>animations/reactive.gif</file>
+    <file>animations/ripple.gif</file>
+    <file>animations/spectrum.gif</file>
+    <file>animations/static.gif</file>
+    <file>animations/wave.gif</file>
+
+  </gresource>
+</gresources>
