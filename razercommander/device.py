@@ -5,7 +5,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 from . import macro_logic
 
-import razer.client as rclient
+import openrazer.client as rclient
 #import razer.client.constants as razer_constants
 
 device_manager = rclient.DeviceManager()
