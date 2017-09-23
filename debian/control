@@ -12,17 +12,16 @@ Build-Depends:
  libappstream-glib-dev,
  meson (>= 0.40.0),
  pkg-config,
- python-all
+ python3-all
 
 Package: razercommander
 Architecture: all
 Depends:
  gir1.2-gtk-3.0 (>= 3.14.0),
- python3 (>= 3.4),
  python3-gi (>= 3.14.0)
-
 Recommends:
- gnome-icon-theme-symbolic
+ ${misc:Depends},
+ ${python3:Depends}
 Description: Razer device manager for Linux
  Controls Razer peripherals (mice, keyboards, headphones) enabling the user to
  customize the light effects and setting up the macro functionality.
