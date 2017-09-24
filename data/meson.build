@@ -7,7 +7,7 @@ desktop_conf.set('bindir', join_paths(prefix, get_option('bindir')))
 desktop_file = configure_file(
   input: app_id + '.desktop.in.in',
   output: app_id + '.desktop',
-#  type: 'desktop',
+  #type: 'desktop',
   install: true,
   install_dir: join_paths(get_option('datadir'), 'applications'),
   configuration: desktop_conf
