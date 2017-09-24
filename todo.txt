@@ -1,12 +1,12 @@
 - "I would start getting your application to require a version range of the daemon. Reason being if I change something and release a package, new daemon won't become active until restart but your packages (and python library) will"
 - macro setting on startup spams daemon log
-- spectrum icon is the only one colored
-- [wip] add support for orbweaver
-- improve mouse UI
 - "there are 2 dbus signals notifying when devices are added and removed": make use of them
 - device.py 11:15: encapsulate in a method
-- Check in your Frontend if the user is in the group plugdev as the daemon won't start without
-- [almost done] add record keystroke feature in macro section
+- [wip] improve mouse UI
+- [done?] add support for orbweaver
+- [done?] add record keystroke feature in macro section
+- [done] spectrum icon is the only one colored
+- [done] Check in your Frontend if the user is in the group plugdev as the daemon won't start without
 - [done] refresh duplicates devices
 - [done] update readme
 - [done] improve macro binding
