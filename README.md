@@ -50,6 +50,8 @@ Alternatively you can install these packages manually, or even opt for the git v
 
 ### Installing on Ubuntu/Debian
 
+**Note**: you will need python 3.6+ to run razerCommander. Here's [how to install python 3.6 on Ubuntu 16.04](https://askubuntu.com/questions/865554/how-do-i-install-python-3-6-using-apt-get/865569#865569)
+
 Go to the [releases page](https://github.com/GabMus/razerCommander/releases) and download the latest release available for your platform.
 
 Alternatively you can build a .deb package following the instructions below.
