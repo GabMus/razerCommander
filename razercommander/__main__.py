@@ -17,26 +17,20 @@
 
 import sys
 import os
+import getpass
+import grp
 
-# check if plugdev group exists and if user is in it
 
 def check_plugdev():
-    groupfile = open('/etc/group', 'r')
-    grouplines = groupfile.readlines()[:] # copy list
-    groupfile.close()
-    plugdevline = None
-    for line in grouplines:
-        if 'plugdev' in line:
-            plugdevline = line
-            break
-    if plugdevline: # check for the existance of the plugdev group
-        if not os.environ.get('USERNAME') in plugdevline:
+    """Check if group 'plugdev' exists and current user is its member."""
+    try:
+        if not getpass.getuser() in grp.getgrnam('plugdev').gr_mem:
             print('''
 ERROR: you are not part of the plugdev group. Add yourself to it:
   $ sudo gpasswd -a <YOUR_USERNAME> plugdev
 ''')
             exit(1)
-    else:
+    except KeyError:
         print('''
 ERROR: the plugdev group doesn\'t exist. Make sure you installed the openrazer
 driver, in case you did, create the plugdev group and add yourself to it:
@@ -44,6 +38,7 @@ driver, in case you did, create the plugdev group and add yourself to it:
   $ sudo gpasswd -a <YOUR_USERNAME> plugdev
 ''')
         exit(1)
+
 
 check_plugdev()
 
