@@ -69,7 +69,7 @@ def addProfile(p):
     if p['name'] and p['colors']:
         for i in profiles:
             if i['name'] == p['name']:
-                print('Profile %s already exists' % p['name'])
+                print('Profile {} already exists'.format(p['name']))
                 return False
         profiles.append(p)
         saveProfiles()
@@ -86,5 +86,5 @@ def removeProfile(name):
             saveProfiles()
             return True
     else:
-        print('Profile %s doesn\'t exist' % name)
+        print('Profile {} doesn\'t exist'.format(name))
         return False

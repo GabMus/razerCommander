@@ -53,7 +53,7 @@ try:
     print('Device logic loaded, daemon is alive')
 except Exception as e:
     print('ERROR: the daemon is not responding!\nTry running `killall razer-daemon && razer-daemon` or rebooting. If this doesn\'t work, please fill an issue!')
-    print('Exception: %s' % e)
+    print('Exception: {}'.format(e))
     exit(1)
 from . import custom_keyboard as CustomKb
 from . import custom_profiles
@@ -75,8 +75,6 @@ class Application(Gtk.Application):
         )
         self.RESOURCE_PATH = '/org/gabmus/razercommander/'
 
-        # self.builder.add_from_file('%s/ui.glade' % self.RESOURCE_PATH)
-        # self.builder.add_from_resource()
         self.builder.connect_signals(self)
 
         settings = Gtk.Settings.get_default()
@@ -247,7 +245,7 @@ class Application(Gtk.Application):
                 newdev = device.Device(dev)
                 self.devicesList.append(newdev)
             except:
-                print('Skipping device: %s', % device.name)
+                print('Skipping device: {}'.format(device.name))
                 pass
         if len(self.devicesList) > 0:
             self.active_razer_device = self.devicesList[0]
@@ -258,7 +256,7 @@ class Application(Gtk.Application):
         self.builder.get_object(
             widget_name).set_from_animation(
                 GdkPixbuf.PixbufAnimation.new_from_resource(
-                    '%sanimations/%s.gif' % (self.RESOURCE_PATH, anim_name)
+                    '{}animations/{}.gif'.format(self.RESOURCE_PATH, anim_name)
                 )
             )
 
@@ -346,7 +344,7 @@ class Application(Gtk.Application):
             self.macro_listbox.add(row)
             row.show_all()
         self.macro_device_picture.set_from_resource(
-            '%simg/%s.svg' % (
+            '{}img/{}.svg'.format(
                 self.RESOURCE_PATH,
                 self.active_razer_device.name.replace(' ', '_')
             )
@@ -398,7 +396,7 @@ class Application(Gtk.Application):
 
                 i = i.capitalize()
 
-                iconPath = '%simg/%s.svg' % (
+                iconPath = '{}img/{}.svg'.format(
                     self.RESOURCE_PATH, i.replace(' ', '_')
                 )
                 row = listboxHelper.make_image_row(
@@ -414,11 +412,11 @@ class Application(Gtk.Application):
             )
             if self.gameModeSwitch.get_state():
                 self.gameModeIcon.set_from_resource(
-                    '%simg/gameModeOn.svg' % self.RESOURCE_PATH
+                    '{}img/gameModeOn.svg'.format(self.RESOURCE_PATH)
                 )
             else:
                 self.gameModeIcon.set_from_resource(
-                    '%simg/gameModeOff.svg' % self.RESOURCE_PATH
+                    '{}img/gameModeOff.svg'.format(self.RESOURCE_PATH)
                 )
             self.gameModeIcon.show()
             self.gameModeSwitch.show()
@@ -792,9 +790,9 @@ class Application(Gtk.Application):
         value = self.gameModeSwitch.get_state()
         # the state is inverted
         if not value:
-            self.gameModeIcon.set_from_resource('%simg/gameModeOn.svg' % self.RESOURCE_PATH)
+            self.gameModeIcon.set_from_resource('{}img/gameModeOn.svg'.format(self.RESOURCE_PATH))
         else:
-            self.gameModeIcon.set_from_resource('%simg/gameModeOff.svg' % self.RESOURCE_PATH)
+            self.gameModeIcon.set_from_resource('{}img/gameModeOff.svg'.format(self.RESOURCE_PATH))
 
     def on_syncFXToggle_state_set(self, *args):
         value = self.syncFXToggle.get_state()
@@ -880,7 +878,7 @@ class Application(Gtk.Application):
 
     def on_macroShortcutDialogOk_clicked(self, btn):
         if set_shortcut_stack.get_visible_child_name() == 'Keystroke':
-            n_macro = 'xdotool key %s' % self.macro_current_keystroke_label.get_text()
+            n_macro = 'xdotool key {}'.format(self.macro_current_keystroke_label.get_text())
         else:
             n_macro = self.macro_shortcut_entry.get_text()
         macro_d = self.active_razer_device.macro_device
@@ -914,7 +912,6 @@ class Application(Gtk.Application):
     def on_recordKeystrokeToggleBtn_key_release_event(self, toggle_btn, event):
         if toggle_btn.get_active():
             keyname = Gdk.keyval_name(event.keyval)
-            # print("Release Key %s (keycode: %d)" % (keyname, event.keyval))
             self.key_stroke_n -= 1
             if not self.key_stroke_n:
                 keystroke = ''

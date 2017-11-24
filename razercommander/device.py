@@ -20,7 +20,6 @@ def setSyncFX(value):
     if type(value) != bool:
         print('ERROR: device: setSyncFX: the value passed is not a boolean!')
         return False
-    # print('SyncFX set to %s' % value)
     device_manager.sync_effects = value
 
 # This class represents a single device (ie: a keyboard)
@@ -301,126 +300,126 @@ class Device:
     def enableScrollBlinking(self, R, G, B):
         if self.device.fx.misc.scroll_wheel.has('scroll_blinking'):
             if not self.device.fx.misc.scroll_wheel.blinking(R, G, B):
-                logging.error('%sBlinking' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Blinking'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Scroll Blinking FX is not available')
 
     def enableScrollPulsate(self, R, G, B):
         if self.device.fx.misc.scroll_wheel.has('scroll_pulsate'):
             if not self.device.fx.misc.scroll_wheel.pulsate(R, G, B):
-                logging.error('%sPulsate' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Pulsate'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Scroll Pulsate FX is not available')
 
     def enableScrollBreathSingle(self, R, G, B):
         if self.device.fx.misc.scroll_wheel.has('scroll_breath_single'):
             if not self.device.fx.misc.scroll_wheel.breath_single(R, G, B):
-                logging.error('%sBreath Single' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Breath Single'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Breath Single FX is not available')
 
     def enableScrollBreathDual(self, R, G, B, R1, G1, B1):
         if self.device.fx.misc.scroll_wheel.has('scroll_breath_dual'):
             if not self.device.fx.misc.scroll_wheel.breath_dual(R, G, B, R1, G1, B1):
-                logging.error('%sBreath Dual' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Breath Dual'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Breath Dual FX is not available')
 
     def enableScrollBreathRandom(self):
         if self.device.fx.misc.scroll_wheel.has('scroll_breath_random'):
             if not self.device.fx.misc.scroll_wheel.breath_random():
-                logging.error('%sBreath Random' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Breath Random'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Breath Random FX is not available')
 
     def enableScrollSpectrum(self):
         if self.device.fx.misc.scroll_wheel.has('scroll_spectrum'):
             if not self.device.fx.misc.scroll_wheel.spectrum():
-                logging.error('%sSpectrum' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Spectrum'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Spectrum FX is not available')
 
     def enableScrollReactive(self, R, G, B, time):
         if self.device.fx.misc.scroll_wheel.has('scroll_reactive'):
             if not self.device.fx.misc.scroll_wheel.reactive(R, G, B, time):
-                logging.error('%sReactive' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Reactive'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Reactive FX is not available')
 
     def enableScrollStatic(self, R, G, B):
         if self.device.fx.misc.scroll_wheel.has('scroll_static'):
             if not self.device.fx.misc.scroll_wheel.static(R, G, B):
-                logging.error('%sStatic' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Static'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Static FX is not available')
 
     def enableScrollNone(self):
         if self.device.fx.misc.scroll_wheel.has('scroll_none'):
             if not self.device.fx.misc.scroll_wheel.none():
-                logging.error('%sNone' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}None'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The None FX is not available')
 
     def enableLogoBlinking(self, R, G, B):
         if self.device.fx.misc.logo.has('logo_blinking'):
             if not self.device.fx.misc.logo.blinking(R, G, B):
-                logging.error('%sBlinking' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Blinking'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Logo Blinking FX is not available')
 
     def enableLogoPulsate(self, R, G, B):
         if self.device.fx.misc.logo.has('logo_pulsate'):
             if not self.device.fx.misc.logo.pulsate(R, G, B):
-                logging.error('%sPulsate' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Pulsate'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Logo Pulsate FX is not available')
 
     def enableLogoBreathSingle(self, R, G, B):
         if self.device.fx.misc.logo.has('logo_breath_single'):
             if not self.device.fx.misc.logo.breath_single(R, G, B):
-                logging.error('%sBreath Single' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Breath Single'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Breath Single FX is not available')
 
     def enableLogoBreathDual(self, R, G, B, R1, G1, B1):
         if self.device.fx.misc.logo.has('logo_breath_dual'):
             if not self.device.fx.misc.logo.breath_dual(R, G, B, R1, G1, B1):
-                logging.error('%sBreath Dual' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Breath Dual'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Breath Dual FX is not available')
 
     def enableLogoBreathRandom(self):
         if self.device.fx.misc.logo.has('logo_breath_random'):
             if not self.device.fx.misc.logo.breath_random():
-                logging.error('%sBreath Random' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Breath Random'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Breath Random FX is not available')
 
     def enableLogoSpectrum(self):
         if self.device.fx.misc.logo.has('logo_spectrum'):
             if not self.device.fx.misc.logo.spectrum():
-                logging.error('%sSpectrum' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Spectrum'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Spectrum FX is not available')
 
     def enableLogoReactive(self, R, G, B, time):
         if self.device.fx.misc.logo.has('logo_reactive'):
             if not self.device.fx.misc.logo.reactive(R, G, B, time):
-                logging.error('%sReactive' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Reactive'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Reactive FX is not available')
 
     def enableLogoStatic(self, R, G, B):
         if self.device.fx.misc.logo.has('logo_static'):
             if not self.device.fx.misc.logo.static(R, G, B):
-                logging.error('%sStatic' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}Static'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The Static FX is not available')
 
     def enableLogoNone(self):
         if self.device.fx.misc.logo.has('logo_none'):
             if not self.device.fx.misc.logo.none():
-                logging.error('%sNone' % self.MSG_PROBLEM_ENABLING)
+                logging.error('{}None'.format(self.MSG_PROBLEM_ENABLING))
         else:
             logging.warning('The None FX is not available')
 
@@ -463,7 +462,7 @@ class Device:
             print('ERROR: Poll rate can only be one of 125, 500 or 1000')
             return
         if not self.device.has('poll_rate'):
-            print('ERROR: device %s doesn\'t support poll_rate' % self.device.name)
+            print('ERROR: device {} doesn\'t support poll_rate'.format(self.device.name))
             return
         self.device.poll_rate = value
 
@@ -481,7 +480,7 @@ class Device:
 
     def set_dpi(self, dpi1, dpi2):
         if not self.device.has('dpi'):
-            print('ERROR: device %s doesn\'t support dpi' % self.device.name)
+            print('ERROR: device {} doesn\'t support dpi'.format(self.device.name))
             return
         if dpi1 > self.device.max_dpi or dpi2 > self.device.max_dpi:
             print('ERROR: the dpi value(s) provided are over the maximum dpi supported by the device')
