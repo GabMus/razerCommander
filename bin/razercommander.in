@@ -41,9 +41,7 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)
 if __name__ == '__main__':
     import gi
 
-    gi.require_versions({
-        'Gtk': '3.0',
-    })
+    gi.require_version('Gtk', '3.0')
 
     from gi.repository import Gio
     resource = Gio.Resource.load(os.path.join(pkgdatadir, 'org.gabmus.razercommander.gresource'))
