@@ -80,7 +80,7 @@ cd razercommander
 mkdir builddir
 cd builddir
 meson ..
-mesonconf -Dprefix=$(pwd)/testdir
+meson configure -Dprefix=$(pwd)/testdir
 ninja install # This will actually install in razercommander/builddir/testdir
 ninja run
 ```
