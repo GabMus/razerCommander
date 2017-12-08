@@ -13,6 +13,10 @@
 
 # [razerCommander](https://gabmus.github.io/razerCommander)
 
+- [Website](https://gabmus.github.io/razerCommander)
+- [GitHub](https://github.com/gabmus/razercommander)
+- [GNOME GitLab](https://gitlab.gnome.org/GabMus/razercommander)
+
 ![screenshot](preview.gif)
 
 Razer device manager for Linux
