@@ -667,6 +667,7 @@ class Application(Gtk.Application):
             self.quit()
 
         window.show_all()
+        self.updateDevicesConnected()
         self.refreshFxList()
         self.keyboardBox.hide()
 
