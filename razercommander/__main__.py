@@ -877,7 +877,7 @@ class Application(Gtk.Application):
             self.macro_shortcut_dialog.show()
 
     def on_macroShortcutDialogOk_clicked(self, btn):
-        if set_shortcut_stack.get_visible_child_name() == 'Keystroke':
+        if self.set_shortcut_stack.get_visible_child_name() == 'Keystroke':
             n_macro = 'xdotool key {}'.format(self.macro_current_keystroke_label.get_text())
         else:
             n_macro = self.macro_shortcut_entry.get_text()
