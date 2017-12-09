@@ -702,6 +702,9 @@ class Application(Gtk.Application):
     def on_refreshDevicesButton_clicked(self, button):
         self.refreshDevices()
 
+    def on_aboutdialog_close(self, *args):
+        self.builder.get_object("aboutdialog").hide()
+
     def on_customProfilesButton_clicked(self, button):
         if not self.popoverProfiles.get_visible():
             self.popoverProfiles.show_all()
