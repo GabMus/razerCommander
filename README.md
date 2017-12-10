@@ -11,7 +11,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# [razerCommander](https://gabmus.github.io/razerCommander)
+# <img src="data/icons/org.gabmus.razercommander.svg" align="left" height="48" width="48" >[razerCommander](https://gabmus.github.io/razerCommander)
 
 - [Website](https://gabmus.github.io/razerCommander)
 - [GitHub](https://github.com/gabmus/razercommander)
@@ -25,7 +25,7 @@ Razer device manager for Linux
 
 Any of the devices supported by the driver stack should work fine in razerCommander.
 
-For a detailed list of supported devices refer to [this page](https://github.com/terrycain/razer-drivers#device-support)
+For a detailed list of supported devices refer to [this page](https://openrazer.github.io/)
 
 -   Keyboards
 -   Macro keypads (Tartarus, Orbweaver)
@@ -36,21 +36,21 @@ For a detailed list of supported devices refer to [this page](https://github.com
 
 ## Requirements
 
-To install this software the first thing you need is to install `razer_drivers`. You can find installation instructions on the [project page](https://github.com/terrycain/razer-drivers).
+To install this software the first thing you need is to install the Openrazer driver. You can find installation instructions on the [Openrazer website](https://openrazer.github.io/).
 
-You need 3 packages provided by `razer-drivers`:
--   `razer-driver-dkms`: the actual driver, best if installed using DKMS
--   `razer-daemon`: a daemon that interfaces with the driver, providing a higher level interface for it
--   `python3-razer`: a python library that interfaces with the daemon, it's used by razerCommander, thus it's a direct dependency.
+You need 3 packages provided by `openrazer-drivers`:
+-   `openrazer-driver-dkms`: the actual driver, best if installed using DKMS
+-   `openrazer-daemon`: a daemon that interfaces with the driver, providing a higher level interface for it
+-   `python3-openrazer`: a python library that interfaces with the daemon, it's used by razerCommander, thus it's a direct dependency.
 
 ## Installing
 
 ### Installing on Arch Linux/Antergos/Manjaro
 
 You can find razerCommander on AUR, as `razercommander-git` ([AUR page](https://aur.archlinux.org/packages/razercommander-git)).
-If you use an AUR helper, it should automatically pull `razer-driver-dkms`, `razer-daemon` and `python-razer` as dependencies.
+If you use an AUR helper, it should automatically pull `openrazer-driver-dkms`, `openrazer-daemon` and `python-openrazer` as dependencies.
 
-Alternatively you can install these packages manually, or even opt for the git version of the driver stack (`razer-driver-dkms-git`, `razer-daemon-git`, `python-razer-git`).
+Alternatively you can install these packages manually, or even opt for the git version of the driver stack (`openrazer-driver-dkms-git`, `openrazer-daemon-git`, `python-openrazer-git`).
 
 ### Installing on Ubuntu/Debian
 
