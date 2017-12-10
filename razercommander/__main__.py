@@ -247,7 +247,7 @@ class Application(Gtk.Application):
                 newdev = device.Device(dev)
                 self.devicesList.append(newdev)
             except Exception as ex:
-				print('Skipping device {}\n  Exception: {}'.format(dev.name), ex)
+                print('Skipping device {}\n  Exception: {}'.format(dev.name), ex)
                 pass
         if len(self.devicesList) > 0:
             self.active_razer_device = self.devicesList[0]
