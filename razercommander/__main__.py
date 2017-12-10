@@ -192,6 +192,8 @@ class Application(Gtk.Application):
             'Logo static': 'staticSettingsBox',
             'Scroll spectrum': 'spectrumSettingsBox',
             'Logo spectrum': 'spectrumSettingsBox',
+            'Logo none': 'noneSettingsBox',
+            'Scroll none': 'noneSettingsBox',
         }
 
         self.setAnimation('breathAnimIcon', 'breath')
