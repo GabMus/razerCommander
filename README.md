@@ -99,6 +99,8 @@ ninja run
 
 ### Building for Debian/Ubuntu
 
+Build dependencies: `libglib2.0-dev pkg-config libappstream-glib-dev`
+
 WIP
 
 ### Building for Fedora/RHEL/CentOS
