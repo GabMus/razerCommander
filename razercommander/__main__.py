@@ -25,7 +25,7 @@ def check_plugdev():
     """Check if group 'plugdev' exists and current user is its member.
     If razerCommander is being run from within a flatpak, skip this check.
     There is apparently no way to check groups with flatpak confinement."""
-    if os.path.isfile('{}/flatpak-info'.format(os.environ['XDG_RUNTIME_DIR']))
+    if os.path.isfile('{}/flatpak-info'.format(os.environ['XDG_RUNTIME_DIR'])):
         return
     try:
         if not getpass.getuser() in grp.getgrnam('plugdev').gr_mem:
