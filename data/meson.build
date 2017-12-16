@@ -5,7 +5,7 @@ desktop_conf = configuration_data()
 desktop_conf.set('bindir', join_paths(prefix, get_option('bindir')))
 
 desktop_file = configure_file(
-  input: app_id + '.desktop.in.in',
+  input: app_id + '.desktop.in',
   output: app_id + '.desktop',
   #type: 'desktop',
   install: true,
@@ -84,3 +84,8 @@ razercommander_resources = gnome.compile_resources(app_id,
 )
 
 razercommander_settings = gnome.compile_schemas()
+
+install_data(
+  app_id + '.appdata.xml',
+  install_dir: join_paths(get_option('datadir'), 'metainfo')
+)
