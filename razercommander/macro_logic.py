@@ -60,16 +60,20 @@ def make_shortcutslistbox_rows(m_dev):
     return rowlist
 
 def make_device(device_uid, device):
-    if not device.name in macro_kls.keys(): # failsafe for unsupported devices
-        return None
-    mk_arr=[]
-    if not device_uid in macros_conf_loaded.keys():
-        macros_conf_loaded[device_uid] = dict()
+    try:
+        if not device.name in macro_kls.keys(): # failsafe for unsupported devices
+            return None
+        mk_arr=[]
+        if not device_uid in macros_conf_loaded.keys():
+            macros_conf_loaded[device_uid] = dict()
+            for key_n in macro_kls[device.name]:
+                macros_conf_loaded[device_uid][key_n] = ''
+            confFileManager.save_file(CONF_FILE_PATH, macros_conf_loaded)
         for key_n in macro_kls[device.name]:
-            macros_conf_loaded[device_uid][key_n] = ''
-        confFileManager.save_file(CONF_FILE_PATH, macros_conf_loaded)
-    for key_n in macro_kls[device.name]:
-        mk_arr.append(MacroKey(key_n, macros_conf_loaded[device_uid][key_n]))
-    n_device = MacroDevice(mk_arr, device_uid, device)
-    n_device.set_all_current_macros()
-    return n_device
+            mk_arr.append(MacroKey(key_n, macros_conf_loaded[device_uid][key_n]))
+        n_device = MacroDevice(mk_arr, device_uid, device)
+        n_device.set_all_current_macros()
+        return n_device
+    except Exception as ex:
+        print('Skipping macro logic for device {}\n  Exception: {}'.format(device.name, ex))
+        return None
