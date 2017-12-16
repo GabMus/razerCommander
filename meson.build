@@ -1,5 +1,5 @@
 project('razercommander',
-  version: '1.2.0',
+  version: '1.2.1.1',
   meson_version: '>= 0.40.0'
 )
 
