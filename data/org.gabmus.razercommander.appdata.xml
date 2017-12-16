@@ -9,7 +9,7 @@
     <project_license>GPL-3.0+</project_license>
     <description>
         <p>razerCommander allows you to control Razer peripherals such as keyboards, mice and more.</p>
-        <p>razerCommander requires the <a href="https://openrazer.github.io">openrazer driver stack to be installed on your system</a></p>
+        <p>razerCommander requires the openrazer driver stack to be installed on your system (https://openrazer.github.io)</p>
     </description>
     <screenshots>
         <screenshot type="default">
