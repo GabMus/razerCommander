@@ -19,4 +19,13 @@
     <url type="homepage">https://github.com/GabMus/razerCommander</url>
     <url type="bugtracker">https://github.com/GabMus/razerCommander/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
+    <releases>
+        <release version="1.2.1.1" timestamp="1513450951">
+            <description>
+                <ul>
+                    <li>First flatpak release</li>
+                </ul>
+            </description>
+        </release>
+    </releases>
 </component>
