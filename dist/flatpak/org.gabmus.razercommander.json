@@ -31,8 +31,8 @@
             "buildsystem": "meson",
             "builddir": true,
             "sources": [{
-                "type": "git",
-                "url": "https://github.com/GabMus/razerCommander.git"
+                "type": "archive",
+                "url": "https://github.com/GabMus/razerCommander/archive/1.2.1.2.tar.gz"
             }]
         },
         {
@@ -93,8 +93,8 @@
             ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://github.com/openrazer/openrazer.git"
+                    "type": "archive",
+                    "url": "https://github.com/openrazer/openrazer/archive/v2.1.1.tar.gz"
                 }
             ]
         }

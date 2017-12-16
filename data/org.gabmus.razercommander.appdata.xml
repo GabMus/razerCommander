@@ -9,7 +9,7 @@
     <project_license>GPL-3.0+</project_license>
     <description>
         <p>razerCommander allows you to control Razer peripherals such as keyboards, mice and more.</p>
-        <p>razerCommander requires the openrazer driver stack to be installed on your system (https://openrazer.github.io)</p>
+        <p>razerCommander requires the openrazer driver stack to be installed on your system (https://openrazer.github.io).</p>
     </description>
     <screenshots>
         <screenshot type="default">
@@ -20,7 +20,7 @@
     <url type="bugtracker">https://github.com/GabMus/razerCommander/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
-        <release version="1.2.1.1" timestamp="1513450951">
+        <release version="1.2.1.2" timestamp="1513452238">
             <description>
                 <ul>
                     <li>First flatpak release</li>
