@@ -109,7 +109,17 @@ WIP
 
 ### Building for Flatpak
 
-WIP
+First install `flatpak` and `flatpak-builder` from your distro repository. Although it's not necessary, you may also want to install `gnome-software`.
+
+Create a directory somewhere in your home, I suggest something like `~/razercommanderflatpak`.
+
+Either clone the whole razerCommander repo (`git clone https://github.com/gabmus/razercommander`) or just download the flatpak manifest file from this repo in `dist/flatpak/org.gabmus.razercommander.json`. In either case, put the files inside the directory you created before.
+
+Run the following: `flatpak-builder --repo=repo razercommander $PATH_TO_MANIFEST` where `$PATH_TO_MANIFEST` is the path to the `org.gabmus.razercommander.json` flatpak manifest. If everything works correctly, this command should create two directories `repo` and `razercommander` with flatpak stuff inside of your present working directory (again, I suggest to run everything inside a specifically designated directory).
+
+Now you'll be creating a flatpak bundle, so that you can install it and distribute it without messing with flatpak repos. To do this you run `flatpak build-bundle repo razercommander.flatpak org.gabmus.razercommander`. This will give you a razercommander.flatpak file inside your present working directory. To install it, either open it with `gnome-software` or run `flatpak install razercommander.flatpak`.
+
+*Note: I am a just a beginner with flatpak, and probably some of the instructions I gave in this section of the readme are wrong or could be done better. If you know a better way of doing this, please don't hesitate to make a pull request or open an issue.*
 
 ### Build and install systemwide directly
 
