@@ -90,8 +90,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/openrazer/openrazer/archive/v2.1.1.tar.gz",
-                    "sha256": "6e465463103cfeace7f8e3fea9994c5b746205596f21c4a14ca73566193d9d9a"
+                    "url": "https://github.com/openrazer/openrazer/archive/v2.2.0.tar.gz",
+                    "sha256": "0c0678c3373599deadd06cfd826b5468fcc88989a1ca97b4a2e311e0edbaa873"
                 }
             ]
         }
