@@ -2,7 +2,7 @@
     "app-id": "org.gabmus.razercommander",
     "command": "razercommander",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "3.26",
+    "runtime-version": "3.28",
     "sdk": "org.gnome.Sdk",
     "command": "razercommander",
     "finish-args": [
@@ -10,19 +10,12 @@
         "--socket=x11",
         "--socket=wayland",
         "--socket=system-bus",
-        "--share=network",
-
         "--talk-name=org.gnome.SettingsDaemon",
         "--talk-name=org.razer",
-
-        "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--filesystem=xdg-run/dconf",
         "--filesystem=~/.config/dconf:ro",
-        "--filesystem=~/.config/razercommander:rw",
-        "--filesystem=~/.config:rw",
         "--talk-name=ca.desrt.dconf",
-
-        "--env=SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt"
+        "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
     ],
     "modules": [
         {
@@ -48,8 +41,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.4.tar.gz",
-                    "sha256": "e2f1d6871f74fba23652e51d10873e54f71adab0525833c19bad9e99b1b2f9cc"
+                    "url": "https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.6.tar.gz",
+                    "sha256": "32f29c17172cdb9cb61c68b1f1a71dfe7351506fc830869029c47449bd04faeb"
                 }
             ]
         },
@@ -69,8 +62,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/numpy/numpy/releases/download/v1.13.3/numpy-1.13.3.tar.gz",
-                    "sha256": "4c6b4eef790528bebb7ec9590d74cc193868940fe68e4109a91c196df72d8094"
+                    "url": "https://github.com/numpy/numpy/releases/download/v1.14.2/numpy-1.14.2.tar.gz",
+                    "sha256": "ddbcda194f49e0cf0663fa8131cb9d7a3b876d14dea0047d3c5fdfaf20adbb40"
                 }
             ]
         },
@@ -90,7 +83,7 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/openrazer/openrazer/archive/v2.2.0.tar.gz",
+                    "url": "https://github.com/openrazer/openrazer/archive/v2.3.0.tar.gz",
                     "sha256": "0c0678c3373599deadd06cfd826b5468fcc88989a1ca97b4a2e311e0edbaa873"
                 }
             ]

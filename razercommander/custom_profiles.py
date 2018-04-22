@@ -5,7 +5,11 @@ import os
 import json
 
 HOME = os.environ.get('HOME')
-CONFDIR = HOME+('/.config/razercommander')
+CONFDIR = '{0}/.config/razercommander/'.format(HOME)
+
+if 'XDG_RUNTIME_DIR' in os.environ.keys():
+    if os.path.isfile('{0}/flatpak-info'.format(os.environ['XDG_RUNTIME_DIR'])):
+        CONFDIR = '{0}/razercommander/'.format(os.environ.get('XDG_CONFIG_HOME'))
 PROFILESFILE = CONFDIR+('/profiles')
 
 blackProfile = {
