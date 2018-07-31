@@ -1,4 +1,4 @@
-`import os
+import os
 import json
 
 HOME = os.environ.get('HOME')
